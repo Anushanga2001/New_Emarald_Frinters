@@ -1,0 +1,241 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "D:\\Development\\Shipping-Line\\Backend\\Shipping-Line-Backend\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{F35978AF-EBD2-4B07-85C7-822A40E12E8C}|Shipping-Line-Backend.csproj|d:\\development\\shipping-line\\backend\\shipping-line-backend\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F35978AF-EBD2-4B07-85C7-822A40E12E8C}|Shipping-Line-Backend.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F35978AF-EBD2-4B07-85C7-822A40E12E8C}|Shipping-Line-Backend.csproj|d:\\development\\shipping-line\\backend\\shipping-line-backend\\model\\shipment.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F35978AF-EBD2-4B07-85C7-822A40E12E8C}|Shipping-Line-Backend.csproj|solutionrelative:model\\shipment.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F35978AF-EBD2-4B07-85C7-822A40E12E8C}|Shipping-Line-Backend.csproj|d:\\development\\shipping-line\\backend\\shipping-line-backend\\data\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F35978AF-EBD2-4B07-85C7-822A40E12E8C}|Shipping-Line-Backend.csproj|solutionrelative:data\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F35978AF-EBD2-4B07-85C7-822A40E12E8C}|Shipping-Line-Backend.csproj|d:\\development\\shipping-line\\backend\\shipping-line-backend\\controllers\\quotescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F35978AF-EBD2-4B07-85C7-822A40E12E8C}|Shipping-Line-Backend.csproj|solutionrelative:controllers\\quotescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F35978AF-EBD2-4B07-85C7-822A40E12E8C}|Shipping-Line-Backend.csproj|d:\\development\\shipping-line\\backend\\shipping-line-backend\\model\\quote.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F35978AF-EBD2-4B07-85C7-822A40E12E8C}|Shipping-Line-Backend.csproj|solutionrelative:model\\quote.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F35978AF-EBD2-4B07-85C7-822A40E12E8C}|Shipping-Line-Backend.csproj|d:\\development\\shipping-line\\backend\\shipping-line-backend\\model\\cargotype.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F35978AF-EBD2-4B07-85C7-822A40E12E8C}|Shipping-Line-Backend.csproj|solutionrelative:model\\cargotype.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F35978AF-EBD2-4B07-85C7-822A40E12E8C}|Shipping-Line-Backend.csproj|d:\\development\\shipping-line\\backend\\shipping-line-backend\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{F35978AF-EBD2-4B07-85C7-822A40E12E8C}|Shipping-Line-Backend.csproj|solutionrelative:appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F35978AF-EBD2-4B07-85C7-822A40E12E8C}|Shipping-Line-Backend.csproj|d:\\development\\shipping-line\\backend\\shipping-line-backend\\model\\contactform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F35978AF-EBD2-4B07-85C7-822A40E12E8C}|Shipping-Line-Backend.csproj|solutionrelative:model\\contactform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F35978AF-EBD2-4B07-85C7-822A40E12E8C}|Shipping-Line-Backend.csproj|d:\\development\\shipping-line\\backend\\shipping-line-backend\\model\\shipmentstatus.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F35978AF-EBD2-4B07-85C7-822A40E12E8C}|Shipping-Line-Backend.csproj|solutionrelative:model\\shipmentstatus.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F35978AF-EBD2-4B07-85C7-822A40E12E8C}|Shipping-Line-Backend.csproj|d:\\development\\shipping-line\\backend\\shipping-line-backend\\model\\currency.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F35978AF-EBD2-4B07-85C7-822A40E12E8C}|Shipping-Line-Backend.csproj|solutionrelative:model\\currency.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F35978AF-EBD2-4B07-85C7-822A40E12E8C}|Shipping-Line-Backend.csproj|d:\\development\\shipping-line\\backend\\shipping-line-backend\\model\\service.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F35978AF-EBD2-4B07-85C7-822A40E12E8C}|Shipping-Line-Backend.csproj|solutionrelative:model\\service.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F35978AF-EBD2-4B07-85C7-822A40E12E8C}|Shipping-Line-Backend.csproj|d:\\development\\shipping-line\\backend\\shipping-line-backend\\model\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F35978AF-EBD2-4B07-85C7-822A40E12E8C}|Shipping-Line-Backend.csproj|solutionrelative:model\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F35978AF-EBD2-4B07-85C7-822A40E12E8C}|Shipping-Line-Backend.csproj|d:\\development\\shipping-line\\backend\\shipping-line-backend\\properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{F35978AF-EBD2-4B07-85C7-822A40E12E8C}|Shipping-Line-Backend.csproj|solutionrelative:properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 4,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "AppDbContext.cs",
+              "DocumentMoniker": "D:\\Development\\Shipping-Line\\Backend\\Shipping-Line-Backend\\Data\\AppDbContext.cs",
+              "RelativeDocumentMoniker": "Data\\AppDbContext.cs",
+              "ToolTip": "D:\\Development\\Shipping-Line\\Backend\\Shipping-Line-Backend\\Data\\AppDbContext.cs",
+              "RelativeToolTip": "Data\\AppDbContext.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAAmAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-07T05:53:42.996Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "CargoType.cs",
+              "DocumentMoniker": "D:\\Development\\Shipping-Line\\Backend\\Shipping-Line-Backend\\Model\\CargoType.cs",
+              "RelativeDocumentMoniker": "Model\\CargoType.cs",
+              "ToolTip": "D:\\Development\\Shipping-Line\\Backend\\Shipping-Line-Backend\\Model\\CargoType.cs",
+              "RelativeToolTip": "Model\\CargoType.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAuwAYAAAAoAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-07T05:57:05.423Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Shipment.cs",
+              "DocumentMoniker": "D:\\Development\\Shipping-Line\\Backend\\Shipping-Line-Backend\\Model\\Shipment.cs",
+              "RelativeDocumentMoniker": "Model\\Shipment.cs",
+              "ToolTip": "D:\\Development\\Shipping-Line\\Backend\\Shipping-Line-Backend\\Model\\Shipment.cs",
+              "RelativeToolTip": "Model\\Shipment.cs",
+              "ViewState": "AgIAAA4AAAAAAAAAAAAlwA8AAAAsAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-07T05:58:17.767Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Quote.cs",
+              "DocumentMoniker": "D:\\Development\\Shipping-Line\\Backend\\Shipping-Line-Backend\\Model\\Quote.cs",
+              "RelativeDocumentMoniker": "Model\\Quote.cs",
+              "ToolTip": "D:\\Development\\Shipping-Line\\Backend\\Shipping-Line-Backend\\Model\\Quote.cs",
+              "RelativeToolTip": "Model\\Quote.cs",
+              "ViewState": "AgIAAA8AAAAAAAAAAAAIwAsAAAArAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-07T05:59:27.691Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Program.cs",
+              "DocumentMoniker": "D:\\Development\\Shipping-Line\\Backend\\Shipping-Line-Backend\\Program.cs",
+              "RelativeDocumentMoniker": "Program.cs",
+              "ToolTip": "D:\\Development\\Shipping-Line\\Backend\\Shipping-Line-Backend\\Program.cs",
+              "RelativeToolTip": "Program.cs",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAwwBUAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-07T05:30:53.588Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "QuotesController.cs",
+              "DocumentMoniker": "D:\\Development\\Shipping-Line\\Backend\\Shipping-Line-Backend\\Controllers\\QuotesController.cs",
+              "RelativeDocumentMoniker": "Controllers\\QuotesController.cs",
+              "ToolTip": "D:\\Development\\Shipping-Line\\Backend\\Shipping-Line-Backend\\Controllers\\QuotesController.cs",
+              "RelativeToolTip": "Controllers\\QuotesController.cs",
+              "ViewState": "AgIAAB8AAAAAAAAAAIA/wCQAAAAgAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-07T06:02:53.988Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "D:\\Development\\Shipping-Line\\Backend\\Shipping-Line-Backend\\appsettings.json",
+              "RelativeDocumentMoniker": "appsettings.json",
+              "ToolTip": "D:\\Development\\Shipping-Line\\Backend\\Shipping-Line-Backend\\appsettings.json",
+              "RelativeToolTip": "appsettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-12-07T05:31:02.463Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "ContactForm.cs",
+              "DocumentMoniker": "D:\\Development\\Shipping-Line\\Backend\\Shipping-Line-Backend\\Model\\ContactForm.cs",
+              "RelativeDocumentMoniker": "Model\\ContactForm.cs",
+              "ToolTip": "D:\\Development\\Shipping-Line\\Backend\\Shipping-Line-Backend\\Model\\ContactForm.cs",
+              "RelativeToolTip": "Model\\ContactForm.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAArAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-07T05:59:58.502Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "ShipmentStatus.cs",
+              "DocumentMoniker": "D:\\Development\\Shipping-Line\\Backend\\Shipping-Line-Backend\\Model\\ShipmentStatus.cs",
+              "RelativeDocumentMoniker": "Model\\ShipmentStatus.cs",
+              "ToolTip": "D:\\Development\\Shipping-Line\\Backend\\Shipping-Line-Backend\\Model\\ShipmentStatus.cs",
+              "RelativeToolTip": "Model\\ShipmentStatus.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-07T05:58:58.631Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "Currency.cs",
+              "DocumentMoniker": "D:\\Development\\Shipping-Line\\Backend\\Shipping-Line-Backend\\Model\\Currency.cs",
+              "RelativeDocumentMoniker": "Model\\Currency.cs",
+              "ToolTip": "D:\\Development\\Shipping-Line\\Backend\\Shipping-Line-Backend\\Model\\Currency.cs",
+              "RelativeToolTip": "Model\\Currency.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-07T05:57:45.912Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "Service.cs",
+              "DocumentMoniker": "D:\\Development\\Shipping-Line\\Backend\\Shipping-Line-Backend\\Model\\Service.cs",
+              "RelativeDocumentMoniker": "Model\\Service.cs",
+              "ToolTip": "D:\\Development\\Shipping-Line\\Backend\\Shipping-Line-Backend\\Model\\Service.cs",
+              "RelativeToolTip": "Model\\Service.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-07T05:56:32.731Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "User.cs",
+              "DocumentMoniker": "D:\\Development\\Shipping-Line\\Backend\\Shipping-Line-Backend\\Model\\User.cs",
+              "RelativeDocumentMoniker": "Model\\User.cs",
+              "ToolTip": "D:\\Development\\Shipping-Line\\Backend\\Shipping-Line-Backend\\Model\\User.cs",
+              "RelativeToolTip": "Model\\User.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAtAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-07T05:55:47.751Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "launchSettings.json",
+              "DocumentMoniker": "D:\\Development\\Shipping-Line\\Backend\\Shipping-Line-Backend\\Properties\\launchSettings.json",
+              "RelativeDocumentMoniker": "Properties\\launchSettings.json",
+              "ToolTip": "D:\\Development\\Shipping-Line\\Backend\\Shipping-Line-Backend\\Properties\\launchSettings.json",
+              "RelativeToolTip": "Properties\\launchSettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-12-07T05:31:21.377Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
