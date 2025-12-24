@@ -1,11 +1,14 @@
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
-import { Ship, Menu, X, Phone, Mail } from 'lucide-react'
+import { Link, useNavigate } from 'react-router-dom'
+import { Ship, Menu, X, User, LogOut } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { COMPANY_INFO } from '@/lib/constants'
+import { useAuth } from '@/hooks/useAuth'
 
 export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const { isAuthenticated, user, logout } = useAuth()
+  const navigate = useNavigate()
 
   const navLinks = [
     { name: 'Home', href: '/' },
@@ -44,9 +47,37 @@ export function Header() {
                 {link.name}
               </Link>
             ))}
-            <Button asChild className="bg-primary hover:bg-primary/90">
-              <Link to="/quote">Book Now</Link>
-            </Button>
+            {isAuthenticated ? (
+              <>
+                <Link
+                  to={user?.role === 'Admin' ? '/admin/dashboard' : '/customer/dashboard'}
+                  className="text-slate-700 hover:text-primary transition-colors font-medium flex items-center gap-2"
+                >
+                  <User className="h-4 w-4" />
+                  Dashboard
+                </Link>
+                <Button
+                  onClick={() => {
+                    logout()
+                    navigate('/')
+                  }}
+                  variant="outline"
+                  className="flex items-center gap-2"
+                >
+                  <LogOut className="h-4 w-4" />
+                  Logout
+                </Button>
+              </>
+            ) : (
+              <>
+                <Button asChild variant="ghost">
+                  <Link to="/auth/login">Login</Link>
+                </Button>
+                <Button asChild className="bg-primary hover:bg-primary/90">
+                  <Link to="/auth/register">Sign Up</Link>
+                </Button>
+              </>
+            )}
           </nav>
 
           {/* Mobile Menu Button */}
@@ -71,11 +102,43 @@ export function Header() {
                 {link.name}
               </Link>
             ))}
-            <Button asChild className="bg-primary hover:bg-primary/90 mt-2">
-              <Link to="/quote" onClick={() => setMobileMenuOpen(false)}>
-                Book Now
-              </Link>
-            </Button>
+            {isAuthenticated ? (
+              <>
+                <Link
+                  to={user?.role === 'Admin' ? '/admin/dashboard' : '/customer/dashboard'}
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="px-4 py-2 text-slate-700 hover:bg-slate-100 rounded-lg transition-colors flex items-center gap-2"
+                >
+                  <User className="h-4 w-4" />
+                  Dashboard
+                </Link>
+                <Button
+                  onClick={() => {
+                    logout()
+                    setMobileMenuOpen(false)
+                    navigate('/')
+                  }}
+                  variant="outline"
+                  className="mt-2 flex items-center gap-2"
+                >
+                  <LogOut className="h-4 w-4" />
+                  Logout
+                </Button>
+              </>
+            ) : (
+              <>
+                <Button asChild variant="ghost" className="mt-2">
+                  <Link to="/auth/login" onClick={() => setMobileMenuOpen(false)}>
+                    Login
+                  </Link>
+                </Button>
+                <Button asChild className="bg-primary hover:bg-primary/90 mt-2">
+                  <Link to="/auth/register" onClick={() => setMobileMenuOpen(false)}>
+                    Sign Up
+                  </Link>
+                </Button>
+              </>
+            )}
           </nav>
         )}
       </div>

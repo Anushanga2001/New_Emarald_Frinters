@@ -1,7 +1,7 @@
 import axios from 'axios'
 
-// Mock API base URL - replace with real API in production
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000/api'
+// API base URL - points to .NET backend
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5253/api'
 
 export const api = axios.create({
   baseURL: API_BASE_URL,

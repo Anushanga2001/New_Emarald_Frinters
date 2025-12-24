@@ -64,13 +64,17 @@ export interface Booking {
 }
 
 export interface User {
-  id: string
-  name: string
+  id: number
   email: string
-  phone: string
-  company?: string
-  address?: string
-  createdAt: string
+  firstName: string
+  lastName: string
+  role: string
+  customerId?: number
+}
+
+export interface AuthResponse {
+  token: string
+  user: User
 }
 
 export interface ContactForm {
