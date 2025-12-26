@@ -20,4 +20,11 @@
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.0.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Remove="Shipping-Line-Backend.Tests/**" />
+    <Content Remove="Shipping-Line-Backend.Tests/**" />
+    <EmbeddedResource Remove="Shipping-Line-Backend.Tests/**" />
+    <None Remove="Shipping-Line-Backend.Tests/**" />
+  </ItemGroup>
+
 </Project>

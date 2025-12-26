@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useNavigate, useLocation } from 'react-router-dom'
 import { Ship, Menu, X, User, LogOut } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { COMPANY_INFO } from '@/lib/constants'
@@ -9,6 +9,7 @@ export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const { isAuthenticated, user, logout } = useAuth()
   const navigate = useNavigate()
+  const location = useLocation()
 
   const navLinks = [
     { name: 'Home', href: '/' },
@@ -18,6 +19,14 @@ export function Header() {
     { name: 'About', href: '/about' },
     { name: 'Contact', href: '/contact' },
   ]
+
+  // Helper function to check if a link is active
+  const isActive = (href: string) => {
+    if (href === '/') {
+      return location.pathname === '/'
+    }
+    return location.pathname.startsWith(href)
+  }
 
   return (
     <header className="sticky top-0 z-50 bg-white shadow-sm">
@@ -42,7 +51,11 @@ export function Header() {
               <Link
                 key={link.name}
                 to={link.href}
-                className="text-slate-700 hover:text-primary transition-colors font-medium"
+                className={`transition-colors font-medium ${
+                  isActive(link.href)
+                    ? 'text-primary border-b-2 border-primary pb-1'
+                    : 'text-slate-700 hover:text-primary'
+                }`}
               >
                 {link.name}
               </Link>
@@ -51,7 +64,11 @@ export function Header() {
               <>
                 <Link
                   to={user?.role === 'Admin' ? '/admin/dashboard' : '/customer/dashboard'}
-                  className="text-slate-700 hover:text-primary transition-colors font-medium flex items-center gap-2"
+                  className={`transition-colors font-medium flex items-center gap-2 ${
+                    isActive('/admin/dashboard') || isActive('/customer/dashboard')
+                      ? 'text-primary border-b-2 border-primary pb-1'
+                      : 'text-slate-700 hover:text-primary'
+                  }`}
                 >
                   <User className="h-4 w-4" />
                   Dashboard
@@ -97,7 +114,11 @@ export function Header() {
                 key={link.name}
                 to={link.href}
                 onClick={() => setMobileMenuOpen(false)}
-                className="px-4 py-2 text-slate-700 hover:bg-slate-100 rounded-lg transition-colors"
+                className={`px-4 py-2 rounded-lg transition-colors ${
+                  isActive(link.href)
+                    ? 'bg-primary/10 text-primary font-semibold'
+                    : 'text-slate-700 hover:bg-slate-100'
+                }`}
               >
                 {link.name}
               </Link>
@@ -107,7 +128,11 @@ export function Header() {
                 <Link
                   to={user?.role === 'Admin' ? '/admin/dashboard' : '/customer/dashboard'}
                   onClick={() => setMobileMenuOpen(false)}
-                  className="px-4 py-2 text-slate-700 hover:bg-slate-100 rounded-lg transition-colors flex items-center gap-2"
+                  className={`px-4 py-2 rounded-lg transition-colors flex items-center gap-2 ${
+                    isActive('/admin/dashboard') || isActive('/customer/dashboard')
+                      ? 'bg-primary/10 text-primary font-semibold'
+                      : 'text-slate-700 hover:bg-slate-100'
+                  }`}
                 >
                   <User className="h-4 w-4" />
                   Dashboard

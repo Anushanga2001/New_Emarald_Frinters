@@ -1,5 +1,6 @@
 import { Target, Users, Award, Globe } from 'lucide-react'
 import { Card, CardContent } from '@/components/ui/card'
+import { Leadership } from '@/components/about/Leadership'
 
 export function AboutPage() {
   const stats = [
@@ -59,6 +60,9 @@ export function AboutPage() {
           </div>
         </div>
       </section>
+
+      {/* Leadership */}
+      <Leadership />
 
       {/* Story */}
       <section className="py-16">
