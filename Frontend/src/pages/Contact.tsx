@@ -6,9 +6,11 @@ import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { COMPANY_INFO } from '@/lib/constants'
+import { api } from '@/services/api'
+import type { ContactForm } from '@/types'
 
 export function ContactPage() {
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<ContactForm>({
     name: '',
     email: '',
     phone: '',
@@ -16,13 +18,35 @@ export function ContactPage() {
     message: '',
   })
   const [submitted, setSubmitted] = useState(false)
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    // In production: send to API
-    console.log('Form submitted:', formData)
+    setError(null)
+    setLoading(true)
+
+    try {
+      await api.post('/contact', formData)
+      
+      // Reset form on success
+      setFormData({
+        name: '',
+        email: '',
+        phone: '',
+        subject: '',
+        message: '',
+      })
     setSubmitted(true)
     setTimeout(() => setSubmitted(false), 3000)
+    } catch (err: any) {
+      setError(
+        err.response?.data?.message || 
+        'Failed to send message. Please try again later.'
+      )
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
@@ -147,9 +171,16 @@ export function ContactPage() {
                         onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                       />
                     </div>
-                    <Button type="submit" className="w-full" disabled={submitted}>
+                    {error && (
+                      <div className="p-3 text-sm text-red-600 bg-red-50 border border-red-200 rounded-md">
+                        {error}
+                      </div>
+                    )}
+                    <Button type="submit" className="w-full" disabled={submitted || loading}>
                       {submitted ? (
                         'Message Sent!'
+                      ) : loading ? (
+                        'Sending...'
                       ) : (
                         <>
                           <Send className="mr-2 h-4 w-4" />

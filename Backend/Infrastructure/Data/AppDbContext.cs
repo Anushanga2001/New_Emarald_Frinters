@@ -1,6 +1,5 @@
 using Microsoft.EntityFrameworkCore;
 using Shipping_Line_Backend.Domain.Entities;
-using Shipping_Line_Backend.Domain.Enums;
 
 namespace Shipping_Line_Backend.Infrastructure.Data
 {
