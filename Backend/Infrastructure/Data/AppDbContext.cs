@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Shipping_Line_Backend.Domain.Entities;
+using Shipping_Line_Backend.Model;
 
 namespace Shipping_Line_Backend.Infrastructure.Data
 {
@@ -19,6 +20,7 @@ namespace Shipping_Line_Backend.Infrastructure.Data
         public DbSet<InvoiceLineItem> InvoiceLineItems { get; set; }
         public DbSet<PricingRule> PricingRules { get; set; }
         public DbSet<Document> Documents { get; set; }
+        public DbSet<ContactForm> ContactForms { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -133,6 +135,16 @@ namespace Shipping_Line_Backend.Infrastructure.Data
                     .WithMany()
                     .HasForeignKey(d => d.UploadedBy)
                     .OnDelete(DeleteBehavior.SetNull);
+            });
+
+            // ContactForm configuration
+            modelBuilder.Entity<ContactForm>(entity =>
+            {
+                entity.HasKey(e => e.ContactFormId);
+                entity.Property(e => e.Name).IsRequired().HasMaxLength(200);
+                entity.Property(e => e.Email).IsRequired().HasMaxLength(255);
+                entity.Property(e => e.Subject).IsRequired().HasMaxLength(200);
+                entity.Property(e => e.Message).IsRequired();
             });
         }
     }

@@ -3,39 +3,36 @@
   "WorkspaceRootPath": "C:\\Users\\Anushanga07\\source\\repos\\New_Repo\\Backend\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{F73CC3AB-070B-0540-1A92-8A81CB0C68A7}|Shipping-Line-Backend.csproj|c:\\users\\anushanga07\\source\\repos\\new_repo\\backend\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F73CC3AB-070B-0540-1A92-8A81CB0C68A7}|Shipping-Line-Backend.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\MSBuild\\Current\\Bin\\amd64\\Microsoft.Common.CurrentVersion.targets||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{F73CC3AB-070B-0540-1A92-8A81CB0C68A7}|Shipping-Line-Backend.csproj|c:\\users\\anushanga07\\source\\repos\\new_repo\\backend\\data\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{F73CC3AB-070B-0540-1A92-8A81CB0C68A7}|Shipping-Line-Backend.csproj|solutionrelative:data\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F73CC3AB-070B-0540-1A92-8A81CB0C68A7}|Shipping-Line-Backend.csproj|c:\\users\\anushanga07\\source\\repos\\new_repo\\backend\\api\\controllers\\contactcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F73CC3AB-070B-0540-1A92-8A81CB0C68A7}|Shipping-Line-Backend.csproj|solutionrelative:api\\controllers\\contactcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F73CC3AB-070B-0540-1A92-8A81CB0C68A7}|Shipping-Line-Backend.csproj|c:\\users\\anushanga07\\source\\repos\\new_repo\\backend\\infrastructure\\data\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F73CC3AB-070B-0540-1A92-8A81CB0C68A7}|Shipping-Line-Backend.csproj|solutionrelative:infrastructure\\data\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F73CC3AB-070B-0540-1A92-8A81CB0C68A7}|Shipping-Line-Backend.csproj|c:\\users\\anushanga07\\source\\repos\\new_repo\\backend\\model\\contactform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F73CC3AB-070B-0540-1A92-8A81CB0C68A7}|Shipping-Line-Backend.csproj|solutionrelative:model\\contactform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F73CC3AB-070B-0540-1A92-8A81CB0C68A7}|Shipping-Line-Backend.csproj|c:\\users\\anushanga07\\source\\repos\\new_repo\\backend\\properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{F73CC3AB-070B-0540-1A92-8A81CB0C68A7}|Shipping-Line-Backend.csproj|solutionrelative:properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{F73CC3AB-070B-0540-1A92-8A81CB0C68A7}|Shipping-Line-Backend.csproj|c:\\users\\anushanga07\\source\\repos\\new_repo\\backend\\model\\cargotype.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{F73CC3AB-070B-0540-1A92-8A81CB0C68A7}|Shipping-Line-Backend.csproj|solutionrelative:model\\cargotype.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{F73CC3AB-070B-0540-1A92-8A81CB0C68A7}|Shipping-Line-Backend.csproj|c:\\users\\anushanga07\\source\\repos\\new_repo\\backend\\model\\shipment.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F73CC3AB-070B-0540-1A92-8A81CB0C68A7}|Shipping-Line-Backend.csproj|solutionrelative:model\\shipment.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F73CC3AB-070B-0540-1A92-8A81CB0C68A7}|Shipping-Line-Backend.csproj|c:\\users\\anushanga07\\source\\repos\\new_repo\\backend\\model\\quote.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F73CC3AB-070B-0540-1A92-8A81CB0C68A7}|Shipping-Line-Backend.csproj|solutionrelative:model\\quote.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F73CC3AB-070B-0540-1A92-8A81CB0C68A7}|Shipping-Line-Backend.csproj|c:\\users\\anushanga07\\source\\repos\\new_repo\\backend\\controllers\\quotescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F73CC3AB-070B-0540-1A92-8A81CB0C68A7}|Shipping-Line-Backend.csproj|solutionrelative:controllers\\quotescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{F73CC3AB-070B-0540-1A92-8A81CB0C68A7}|Shipping-Line-Backend.csproj|c:\\users\\anushanga07\\source\\repos\\new_repo\\backend\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
       "RelativeMoniker": "D:0:0:{F73CC3AB-070B-0540-1A92-8A81CB0C68A7}|Shipping-Line-Backend.csproj|solutionrelative:appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{F73CC3AB-070B-0540-1A92-8A81CB0C68A7}|Shipping-Line-Backend.csproj|c:\\users\\anushanga07\\source\\repos\\new_repo\\backend\\model\\contactform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F73CC3AB-070B-0540-1A92-8A81CB0C68A7}|Shipping-Line-Backend.csproj|solutionrelative:model\\contactform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{F73CC3AB-070B-0540-1A92-8A81CB0C68A7}|Shipping-Line-Backend.csproj|c:\\users\\anushanga07\\source\\repos\\new_repo\\backend\\controllers\\quotescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F73CC3AB-070B-0540-1A92-8A81CB0C68A7}|Shipping-Line-Backend.csproj|solutionrelative:controllers\\quotescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{F73CC3AB-070B-0540-1A92-8A81CB0C68A7}|Shipping-Line-Backend.csproj|c:\\users\\anushanga07\\source\\repos\\new_repo\\backend\\model\\shipmentstatus.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -52,10 +49,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{F73CC3AB-070B-0540-1A92-8A81CB0C68A7}|Shipping-Line-Backend.csproj|c:\\users\\anushanga07\\source\\repos\\new_repo\\backend\\model\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{F73CC3AB-070B-0540-1A92-8A81CB0C68A7}|Shipping-Line-Backend.csproj|solutionrelative:model\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F73CC3AB-070B-0540-1A92-8A81CB0C68A7}|Shipping-Line-Backend.csproj|c:\\users\\anushanga07\\source\\repos\\new_repo\\backend\\properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
-      "RelativeMoniker": "D:0:0:{F73CC3AB-070B-0540-1A92-8A81CB0C68A7}|Shipping-Line-Backend.csproj|solutionrelative:properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
     }
   ],
   "DocumentGroupContainers": [
@@ -65,36 +58,76 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 5,
+          "SelectedChildIndex": 4,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "Microsoft.Common.CurrentVersion.targets",
-              "DocumentMoniker": "C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\MSBuild\\Current\\Bin\\amd64\\Microsoft.Common.CurrentVersion.targets",
-              "RelativeDocumentMoniker": "..\\..\\..\\..\\..\\..\\Program Files\\Microsoft Visual Studio\\18\\Community\\MSBuild\\Current\\Bin\\amd64\\Microsoft.Common.CurrentVersion.targets",
-              "ToolTip": "C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\MSBuild\\Current\\Bin\\amd64\\Microsoft.Common.CurrentVersion.targets",
-              "RelativeToolTip": "..\\..\\..\\..\\..\\..\\Program Files\\Microsoft Visual Studio\\18\\Community\\MSBuild\\Current\\Bin\\amd64\\Microsoft.Common.CurrentVersion.targets",
-              "ViewState": "AgIAAAwVAAAAAAAAAAAcwBIVAAALAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003801|",
-              "WhenOpened": "2025-12-24T18:45:16.111Z",
+              "DocumentIndex": 2,
+              "Title": "AppDbContext.cs",
+              "DocumentMoniker": "C:\\Users\\Anushanga07\\source\\repos\\New_Repo\\Backend\\Infrastructure\\Data\\AppDbContext.cs",
+              "RelativeDocumentMoniker": "Infrastructure\\Data\\AppDbContext.cs",
+              "ToolTip": "C:\\Users\\Anushanga07\\source\\repos\\New_Repo\\Backend\\Infrastructure\\Data\\AppDbContext.cs",
+              "RelativeToolTip": "Infrastructure\\Data\\AppDbContext.cs",
+              "ViewState": "AgIAAGcAAAAAAAAAAAAcwHAAAAA3AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-26T20:31:21.447Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
+              "Title": "ContactForm.cs",
+              "DocumentMoniker": "C:\\Users\\Anushanga07\\source\\repos\\New_Repo\\Backend\\Model\\ContactForm.cs",
+              "RelativeDocumentMoniker": "Model\\ContactForm.cs",
+              "ToolTip": "C:\\Users\\Anushanga07\\source\\repos\\New_Repo\\Backend\\Model\\ContactForm.cs",
+              "RelativeToolTip": "Model\\ContactForm.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-26T20:30:04.489Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "ContactController.cs",
+              "DocumentMoniker": "C:\\Users\\Anushanga07\\source\\repos\\New_Repo\\Backend\\API\\Controllers\\ContactController.cs",
+              "RelativeDocumentMoniker": "API\\Controllers\\ContactController.cs",
+              "ToolTip": "C:\\Users\\Anushanga07\\source\\repos\\New_Repo\\Backend\\API\\Controllers\\ContactController.cs",
+              "RelativeToolTip": "API\\Controllers\\ContactController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-26T20:29:39.86Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "launchSettings.json",
+              "DocumentMoniker": "C:\\Users\\Anushanga07\\source\\repos\\New_Repo\\Backend\\Properties\\launchSettings.json",
+              "RelativeDocumentMoniker": "Properties\\launchSettings.json",
+              "ToolTip": "C:\\Users\\Anushanga07\\source\\repos\\New_Repo\\Backend\\Properties\\launchSettings.json",
+              "RelativeToolTip": "Properties\\launchSettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAAwAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-12-07T05:31:21.377Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
               "Title": "AppDbContext.cs",
               "DocumentMoniker": "C:\\Users\\Anushanga07\\source\\repos\\New_Repo\\Backend\\Data\\AppDbContext.cs",
               "RelativeDocumentMoniker": "Data\\AppDbContext.cs",
               "ToolTip": "C:\\Users\\Anushanga07\\source\\repos\\New_Repo\\Backend\\Data\\AppDbContext.cs",
               "RelativeToolTip": "Data\\AppDbContext.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAAmAAAAAAAAAA==",
+              "ViewState": "AgIAAAEAAAAAAAAAAAAuwA8AAAA3AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-07T05:53:42.996Z"
+              "WhenOpened": "2025-12-07T05:53:42.996Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 5,
               "Title": "CargoType.cs",
               "DocumentMoniker": "C:\\Users\\Anushanga07\\source\\repos\\New_Repo\\Backend\\Model\\CargoType.cs",
               "RelativeDocumentMoniker": "Model\\CargoType.cs",
@@ -102,48 +135,25 @@
               "RelativeToolTip": "Model\\CargoType.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAuwAYAAAAoAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-07T05:57:05.423Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "Shipment.cs",
-              "DocumentMoniker": "C:\\Users\\Anushanga07\\source\\repos\\New_Repo\\Backend\\Model\\Shipment.cs",
-              "RelativeDocumentMoniker": "Model\\Shipment.cs",
-              "ToolTip": "C:\\Users\\Anushanga07\\source\\repos\\New_Repo\\Backend\\Model\\Shipment.cs",
-              "RelativeToolTip": "Model\\Shipment.cs",
-              "ViewState": "AgIAAA4AAAAAAAAAAAAlwA8AAAAsAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-07T05:58:17.767Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "Quote.cs",
-              "DocumentMoniker": "C:\\Users\\Anushanga07\\source\\repos\\New_Repo\\Backend\\Model\\Quote.cs",
-              "RelativeDocumentMoniker": "Model\\Quote.cs",
-              "ToolTip": "C:\\Users\\Anushanga07\\source\\repos\\New_Repo\\Backend\\Model\\Quote.cs",
-              "RelativeToolTip": "Model\\Quote.cs",
-              "ViewState": "AgIAAA8AAAAAAAAAAAAIwAsAAAArAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-07T05:59:27.691Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "Program.cs",
-              "DocumentMoniker": "C:\\Users\\Anushanga07\\source\\repos\\New_Repo\\Backend\\Program.cs",
-              "RelativeDocumentMoniker": "Program.cs",
-              "ToolTip": "C:\\Users\\Anushanga07\\source\\repos\\New_Repo\\Backend\\Program.cs",
-              "RelativeToolTip": "Program.cs",
-              "ViewState": "AgIAAHwAAAAAAAAAAAAAAIIAAAAXAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-07T05:30:53.588Z",
+              "WhenOpened": "2025-12-07T05:57:05.423Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 6,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "C:\\Users\\Anushanga07\\source\\repos\\New_Repo\\Backend\\appsettings.json",
+              "RelativeDocumentMoniker": "appsettings.json",
+              "ToolTip": "C:\\Users\\Anushanga07\\source\\repos\\New_Repo\\Backend\\appsettings.json",
+              "RelativeToolTip": "appsettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAjAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-12-07T05:31:02.463Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
               "Title": "QuotesController.cs",
               "DocumentMoniker": "C:\\Users\\Anushanga07\\source\\repos\\New_Repo\\Backend\\Controllers\\QuotesController.cs",
               "RelativeDocumentMoniker": "Controllers\\QuotesController.cs",
@@ -155,31 +165,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "appsettings.json",
-              "DocumentMoniker": "C:\\Users\\Anushanga07\\source\\repos\\New_Repo\\Backend\\appsettings.json",
-              "RelativeDocumentMoniker": "appsettings.json",
-              "ToolTip": "C:\\Users\\Anushanga07\\source\\repos\\New_Repo\\Backend\\appsettings.json",
-              "RelativeToolTip": "appsettings.json",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2025-12-07T05:31:02.463Z"
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 8,
-              "Title": "ContactForm.cs",
-              "DocumentMoniker": "C:\\Users\\Anushanga07\\source\\repos\\New_Repo\\Backend\\Model\\ContactForm.cs",
-              "RelativeDocumentMoniker": "Model\\ContactForm.cs",
-              "ToolTip": "C:\\Users\\Anushanga07\\source\\repos\\New_Repo\\Backend\\Model\\ContactForm.cs",
-              "RelativeToolTip": "Model\\ContactForm.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAArAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-07T05:59:58.502Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 9,
               "Title": "ShipmentStatus.cs",
               "DocumentMoniker": "C:\\Users\\Anushanga07\\source\\repos\\New_Repo\\Backend\\Model\\ShipmentStatus.cs",
               "RelativeDocumentMoniker": "Model\\ShipmentStatus.cs",
@@ -191,7 +177,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 9,
               "Title": "Currency.cs",
               "DocumentMoniker": "C:\\Users\\Anushanga07\\source\\repos\\New_Repo\\Backend\\Model\\Currency.cs",
               "RelativeDocumentMoniker": "Model\\Currency.cs",
@@ -203,7 +189,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 10,
               "Title": "Service.cs",
               "DocumentMoniker": "C:\\Users\\Anushanga07\\source\\repos\\New_Repo\\Backend\\Model\\Service.cs",
               "RelativeDocumentMoniker": "Model\\Service.cs",
@@ -215,7 +201,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 11,
               "Title": "User.cs",
               "DocumentMoniker": "C:\\Users\\Anushanga07\\source\\repos\\New_Repo\\Backend\\Model\\User.cs",
               "RelativeDocumentMoniker": "Model\\User.cs",
@@ -224,18 +210,6 @@
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAtAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-12-07T05:55:47.751Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 13,
-              "Title": "launchSettings.json",
-              "DocumentMoniker": "C:\\Users\\Anushanga07\\source\\repos\\New_Repo\\Backend\\Properties\\launchSettings.json",
-              "RelativeDocumentMoniker": "Properties\\launchSettings.json",
-              "ToolTip": "C:\\Users\\Anushanga07\\source\\repos\\New_Repo\\Backend\\Properties\\launchSettings.json",
-              "RelativeToolTip": "Properties\\launchSettings.json",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2025-12-07T05:31:21.377Z"
             }
           ]
         }
