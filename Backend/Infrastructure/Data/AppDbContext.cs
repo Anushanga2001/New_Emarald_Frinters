@@ -1,6 +1,9 @@
 using Microsoft.EntityFrameworkCore;
 using Shipping_Line_Backend.Domain.Entities;
+<<<<<<< HEAD
 using Shipping_Line_Backend.Model;
+=======
+>>>>>>> bb458b0f357b1ac4ddc23b71a2dab15c56b56207
 
 namespace Shipping_Line_Backend.Infrastructure.Data
 {
