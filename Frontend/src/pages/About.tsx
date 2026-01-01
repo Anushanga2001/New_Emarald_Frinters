@@ -5,9 +5,9 @@ import { Leadership } from '@/components/about/Leadership'
 export function AboutPage() {
   const stats = [
     { label: 'Years of Experience', value: '15+' },
-    { label: 'Shipments Delivered', value: '50K+' },
-    { label: 'Countries Served', value: '100+' },
-    { label: 'Happy Clients', value: '2K+' },
+    { label: 'Shipments Delivered', value: '5K+' },
+    { label: 'Countries Served', value: '10+' },
+    { label: 'Happy Clients', value: '20+' },
   ]
 
   const values = [
