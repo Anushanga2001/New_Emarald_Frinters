@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { toast } from 'sonner'
 import { Calculator, ArrowRight } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -6,7 +7,7 @@ import { Label } from '@/components/ui/label'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Separator } from '@/components/ui/separator'
-import { calculateQuote } from '@/services/quote.service'
+import { calculateQuote, saveQuote } from '@/services/quote.service'
 import type { Quote } from '@/types'
 import { formatCurrency } from '@/lib/utils'
 import { SERVICES, CARGO_TYPES, CONTAINER_SIZES } from '@/lib/constants'
@@ -14,6 +15,7 @@ import { SERVICES, CARGO_TYPES, CONTAINER_SIZES } from '@/lib/constants'
 export function QuotePage() {
   const [step, setStep] = useState(1)
   const [loading, setLoading] = useState(false)
+  const [bookingLoading, setBookingLoading] = useState(false)
   const [quote, setQuote] = useState<Quote | null>(null)
   const [formData, setFormData] = useState({
     origin: '',
@@ -40,9 +42,31 @@ export function QuotePage() {
       setQuote(result)
       setStep(3)
     } catch (error) {
-      alert('Error calculating quote')
+      toast.error('Error calculating quote. Please try again.')
     } finally {
       setLoading(false)
+    }
+  }
+
+  const handleBookNow = async () => {
+    if (!quote) return
+    
+    setBookingLoading(true)
+    try {
+      const savedQuote = await saveQuote(quote)
+      toast.success('Booking Confirmed!', {
+        description: `Your shipment has been booked successfully. Reference: ${savedQuote.id}`,
+        duration: 5000,
+      })
+      // Reset to start new quote after successful booking
+      setTimeout(() => {
+        setStep(1)
+        setQuote(null)
+      }, 2000)
+    } catch (error) {
+      toast.error('Error processing booking. Please try again.')
+    } finally {
+      setBookingLoading(false)
     }
   }
 
@@ -260,8 +284,12 @@ export function QuotePage() {
                   <Button variant="outline" className="flex-1" onClick={() => { setStep(1); setQuote(null); }}>
                     New Quote
                   </Button>
-                  <Button className="flex-1">
-                    Book Now
+                  <Button 
+                    className="flex-1" 
+                    onClick={handleBookNow}
+                    disabled={bookingLoading}
+                  >
+                    {bookingLoading ? 'Processing...' : 'Book Now'}
                   </Button>
                 </div>
 

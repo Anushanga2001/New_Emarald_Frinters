@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { Toaster } from 'sonner'
 import { MainLayout } from './components/layout/MainLayout'
 import { ProtectedRoute } from './components/auth/ProtectedRoute'
 import { HomePage } from './pages/Home'
@@ -14,6 +15,8 @@ import { CustomerDashboard } from './pages/customer/Dashboard'
 
 function App() {
   return (
+    <>
+    <Toaster position="top-center" richColors />
     <BrowserRouter>
       <Routes>
         {/* Public routes */}
@@ -56,6 +59,7 @@ function App() {
         </Route>
       </Routes>
     </BrowserRouter>
+    </>
   )
 }
 

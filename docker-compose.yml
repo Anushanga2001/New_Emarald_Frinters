@@ -15,8 +15,8 @@ services:
       - FRONTEND_URL=http://localhost:5173
     volumes:
       - ./Backend/data:/app/data
-      - ./Backend/appsettings.json:/app/appsettings.json
-      - ./Backend/appsettings.Development.json:/app/appsettings.Development.json
+      - ./Backend/Backend.API/appsettings.json:/app/appsettings.json
+      - ./Backend/Backend.API/appsettings.Development.json:/app/appsettings.Development.json
     restart: unless-stopped
     networks:
       - shipping-network
