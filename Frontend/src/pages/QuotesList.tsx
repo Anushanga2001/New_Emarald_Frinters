@@ -1,7 +1,7 @@
 import { useState, useEffect, useMemo } from 'react'
 import { AgGridReact } from 'ag-grid-react'
 import type { ColDef } from 'ag-grid-community'
-import { AllCommunityModule, ModuleRegistry, themeQuartz, iconSetQuartzLight } from 'ag-grid-community'
+import { AllCommunityModule, ModuleRegistry, themeQuartz } from 'ag-grid-community'
 import { toast } from 'sonner'
 import { FileSpreadsheet, RefreshCw } from 'lucide-react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
@@ -13,30 +13,15 @@ import type { Quote } from '@/types'
 // Register AG Grid modules
 ModuleRegistry.registerModules([AllCommunityModule])
 
-// Custom light theme based on Quartz
-const customTheme = themeQuartz
-  .withPart(iconSetQuartzLight)
-  .withParams({
-    backgroundColor: "#ffffff",
-    browserColorScheme: "light",
-    columnBorder: false,
-    fontFamily: "Arial",
-    foregroundColor: "rgb(46, 55, 66)",
-    headerBackgroundColor: "#F9FAFB",
-    headerFontSize: 14,
-    headerFontWeight: 600,
-    headerTextColor: "#919191",
-    oddRowBackgroundColor: "#F9FAFB",
-    rowBorder: false,
-    sidePanelBorder: false,
-    spacing: 8,
-    wrapperBorder: false,
-    wrapperBorderRadius: 0
-  })
-
 export function QuotesListPage() {
   const [quotes, setQuotes] = useState<Quote[]>([])
   const [loading, setLoading] = useState(true)
+
+  const customTheme = themeQuartz
+  .withParams({
+    browserColorScheme: "light",
+    headerFontSize: 14
+  })
 
   const fetchQuotes = async () => {
     setLoading(true)
@@ -53,6 +38,23 @@ export function QuotesListPage() {
   useEffect(() => {
     fetchQuotes()
   }, [])
+
+  const GridExample = () => {
+    // Row Data: The data to be displayed.
+    const [rowData, setRowData] = useState([
+        { make: "Tesla", model: "Model Y", price: 64950, electric: true },
+        { make: "Ford", model: "F-Series", price: 33850, electric: false },
+        { make: "Toyota", model: "Corolla", price: 29600, electric: false },
+    ]);
+
+    // Column Definitions: Defines the columns to be displayed.
+    const [colDefs, setColDefs] = useState([
+        { field: "make" },
+        { field: "model" },
+        { field: "price" },
+        { field: "electric" }
+    ]);
+}
 
   const columnDefs = useMemo<ColDef<Quote>[]>(() => [
     {
@@ -131,27 +133,6 @@ export function QuotesListPage() {
     filter: true,
     resizable: true,
   }), [])
-
-  // Custom light theme based on Quartz
-  const customTheme = themeQuartz
-  .withPart(iconSetQuartzLight)
-  .withParams({
-    backgroundColor: "#ffffff",
-    browserColorScheme: "light",
-    columnBorder: false,
-    fontFamily: "Arial",
-    foregroundColor: "rgb(46, 55, 66)",
-    headerBackgroundColor: "#F9FAFB",
-    headerFontSize: 14,
-    headerFontWeight: 600,
-    headerTextColor: "#919191",
-    oddRowBackgroundColor: "#F9FAFB",
-    rowBorder: false,
-    sidePanelBorder: false,
-    spacing: 8,
-    wrapperBorder: false,
-    wrapperBorderRadius: 0
-  })
 
   return (
     <div className="container mx-auto px-4 py-12">
