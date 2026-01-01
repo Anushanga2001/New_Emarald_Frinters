@@ -28,12 +28,7 @@ builder.Services.AddSwaggerGen(c =>
         }
     });
 
-    // Configure servers to use localhost
-    c.AddServer(new OpenApiServer
-    {
-        Url = "http://localhost:5253",
-        Description = "Local development server"
-    });
+    // Swagger will auto-detect the server URL (removed hardcoded AddServer to fix CORS issues)
 
     // Add JWT Authentication to Swagger
     c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
@@ -127,7 +122,13 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseCors("AllowFrontend");
-app.UseHttpsRedirection();
+
+// Only redirect to HTTPS in production (avoids issues with Swagger in development)
+if (!app.Environment.IsDevelopment())
+{
+    app.UseHttpsRedirection();
+}
+
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
