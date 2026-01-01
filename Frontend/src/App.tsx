@@ -6,6 +6,7 @@ import { HomePage } from './pages/Home'
 import { ServicesPage } from './pages/Services'
 import { TrackingPage } from './pages/Tracking'
 import { QuotePage } from './pages/Quote'
+import { QuotesListPage } from './pages/QuotesList'
 import { AboutPage } from './pages/About'
 import { ContactPage } from './pages/Contact'
 import { FAQPage } from './pages/FAQ'
@@ -25,6 +26,7 @@ function App() {
           <Route path="/services" element={<ServicesPage />} />
           <Route path="/tracking" element={<TrackingPage />} />
           <Route path="/quote" element={<QuotePage />} />
+          <Route path="/quotes" element={<QuotesListPage />} />
           <Route path="/about" element={<AboutPage />} />
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/faq" element={<FAQPage />} />

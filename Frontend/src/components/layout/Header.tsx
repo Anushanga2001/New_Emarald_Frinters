@@ -16,6 +16,7 @@ export function Header() {
     { name: 'Services', href: '/services' },
     { name: 'Track Shipment', href: '/tracking' },
     { name: 'Get Quote', href: '/quote' },
+    { name: 'All Quotes', href: '/quotes' },
     { name: 'About', href: '/about' },
     { name: 'Contact', href: '/contact' },
   ]
@@ -25,7 +26,8 @@ export function Header() {
     if (href === '/') {
       return location.pathname === '/'
     }
-    return location.pathname.startsWith(href)
+    // Exact match or match with trailing path segment
+    return location.pathname === href || location.pathname.startsWith(href + '/')
   }
 
   return (
