@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 import { useAuth } from '@/hooks/useAuth'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
@@ -15,6 +16,8 @@ import {
   RefreshCw,
   Eye,
   Settings,
+  FileText,
+  DollarSign,
 } from 'lucide-react'
 import {
   getAdminStats,
@@ -26,12 +29,16 @@ import {
   type AdminUserResponse,
 } from '@/services/admin.service'
 import { ShipmentStatus, getStatusLabel } from '@/services/shipments.service'
+import { getUserQuotes } from '@/services/quote.service'
+import { formatCurrency } from '@/lib/utils'
+import type { Quote } from '@/types'
 
 export function AdminDashboard() {
   const { user } = useAuth()
   const [stats, setStats] = useState<AdminStats | null>(null)
   const [shipments, setShipments] = useState<AdminShipmentResponse[]>([])
   const [users, setUsers] = useState<AdminUserResponse[]>([])
+  const [quotes, setQuotes] = useState<Quote[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [updatingStatus, setUpdatingStatus] = useState<number | null>(null)
@@ -40,14 +47,16 @@ export function AdminDashboard() {
     setLoading(true)
     setError(null)
     try {
-      const [statsData, shipmentsData, usersData] = await Promise.all([
+      const [statsData, shipmentsData, usersData, quotesData] = await Promise.all([
         getAdminStats(),
         getAllShipments(),
         getAllUsers(),
+        getUserQuotes().catch(() => []), // Don't fail if quotes fail
       ])
       setStats(statsData)
       setShipments(shipmentsData)
       setUsers(usersData)
+      setQuotes(quotesData)
     } catch (err) {
       setError('Failed to load dashboard data')
       console.error(err)
@@ -55,6 +64,12 @@ export function AdminDashboard() {
       setLoading(false)
     }
   }
+
+  // Calculate total quotes value
+  const totalQuotesValue = quotes.reduce((sum, q) => {
+    const usdValue = q.currency === 'LKR' ? q.price / 320 : q.price
+    return sum + usdValue
+  }, 0)
 
   useEffect(() => {
     fetchData()
@@ -128,7 +143,7 @@ export function AdminDashboard() {
       </div>
 
       {/* Stats Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 mb-8">
         <Card className="bg-gradient-to-br from-blue-50 to-blue-100 border-blue-200">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium text-blue-900">Total Users</CardTitle>
@@ -151,6 +166,17 @@ export function AdminDashboard() {
           </CardContent>
         </Card>
 
+        <Card className="bg-gradient-to-br from-purple-50 to-purple-100 border-purple-200">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium text-purple-900">Total Quotes</CardTitle>
+            <FileText className="h-4 w-4 text-purple-600" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold text-purple-900">{quotes.length}</div>
+            <p className="text-xs text-purple-700">Saved quotes</p>
+          </CardContent>
+        </Card>
+
         <Card className="bg-gradient-to-br from-amber-50 to-amber-100 border-amber-200">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium text-amber-900">Active Shipments</CardTitle>
@@ -170,14 +196,14 @@ export function AdminDashboard() {
           </CardContent>
         </Card>
 
-        <Card className="bg-gradient-to-br from-purple-50 to-purple-100 border-purple-200">
+        <Card className="bg-gradient-to-br from-emerald-50 to-emerald-100 border-emerald-200">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium text-purple-900">Pending Quotes</CardTitle>
-            <Clock className="h-4 w-4 text-purple-600" />
+            <CardTitle className="text-sm font-medium text-emerald-900">Quotes Value</CardTitle>
+            <DollarSign className="h-4 w-4 text-emerald-600" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-purple-900">{stats?.pendingQuotes || 0}</div>
-            <p className="text-xs text-purple-700">Awaiting review</p>
+            <div className="text-2xl font-bold text-emerald-900">${totalQuotesValue.toLocaleString(undefined, { maximumFractionDigits: 0 })}</div>
+            <p className="text-xs text-emerald-700">Total (USD)</p>
           </CardContent>
         </Card>
       </div>
@@ -203,7 +229,7 @@ export function AdminDashboard() {
               <p className="text-muted-foreground text-center py-8">No shipments found.</p>
             ) : (
               <div className="space-y-3">
-                {shipments.slice(0, 6).map((shipment) => (
+                {shipments.slice(0, 5).map((shipment) => (
                   <div
                     key={shipment.id}
                     className="flex items-center justify-between p-4 border rounded-lg hover:bg-slate-50 transition-colors"
@@ -290,6 +316,62 @@ export function AdminDashboard() {
           </CardContent>
         </Card>
       </div>
+
+      {/* Recent Quotes Section */}
+      <Card className="mt-6">
+        <CardHeader>
+          <div className="flex items-center justify-between">
+            <div>
+              <CardTitle>Recent Quotes</CardTitle>
+              <CardDescription>All customer quote requests</CardDescription>
+            </div>
+            <Button asChild variant="outline" size="sm">
+              <Link to="/quotes">
+                <Eye className="h-4 w-4 mr-2" />
+                View All
+              </Link>
+            </Button>
+          </div>
+        </CardHeader>
+        <CardContent>
+          {quotes.length === 0 ? (
+            <div className="text-center py-8">
+              <FileText className="h-12 w-12 text-muted-foreground mx-auto mb-3" />
+              <p className="text-muted-foreground">No quotes found.</p>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {quotes.slice(0, 6).map((quote) => (
+                <div
+                  key={quote.id}
+                  className="p-4 border rounded-lg hover:bg-slate-50 transition-colors"
+                >
+                  <div className="flex items-start justify-between mb-2">
+                    <p className="font-mono text-sm font-medium">{quote.id}</p>
+                    <Badge variant="secondary" className="text-xs">
+                      {quote.service}
+                    </Badge>
+                  </div>
+                  <p className="text-sm text-muted-foreground mb-2">
+                    {quote.origin} → {quote.destination}
+                  </p>
+                  <div className="flex items-center justify-between">
+                    <p className="text-xs text-muted-foreground">
+                      {quote.cargoType} • {quote.weight} kg
+                    </p>
+                    <p className="font-semibold text-primary">
+                      {formatCurrency(quote.price, quote.currency)}
+                    </p>
+                  </div>
+                  <p className="text-xs text-muted-foreground mt-1">
+                    Est. {quote.estimatedDays} days
+                  </p>
+                </div>
+              ))}
+            </div>
+          )}
+        </CardContent>
+      </Card>
 
       {/* Quick Stats Row */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
