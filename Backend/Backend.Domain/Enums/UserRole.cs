@@ -7,4 +7,3 @@ namespace Backend.Domain.Enums
         Staff = 3
     }
 }
-

@@ -1,11 +1,13 @@
 import { useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
-import { Search, MapPin, Calendar, TrendingUp } from 'lucide-react'
+import { Search, MapPin, Calendar, TrendingUp, Settings, Loader2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { trackShipment } from '@/services/tracking.service'
+import { AdminOnly } from '@/components/auth/AdminOnly'
+import { toast } from 'sonner'
 import type { Shipment } from '@/types'
 import { format } from 'date-fns'
 
@@ -15,6 +17,26 @@ export function TrackingPage() {
   const [shipment, setShipment] = useState<Shipment | null>(null)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
+  const [updatingStatus, setUpdatingStatus] = useState(false)
+  const [showStatusPanel, setShowStatusPanel] = useState(false)
+
+  // Admin status update handler
+  const handleStatusUpdate = async (newStatus: string) => {
+    if (!shipment) return
+    
+    setUpdatingStatus(true)
+    try {
+      // API call would go here: await updateShipmentStatus(shipment.id, newStatus)
+      toast.success(`Shipment status updated to ${newStatus.replace(/-/g, ' ')}`)
+      // Refresh shipment data
+      const result = await trackShipment(trackingNumber)
+      setShipment(result)
+    } catch {
+      toast.error('Failed to update shipment status')
+    } finally {
+      setUpdatingStatus(false)
+    }
+  }
 
   const handleTrack = async () => {
     if (!trackingNumber.trim()) {
@@ -84,6 +106,53 @@ export function TrackingPage() {
         {/* Shipment Details */}
         {shipment && (
           <div className="space-y-6">
+            {/* Admin Controls Panel */}
+            <AdminOnly>
+              <Card className="border-amber-200 bg-amber-50/50">
+                <CardHeader className="pb-3">
+                  <div className="flex items-center justify-between">
+                    <CardTitle className="text-sm font-medium flex items-center gap-2">
+                      <Settings className="h-4 w-4 text-amber-600" />
+                      Admin Controls
+                    </CardTitle>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => setShowStatusPanel(!showStatusPanel)}
+                    >
+                      {showStatusPanel ? 'Hide' : 'Show'}
+                    </Button>
+                  </div>
+                </CardHeader>
+                {showStatusPanel && (
+                  <CardContent className="pt-0">
+                    <div className="space-y-3">
+                      <p className="text-sm text-muted-foreground">Update shipment status:</p>
+                      <div className="flex flex-wrap gap-2">
+                        {['booked', 'picked-up', 'in-transit', 'at-port', 'customs', 'out-for-delivery', 'delivered'].map(
+                          (status) => (
+                            <Button
+                              key={status}
+                              variant={shipment.status === status ? 'default' : 'outline'}
+                              size="sm"
+                              onClick={() => handleStatusUpdate(status)}
+                              disabled={updatingStatus || shipment.status === status}
+                              className="text-xs"
+                            >
+                              {updatingStatus ? (
+                                <Loader2 className="h-3 w-3 animate-spin mr-1" />
+                              ) : null}
+                              {status.replace(/-/g, ' ')}
+                            </Button>
+                          )
+                        )}
+                      </div>
+                    </div>
+                  </CardContent>
+                )}
+              </Card>
+            </AdminOnly>
+
             {/* Overview */}
             <Card>
               <CardHeader>

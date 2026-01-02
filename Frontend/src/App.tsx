@@ -13,6 +13,7 @@ import { FAQPage } from './pages/FAQ'
 import { LoginPage } from './pages/auth/Login'
 import { RegisterPage } from './pages/auth/Register'
 import { CustomerDashboard } from './pages/customer/Dashboard'
+import { AdminDashboard } from './pages/admin/Dashboard'
 
 function App() {
   return (
@@ -50,14 +51,14 @@ function App() {
 
         {/* Protected admin routes */}
         <Route
-          path="/admin/*"
+          path="/admin"
           element={
             <ProtectedRoute requiredRole="Admin">
               <MainLayout />
             </ProtectedRoute>
           }
         >
-          {/* Admin routes will be added here */}
+          <Route path="dashboard" element={<AdminDashboard />} />
         </Route>
       </Routes>
     </BrowserRouter>
