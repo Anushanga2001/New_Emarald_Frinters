@@ -11,9 +11,14 @@ export function useAuth() {
 
   const loginMutation = useMutation({
     mutationFn: (data: LoginRequest) => authApi.login(data),
-    onSuccess: () => {
-      queryClient.setQueryData(queryKeys.auth.user, authApi.getCurrentUser())
-      navigate('/customer/dashboard')
+    onSuccess: (data) => {
+      queryClient.setQueryData(queryKeys.auth.user, data.user)
+      // Redirect based on user role
+      if (data.user.role === 'Admin') {
+        navigate('/admin/dashboard')
+      } else {
+        navigate('/customer/dashboard')
+      }
     },
   })
 
@@ -33,9 +38,17 @@ export function useAuth() {
 
   const isAuthenticated = !!authApi.getToken()
 
+  // Role helper utilities
+  const isAdmin = user?.role === 'Admin'
+  const isStaff = user?.role === 'Staff'
+  const isCustomer = user?.role === 'Customer'
+
   return {
     user,
     isAuthenticated,
+    isAdmin,
+    isStaff,
+    isCustomer,
     login: loginMutation.mutate,
     register: registerMutation.mutate,
     logout,
