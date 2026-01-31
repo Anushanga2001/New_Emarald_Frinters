@@ -1,4 +1,3 @@
-// import api from './api'
 import type { Shipment } from '@/types'
 
 // Mock data for demonstration
@@ -92,9 +91,6 @@ const MOCK_SHIPMENTS: Record<string, Shipment> = {
 }
 
 export async function trackShipment(trackingNumber: string): Promise<Shipment> {
-  // In production, replace with real API call
-  // return api.get(`/shipments/track/${trackingNumber}`).then(res => res.data)
-  
   // Mock implementation
   return new Promise((resolve, reject) => {
     setTimeout(() => {

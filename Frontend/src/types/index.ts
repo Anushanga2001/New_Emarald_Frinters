@@ -37,32 +37,6 @@ export interface Quote {
   createdAt?: string
 }
 
-export interface Booking {
-  id?: string
-  userId?: string
-  origin: string
-  destination: string
-  service: string
-  cargoType: string
-  weight: number
-  dimensions?: {
-    length: number
-    width: number
-    height: number
-  }
-  containerSize?: string
-  pickupDate: string
-  pickupAddress: string
-  deliveryAddress: string
-  contactName: string
-  contactPhone: string
-  contactEmail: string
-  specialInstructions?: string
-  documents?: File[]
-  status: string
-  createdAt: string
-}
-
 export interface User {
   id: number
   email: string

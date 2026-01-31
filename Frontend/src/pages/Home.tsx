@@ -138,9 +138,9 @@ export function HomePage() {
           <h2 className="text-3xl md:text-4xl font-bold mb-4">Ready to Ship?</h2>
           <p className="text-xl mb-8 text-primary/80">Get started with your shipment today</p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link to="/booking">
+            <Link to="/quote">
               <Button size="lg" variant="secondary">
-                Book Now
+                Get a Quote
               </Button>
             </Link>
             <Link to="/contact">
