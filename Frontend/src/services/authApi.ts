@@ -9,6 +9,7 @@ export interface LoginRequest {
 export interface RegisterRequest {
   email: string
   password: string
+  confirmPassword: string
   firstName: string
   lastName: string
   phoneNumber?: string
@@ -16,6 +17,12 @@ export interface RegisterRequest {
   taxId?: string
   billingAddress?: string
   shippingAddress?: string
+}
+
+export interface RegistrationSuccessResponse {
+  success: boolean
+  message: string
+  email: string
 }
 
 export const authApi = {
@@ -28,12 +35,9 @@ export const authApi = {
     return response.data
   },
 
-  register: async (data: RegisterRequest): Promise<AuthResponse> => {
-    const response = await api.post<AuthResponse>('/auth/register', data)
-    if (response.data.token) {
-      localStorage.setItem('authToken', response.data.token)
-      localStorage.setItem('user', JSON.stringify(response.data.user))
-    }
+  register: async (data: RegisterRequest): Promise<RegistrationSuccessResponse> => {
+    const response = await api.post<RegistrationSuccessResponse>('/auth/register', data)
+    // No token on registration - user must log in separately
     return response.data
   },
 

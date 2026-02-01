@@ -1,6 +1,7 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Backend.Application.DTOs.Auth;
@@ -48,7 +49,9 @@ namespace Backend.Infrastructure.Services
 
         public async Task<AuthResponseDto> LoginAsync(LoginDto loginDto)
         {
-            var user = _context.Users.FirstOrDefault(u => u.Email == loginDto.Email);
+            // Case-insensitive email comparison for login (matches registration behavior)
+            var normalizedEmail = loginDto.Email.ToLowerInvariant();
+            var user = _context.Users.FirstOrDefault(u => u.Email.ToLower() == normalizedEmail);
             if (user == null || !BCrypt.Net.BCrypt.Verify(loginDto.Password, user.PasswordHash))
             {
                 throw new UnauthorizedAccessException("Invalid email or password");
@@ -77,55 +80,64 @@ namespace Backend.Infrastructure.Services
             };
         }
 
-        public async Task<AuthResponseDto> RegisterCustomerAsync(RegisterDto registerDto)
+        public async Task<RegistrationSuccessDto> RegisterCustomerAsync(RegisterDto registerDto)
         {
-            if (_context.Users.Any(u => u.Email == registerDto.Email))
+            // Case-insensitive email comparison for duplicate check (using async)
+            var normalizedEmail = registerDto.Email.ToLowerInvariant();
+            if (await _context.Users.AnyAsync(u => u.Email.ToLower() == normalizedEmail))
             {
-                throw new InvalidOperationException("Email already registered");
+                throw new InvalidOperationException("Email already exists");
             }
 
-            var user = new User
+            // Use transaction to ensure User and Customer are created atomically
+            using var transaction = await _context.Database.BeginTransactionAsync();
+            try
             {
-                Email = registerDto.Email,
-                PasswordHash = BCrypt.Net.BCrypt.HashPassword(registerDto.Password),
-                FirstName = registerDto.FirstName,
-                LastName = registerDto.LastName,
-                PhoneNumber = registerDto.PhoneNumber,
-                Role = UserRole.Customer,
-                IsActive = true,
-                CreatedAt = DateTime.UtcNow
-            };
-
-            _context.Users.Add(user);
-            await _context.SaveChangesAsync();
-
-            var customer = new Customer
-            {
-                UserId = user.Id,
-                CompanyName = registerDto.CompanyName,
-                TaxId = registerDto.TaxId,
-                BillingAddress = registerDto.BillingAddress,
-                ShippingAddress = registerDto.ShippingAddress
-            };
-
-            _context.Customers.Add(customer);
-            await _context.SaveChangesAsync();
-
-            var token = GenerateJwtToken(user);
-
-            return new AuthResponseDto
-            {
-                Token = token,
-                User = new UserDto
+                var user = new User
                 {
-                    Id = user.Id,
-                    Email = user.Email,
-                    FirstName = user.FirstName,
-                    LastName = user.LastName,
-                    Role = user.Role.ToString(),
-                    CustomerId = customer.Id
-                }
-            };
+                    Email = registerDto.Email,
+                    PasswordHash = BCrypt.Net.BCrypt.HashPassword(registerDto.Password),
+                    FirstName = registerDto.FirstName,
+                    LastName = registerDto.LastName,
+                    PhoneNumber = registerDto.PhoneNumber,
+                    Role = UserRole.Customer,
+                    IsActive = true,
+                    CreatedAt = DateTime.UtcNow
+                };
+
+                _context.Users.Add(user);
+                await _context.SaveChangesAsync();
+
+                var customer = new Customer
+                {
+                    UserId = user.Id,
+                    Name = $"{registerDto.FirstName} {registerDto.LastName}".Trim(),
+                    Email = registerDto.Email,
+                    Phone = registerDto.PhoneNumber ?? string.Empty,
+                    CompanyName = registerDto.CompanyName,
+                    TaxId = registerDto.TaxId,
+                    BillingAddress = registerDto.BillingAddress,
+                    ShippingAddress = registerDto.ShippingAddress
+                };
+
+                _context.Customers.Add(customer);
+                await _context.SaveChangesAsync();
+
+                await transaction.CommitAsync();
+
+                // Return success message - user must log in separately
+                return new RegistrationSuccessDto
+                {
+                    Success = true,
+                    Message = "Registration successful. Please log in with your credentials.",
+                    Email = user.Email
+                };
+            }
+            catch
+            {
+                await transaction.RollbackAsync();
+                throw;
+            }
         }
     }
 }

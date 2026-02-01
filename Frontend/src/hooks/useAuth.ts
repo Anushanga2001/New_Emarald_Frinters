@@ -25,8 +25,9 @@ export function useAuth() {
   const registerMutation = useMutation({
     mutationFn: (data: RegisterRequest) => authApi.register(data),
     onSuccess: () => {
-      queryClient.setQueryData(queryKeys.auth.user, authApi.getCurrentUser())
-      navigate('/customer/dashboard')
+      // Registration successful - redirect to login page with success message
+      // User must log in with their new credentials
+      navigate('/auth/login?registered=true')
     },
   })
 

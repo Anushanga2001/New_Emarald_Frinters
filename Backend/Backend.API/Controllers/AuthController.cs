@@ -35,7 +35,7 @@ namespace Backend.API.Controllers
             try
             {
                 var result = await _authService.RegisterCustomerAsync(registerDto);
-                return Ok(result);
+                return StatusCode(201, result); // Created - user must log in separately
             }
             catch (InvalidOperationException ex)
             {
