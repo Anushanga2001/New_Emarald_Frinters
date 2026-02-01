@@ -8,8 +8,8 @@ namespace Backend.Infrastructure.Data
     {
         public static async Task SeedAsync(AppDbContext context)
         {
-            // Ensure database is created with all tables
-            await context.Database.EnsureCreatedAsync();
+            // Apply pending migrations automatically
+            await context.Database.MigrateAsync();
 
             // Seed Pricing Rules if they don't exist
             if (!await context.PricingRules.AnyAsync())

@@ -6,11 +6,35 @@ using Microsoft.OpenApi.Models;
 using Backend.Application.Interfaces;
 using Backend.Infrastructure.Data;
 using Backend.Infrastructure.Services;
+using Serilog;
+using FluentValidation;
+using FluentValidation.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Configure Serilog (Story 1.1)
+builder.Host.UseSerilog((context, configuration) =>
+{
+    configuration
+        .ReadFrom.Configuration(context.Configuration)
+        .Enrich.FromLogContext()
+        .Enrich.WithProperty("Application", "NewEmaraldFrinters")
+        .Enrich.WithProperty("Environment", context.HostingEnvironment.EnvironmentName)
+        .Enrich.WithMachineName()
+        .WriteTo.Console(outputTemplate: "[{Timestamp:HH:mm:ss} {Level:u3}] {Message:lj}{NewLine}{Exception}")
+        .WriteTo.File(
+            path: "logs/app-.txt",
+            rollingInterval: RollingInterval.Day,
+            outputTemplate: "{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz} [{Level:u3}] {Message:lj}{NewLine}{Exception}",
+            retainedFileCountLimit: 30);
+});
+
 // Add services to the container.
 builder.Services.AddControllers();
+
+// FluentValidation (Story 1.1)
+builder.Services.AddValidatorsFromAssemblyContaining<Backend.Application.Validators.RegisterDtoValidator>();
+builder.Services.AddFluentValidationAutoValidation();
 
 // Add Swagger/OpenAPI
 builder.Services.AddEndpointsApiExplorer();
@@ -69,11 +93,19 @@ builder.Services.AddCors(options =>
     });
 });
 
-// Database - Support Docker volume path
-var dbPath = Environment.GetEnvironmentVariable("DB_PATH") ?? 
-    Path.Combine(AppContext.BaseDirectory, "logistics.db");
+// Database - PostgreSQL with connection pooling and retry policy
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlite($"Data Source={dbPath}"));
+    options.UseNpgsql(connectionString, npgsqlOptions =>
+    {
+        npgsqlOptions.EnableRetryOnFailure(
+            maxRetryCount: 3,
+            maxRetryDelay: TimeSpan.FromSeconds(5),
+            errorCodesToAdd: null);
+        npgsqlOptions.CommandTimeout(30);
+        npgsqlOptions.MinBatchSize(5);
+        npgsqlOptions.MaxBatchSize(100);
+    }));
 
 // JWT Authentication
 var jwtKey = builder.Configuration["Jwt:Key"] ?? "YourSuperSecretKeyThatShouldBeAtLeast32CharactersLong!";
@@ -103,6 +135,9 @@ builder.Services.AddScoped<IPricingService, PricingService>();
 
 var app = builder.Build();
 
+// Global Exception Middleware (Story 1.1) - Must be early in pipeline
+app.UseMiddleware<Backend.API.Middleware.GlobalExceptionMiddleware>();
+
 // Seed database
 using (var scope = app.Services.CreateScope())
 {
@@ -122,6 +157,17 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseCors("AllowFrontend");
+
+// Serilog request logging (Story 1.1)
+app.UseSerilogRequestLogging(options =>
+{
+    options.MessageTemplate = "HTTP {RequestMethod} {RequestPath} responded {StatusCode} in {Elapsed:0.0000} ms";
+    options.EnrichDiagnosticContext = (diagnosticContext, httpContext) =>
+    {
+        diagnosticContext.Set("RequestHost", httpContext.Request.Host.Value);
+        diagnosticContext.Set("UserAgent", httpContext.Request.Headers["User-Agent"].ToString());
+    };
+});
 
 // Only redirect to HTTPS in production (avoids issues with Swagger in development)
 if (!app.Environment.IsDevelopment())

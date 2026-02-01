@@ -98,3 +98,6 @@ publish/
 # Misc
 *.log
 
+
+# Document storage (Story 1.1)
+documents/

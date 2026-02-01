@@ -1,6 +1,26 @@
 version: '3.8'
 
 services:
+  postgres:
+    image: postgres:17-alpine
+    container_name: logistics-postgres
+    environment:
+      POSTGRES_DB: logistics_db
+      POSTGRES_USER: logistics_user
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-dev_password}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U logistics_user"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+    networks:
+      - shipping-network
+
   backend:
     build:
       context: ./Backend
@@ -11,8 +31,11 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:8080
-      - DB_PATH=/app/data/logistics.db
+      - ConnectionStrings__DefaultConnection=Host=postgres;Port=5432;Database=logistics_db;Username=logistics_user;Password=${DB_PASSWORD:-dev_password}
       - FRONTEND_URL=http://localhost:5173
+    depends_on:
+      postgres:
+        condition: service_healthy
     volumes:
       - ./Backend/data:/app/data
       - ./Backend/Backend.API/appsettings.json:/app/appsettings.json
@@ -47,4 +70,6 @@ networks:
 
 volumes:
   backend-data:
+    driver: local
+  postgres_data:
     driver: local

@@ -12,6 +12,13 @@ namespace Backend.Domain.Entities
         public string? PhoneNumber { get; set; }
         public UserRole Role { get; set; }
         public bool IsActive { get; set; } = true;
+
+        // Authentication & Security fields (Story 1.1)
+        public int FailedLoginAttempts { get; set; } = 0;
+        public DateTime? LockoutUntil { get; set; }
+        public string? PasswordResetToken { get; set; }
+        public DateTime? PasswordResetTokenExpiry { get; set; }
+
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public DateTime? UpdatedAt { get; set; }
 
