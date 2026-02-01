@@ -12,6 +12,8 @@ import { ContactPage } from './pages/Contact'
 import { FAQPage } from './pages/FAQ'
 import { LoginPage } from './pages/auth/Login'
 import { RegisterPage } from './pages/auth/Register'
+import { ForgotPasswordPage } from './pages/auth/ForgotPassword'
+import { ResetPasswordPage } from './pages/auth/ResetPassword'
 import { CustomerDashboard } from './pages/customer/Dashboard'
 import { AdminDashboard } from './pages/admin/Dashboard'
 
@@ -36,6 +38,8 @@ function App() {
         {/* Auth routes */}
         <Route path="/auth/login" element={<LoginPage />} />
         <Route path="/auth/register" element={<RegisterPage />} />
+        <Route path="/auth/forgot-password" element={<ForgotPasswordPage />} />
+        <Route path="/auth/reset-password" element={<ResetPasswordPage />} />
 
         {/* Protected customer routes */}
         <Route

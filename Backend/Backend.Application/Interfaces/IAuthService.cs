@@ -8,6 +8,8 @@ namespace Backend.Application.Interfaces
         Task<AuthResponseDto> LoginAsync(LoginDto loginDto);
         Task<RegistrationSuccessDto> RegisterCustomerAsync(RegisterDto registerDto);
         string GenerateJwtToken(User user);
+        Task<ForgotPasswordResponseDto> ForgotPasswordAsync(ForgotPasswordDto dto);
+        Task<ResetPasswordResponseDto> ResetPasswordAsync(ResetPasswordDto dto);
     }
 }
 

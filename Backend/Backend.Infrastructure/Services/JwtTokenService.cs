@@ -198,6 +198,98 @@ namespace Backend.Infrastructure.Services
                 throw;
             }
         }
+
+        public async Task<ForgotPasswordResponseDto> ForgotPasswordAsync(ForgotPasswordDto dto)
+        {
+            // Security: Same message for found/not found email (prevents email enumeration)
+            var successMessage = "If that email exists, a reset link has been sent.";
+
+            // Case-insensitive email lookup
+            var normalizedEmail = dto.Email.ToLowerInvariant();
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Email.ToLower() == normalizedEmail);
+
+            if (user == null)
+            {
+                _logger.LogWarning("Password reset requested for non-existent email: {Email}", dto.Email);
+                // Return same success message to prevent email enumeration
+                return new ForgotPasswordResponseDto { Message = successMessage };
+            }
+
+            // Generate secure reset token
+            var token = Guid.NewGuid().ToString("N"); // 32 hex characters, no hyphens
+            user.PasswordResetToken = token;
+            user.PasswordResetTokenExpiry = DateTime.UtcNow.AddHours(1);
+
+            await _context.SaveChangesAsync();
+
+            _logger.LogInformation("Password reset token generated for user {Email}. Token: {Token} (for testing - remove in production)",
+                user.Email, token);
+
+            return new ForgotPasswordResponseDto { Message = successMessage };
+        }
+
+        public async Task<ResetPasswordResponseDto> ResetPasswordAsync(ResetPasswordDto dto)
+        {
+            // Find user by reset token
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.PasswordResetToken == dto.Token);
+
+            if (user == null)
+            {
+                _logger.LogWarning("Password reset attempted with invalid token: {Token}", dto.Token);
+                return new ResetPasswordResponseDto
+                {
+                    Success = false,
+                    Message = "Invalid or expired reset link. Please request a new one."
+                };
+            }
+
+            // Check token expiration
+            if (!user.PasswordResetTokenExpiry.HasValue || user.PasswordResetTokenExpiry < DateTime.UtcNow)
+            {
+                _logger.LogWarning("Password reset attempted with expired token for user {Email}", user.Email);
+                // Clear the expired token
+                user.PasswordResetToken = null;
+                user.PasswordResetTokenExpiry = null;
+                await _context.SaveChangesAsync();
+
+                return new ResetPasswordResponseDto
+                {
+                    Success = false,
+                    Message = "Reset link has expired. Please request a new one."
+                };
+            }
+
+            // Validate passwords match (additional backend validation)
+            if (dto.NewPassword != dto.ConfirmPassword)
+            {
+                return new ResetPasswordResponseDto
+                {
+                    Success = false,
+                    Message = "Passwords do not match"
+                };
+            }
+
+            // Update password with BCrypt hash
+            user.PasswordHash = BCrypt.Net.BCrypt.HashPassword(dto.NewPassword);
+
+            // Clear reset token (invalidate)
+            user.PasswordResetToken = null;
+            user.PasswordResetTokenExpiry = null;
+
+            // Reset account lockout state
+            user.FailedLoginAttempts = 0;
+            user.LockoutUntil = null;
+
+            await _context.SaveChangesAsync();
+
+            _logger.LogInformation("Password reset successful for user {Email}", user.Email);
+
+            return new ResetPasswordResponseDto
+            {
+                Success = true,
+                Message = "Password reset successful. You can now log in with your new password."
+            };
+        }
     }
 }
 
