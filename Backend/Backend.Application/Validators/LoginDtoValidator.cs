@@ -12,7 +12,8 @@ namespace Backend.Application.Validators
                 .EmailAddress().WithMessage("Invalid email format");
 
             RuleFor(x => x.Password)
-                .NotEmpty().WithMessage("Password is required");
+                .NotEmpty().WithMessage("Password is required")
+                .MinimumLength(8).WithMessage("Password must be at least 8 characters");
         }
     }
 }

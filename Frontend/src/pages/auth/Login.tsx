@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { useAuth } from '@/hooks/useAuth'
-import { Ship, CheckCircle } from 'lucide-react'
+import { Ship, CheckCircle, AlertTriangle } from 'lucide-react'
 
 const loginSchema = z.object({
   email: z.string().email('Invalid email address'),
@@ -85,9 +85,24 @@ export function LoginPage() {
             </div>
 
             {error && (
-              <div className="bg-destructive/10 text-destructive p-3 rounded-md text-sm">
-                {error instanceof Error ? error.message : 'Login failed. Please try again.'}
-              </div>
+              (() => {
+                const errorMessage = error instanceof Error ? error.message : 'Login failed. Please try again.'
+                const isLockout = errorMessage.toLowerCase().includes('locked')
+
+                return isLockout ? (
+                  <div className="bg-amber-100 text-amber-800 p-3 rounded-md text-sm flex items-start gap-2">
+                    <AlertTriangle className="h-4 w-4 mt-0.5 flex-shrink-0" />
+                    <div>
+                      <p className="font-medium">Account Temporarily Locked</p>
+                      <p className="mt-1">Too many failed login attempts. Please try again in 15 minutes.</p>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="bg-destructive/10 text-destructive p-3 rounded-md text-sm">
+                    {errorMessage}
+                  </div>
+                )
+              })()
             )}
 
             <Button type="submit" className="w-full" disabled={isLoading}>
