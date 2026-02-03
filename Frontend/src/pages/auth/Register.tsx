@@ -9,8 +9,9 @@ import { useAuth } from '@/hooks/useAuth'
 import { Ship } from 'lucide-react'
 
 const registerSchema = z.object({
-  email: z.string().email('Invalid email address'),
-  password: z.string().min(6, 'Password must be at least 6 characters'),
+  email: z.string().email('Invalid email format'),
+  password: z.string().min(8, 'Password must be at least 8 characters'),
+  confirmPassword: z.string().min(1, 'Please confirm your password'),
   firstName: z.string().min(1, 'First name is required'),
   lastName: z.string().min(1, 'Last name is required'),
   phoneNumber: z.string().optional(),
@@ -18,6 +19,9 @@ const registerSchema = z.object({
   taxId: z.string().optional(),
   billingAddress: z.string().optional(),
   shippingAddress: z.string().optional(),
+}).refine((data) => data.password === data.confirmPassword, {
+  message: "Passwords do not match",
+  path: ["confirmPassword"],
 })
 
 type RegisterForm = z.infer<typeof registerSchema>
@@ -109,6 +113,22 @@ export function RegisterPage() {
               />
               {errors.password && (
                 <p className="text-sm text-destructive mt-1">{errors.password.message}</p>
+              )}
+            </div>
+
+            <div>
+              <label htmlFor="confirmPassword" className="block text-sm font-medium mb-1">
+                Confirm Password *
+              </label>
+              <Input
+                id="confirmPassword"
+                type="password"
+                placeholder="••••••••"
+                {...register('confirmPassword')}
+                className={errors.confirmPassword ? 'border-destructive' : ''}
+              />
+              {errors.confirmPassword && (
+                <p className="text-sm text-destructive mt-1">{errors.confirmPassword.message}</p>
               )}
             </div>
 

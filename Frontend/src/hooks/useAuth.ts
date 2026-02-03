@@ -1,5 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useNavigate } from 'react-router-dom'
+import { toast } from 'sonner'
 import { authApi, type LoginRequest, type RegisterRequest } from '@/services/authApi'
 import { queryKeys } from '@/services/queryKeys'
 
@@ -25,14 +26,16 @@ export function useAuth() {
   const registerMutation = useMutation({
     mutationFn: (data: RegisterRequest) => authApi.register(data),
     onSuccess: () => {
-      queryClient.setQueryData(queryKeys.auth.user, authApi.getCurrentUser())
-      navigate('/customer/dashboard')
+      // Registration successful - redirect to login page with success message
+      // User must log in with their new credentials
+      navigate('/auth/login?registered=true')
     },
   })
 
   const logout = () => {
     authApi.logout()
     queryClient.clear()
+    toast.success('You have been logged out successfully')
     navigate('/')
   }
 

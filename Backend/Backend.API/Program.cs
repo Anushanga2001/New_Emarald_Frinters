@@ -8,7 +8,7 @@ using Backend.Infrastructure.Data;
 using Backend.Infrastructure.Services;
 using Serilog;
 using FluentValidation;
-using FluentValidation.AspNetCore;
+using SharpGrip.FluentValidation.AutoValidation.Mvc.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -32,7 +32,7 @@ builder.Host.UseSerilog((context, configuration) =>
 // Add services to the container.
 builder.Services.AddControllers();
 
-// FluentValidation (Story 1.1)
+// FluentValidation with auto-validation (Story 1.1, updated Story 1.2)
 builder.Services.AddValidatorsFromAssemblyContaining<Backend.Application.Validators.RegisterDtoValidator>();
 builder.Services.AddFluentValidationAutoValidation();
 
@@ -132,6 +132,7 @@ builder.Services.AddAuthorization();
 // Application Services
 builder.Services.AddScoped<IAuthService, JwtTokenService>();
 builder.Services.AddScoped<IPricingService, PricingService>();
+builder.Services.AddScoped<IProfileService, ProfileService>();
 
 var app = builder.Build();
 

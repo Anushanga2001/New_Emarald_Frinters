@@ -1,22 +1,25 @@
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
-import { Link } from 'react-router-dom'
+import { Link, useSearchParams } from 'react-router-dom'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { useAuth } from '@/hooks/useAuth'
-import { Ship } from 'lucide-react'
+import { Ship, CheckCircle, AlertTriangle } from 'lucide-react'
 
 const loginSchema = z.object({
   email: z.string().email('Invalid email address'),
-  password: z.string().min(6, 'Password must be at least 6 characters'),
+  password: z.string().min(8, 'Password must be at least 8 characters'),
 })
 
 type LoginForm = z.infer<typeof loginSchema>
 
 export function LoginPage() {
   const { login, isLoading, error } = useAuth()
+  const [searchParams] = useSearchParams()
+  const justRegistered = searchParams.get('registered') === 'true'
+
   const {
     register,
     handleSubmit,
@@ -42,6 +45,12 @@ export function LoginPage() {
           <CardDescription>Sign in to your account</CardDescription>
         </CardHeader>
         <CardContent>
+          {justRegistered && (
+            <div className="bg-green-100 text-green-800 p-3 rounded-md text-sm mb-4 flex items-center gap-2">
+              <CheckCircle className="h-4 w-4" />
+              Registration successful! Please log in with your credentials.
+            </div>
+          )}
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
             <div>
               <label htmlFor="email" className="block text-sm font-medium mb-1">
@@ -76,20 +85,42 @@ export function LoginPage() {
             </div>
 
             {error && (
-              <div className="bg-destructive/10 text-destructive p-3 rounded-md text-sm">
-                {error instanceof Error ? error.message : 'Login failed. Please try again.'}
-              </div>
+              (() => {
+                const errorMessage = error instanceof Error ? error.message : 'Login failed. Please try again.'
+                const isLockout = errorMessage.toLowerCase().includes('locked')
+
+                return isLockout ? (
+                  <div className="bg-amber-100 text-amber-800 p-3 rounded-md text-sm flex items-start gap-2">
+                    <AlertTriangle className="h-4 w-4 mt-0.5 flex-shrink-0" />
+                    <div>
+                      <p className="font-medium">Account Temporarily Locked</p>
+                      <p className="mt-1">Too many failed login attempts. Please try again in 15 minutes.</p>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="bg-destructive/10 text-destructive p-3 rounded-md text-sm">
+                    {errorMessage}
+                  </div>
+                )
+              })()
             )}
 
             <Button type="submit" className="w-full" disabled={isLoading}>
               {isLoading ? 'Signing in...' : 'Sign In'}
             </Button>
 
-            <div className="text-center text-sm">
-              <span className="text-muted-foreground">Don't have an account? </span>
-              <Link to="/auth/register" className="text-primary hover:underline">
-                Sign up
-              </Link>
+            <div className="text-center text-sm space-y-2">
+              <div>
+                <Link to="/auth/forgot-password" className="text-muted-foreground hover:text-primary">
+                  Forgot your password?
+                </Link>
+              </div>
+              <div>
+                <span className="text-muted-foreground">Don't have an account? </span>
+                <Link to="/auth/register" className="text-primary hover:underline">
+                  Sign up
+                </Link>
+              </div>
             </div>
           </form>
         </CardContent>
