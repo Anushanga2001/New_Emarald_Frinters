@@ -1,5 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useNavigate } from 'react-router-dom'
+import { toast } from 'sonner'
 import { authApi, type LoginRequest, type RegisterRequest } from '@/services/authApi'
 import { queryKeys } from '@/services/queryKeys'
 
@@ -34,6 +35,7 @@ export function useAuth() {
   const logout = () => {
     authApi.logout()
     queryClient.clear()
+    toast.success('You have been logged out successfully')
     navigate('/')
   }
 

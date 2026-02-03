@@ -132,6 +132,7 @@ builder.Services.AddAuthorization();
 // Application Services
 builder.Services.AddScoped<IAuthService, JwtTokenService>();
 builder.Services.AddScoped<IPricingService, PricingService>();
+builder.Services.AddScoped<IProfileService, ProfileService>();
 
 var app = builder.Build();
 

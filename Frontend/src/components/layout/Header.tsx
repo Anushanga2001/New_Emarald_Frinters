@@ -1,6 +1,6 @@
 import { useState } from 'react'
-import { Link, useNavigate, useLocation } from 'react-router-dom'
-import { Ship, Menu, X, User, LogOut } from 'lucide-react'
+import { Link, useLocation } from 'react-router-dom'
+import { Ship, Menu, X, User, LogOut, UserCircle } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { COMPANY_INFO } from '@/lib/constants'
 import { useAuth } from '@/hooks/useAuth'
@@ -8,7 +8,6 @@ import { useAuth } from '@/hooks/useAuth'
 export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const { isAuthenticated, user, logout } = useAuth()
-  const navigate = useNavigate()
   const location = useLocation()
 
   const navLinks = [
@@ -75,11 +74,19 @@ export function Header() {
                   <User className="h-4 w-4" />
                   Dashboard
                 </Link>
+                <Link
+                  to="/customer/profile"
+                  className={`transition-colors font-medium flex items-center gap-2 ${
+                    isActive('/customer/profile')
+                      ? 'text-primary border-b-2 border-primary pb-1'
+                      : 'text-slate-700 hover:text-primary'
+                  }`}
+                >
+                  <UserCircle className="h-4 w-4" />
+                  My Profile
+                </Link>
                 <Button
-                  onClick={() => {
-                    logout()
-                    navigate('/')
-                  }}
+                  onClick={logout}
                   variant="outline"
                   className="flex items-center gap-2"
                 >
@@ -139,11 +146,22 @@ export function Header() {
                   <User className="h-4 w-4" />
                   Dashboard
                 </Link>
+                <Link
+                  to="/customer/profile"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className={`px-4 py-2 rounded-lg transition-colors flex items-center gap-2 ${
+                    isActive('/customer/profile')
+                      ? 'bg-primary/10 text-primary font-semibold'
+                      : 'text-slate-700 hover:bg-slate-100'
+                  }`}
+                >
+                  <UserCircle className="h-4 w-4" />
+                  My Profile
+                </Link>
                 <Button
                   onClick={() => {
                     logout()
                     setMobileMenuOpen(false)
-                    navigate('/')
                   }}
                   variant="outline"
                   className="mt-2 flex items-center gap-2"

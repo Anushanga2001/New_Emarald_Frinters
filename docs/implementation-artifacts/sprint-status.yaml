@@ -46,8 +46,8 @@ development_status:
   1-3-user-login-with-jwt-authentication: done
   1-4-role-based-access-control-customer-admin-staff: done
   1-5-password-reset-via-email: done
-  1-6-user-profile-management: backlog
-  1-7-session-management-logout: backlog
+  1-6-user-profile-management: done
+  1-7-session-management-logout: review
   epic-1-retrospective: optional
 
   epic-2: backlog
