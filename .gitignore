@@ -5,6 +5,7 @@
 [Ll]ogs/
 **/bin\\/
 **/obj\\/
+**/bin\\[Dd]ebug/
 
 # Visual Studio
 .vs/
