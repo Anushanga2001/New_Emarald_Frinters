@@ -21,6 +21,7 @@ namespace Backend.Infrastructure.Data
         public DbSet<Document> Documents { get; set; }
         public DbSet<ContactForm> ContactForms { get; set; }
         public DbSet<Quote> Quotes { get; set; }
+        public DbSet<Notification> Notifications { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -162,6 +163,21 @@ namespace Backend.Infrastructure.Data
                     .WithMany()
                     .HasForeignKey(q => q.CustomerId)
                     .OnDelete(DeleteBehavior.SetNull);
+            });
+
+            // Notification configuration
+            modelBuilder.Entity<Notification>(entity =>
+            {
+                entity.HasKey(e => e.Id);
+                entity.Property(e => e.Title).IsRequired().HasMaxLength(200);
+                entity.Property(e => e.Message).IsRequired().HasMaxLength(500);
+                entity.Property(e => e.Type).HasConversion<int>();
+                entity.Property(e => e.ReferenceId).HasMaxLength(100);
+                entity.HasOne(e => e.User)
+                    .WithMany()
+                    .HasForeignKey(n => n.UserId)
+                    .OnDelete(DeleteBehavior.Cascade);
+                entity.HasIndex(e => new { e.UserId, e.IsRead });
             });
         }
     }

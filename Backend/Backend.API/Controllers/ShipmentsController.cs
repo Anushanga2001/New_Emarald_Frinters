@@ -8,7 +8,6 @@ using Backend.Domain.Entities;
 using Backend.Domain.Enums;
 using Backend.Infrastructure.Data;
 using Backend.Infrastructure.Services;
-
 namespace Backend.API.Controllers
 {
     [ApiController]
@@ -237,6 +236,22 @@ namespace Backend.API.Controllers
 
             await _context.SaveChangesAsync();
 
+            // Create notification for customer
+            var customerUser = await _context.Users.FirstOrDefaultAsync(u => u.Customer != null && u.Customer.Id == customer.Id);
+            if (customerUser != null)
+            {
+                _context.Notifications.Add(new Notification
+                {
+                    UserId = customerUser.Id,
+                    Title = "Shipment Created",
+                    Message = $"Your shipment {shipment.TrackingNumber} has been created and is pending pickup.",
+                    Type = NotificationType.ShipmentCreated,
+                    ReferenceId = shipment.TrackingNumber,
+                    CreatedAt = DateTime.UtcNow
+                });
+                await _context.SaveChangesAsync();
+            }
+
             return CreatedAtAction(nameof(GetShipment), new { id = shipment.Id }, 
                 await GetShipmentResponse(shipment.Id));
         }
@@ -271,6 +286,26 @@ namespace Backend.API.Controllers
             _context.TrackingEvents.Add(trackingEvent);
 
             await _context.SaveChangesAsync();
+
+            // Notify the customer about status change
+            var statusCustomer = await _context.Customers.Include(c => c.User).FirstOrDefaultAsync(c => c.Id == shipment.CustomerId);
+            if (statusCustomer?.User != null)
+            {
+                var notifType = dto.Status == ShipmentStatus.Delivered
+                    ? NotificationType.ShipmentDelivered
+                    : NotificationType.ShipmentStatusUpdate;
+                var statusLabel = dto.Status.ToString();
+                _context.Notifications.Add(new Notification
+                {
+                    UserId = statusCustomer.User.Id,
+                    Title = dto.Status == ShipmentStatus.Delivered ? "Shipment Delivered" : "Shipment Status Updated",
+                    Message = $"Your shipment {shipment.TrackingNumber} status changed to {statusLabel}.",
+                    Type = notifType,
+                    ReferenceId = shipment.TrackingNumber,
+                    CreatedAt = DateTime.UtcNow
+                });
+                await _context.SaveChangesAsync();
+            }
 
             return Ok(await GetShipmentResponse(shipment.Id));
         }
@@ -311,6 +346,22 @@ namespace Backend.API.Controllers
             _context.TrackingEvents.Add(trackingEvent);
 
             await _context.SaveChangesAsync();
+
+            // Notify the customer about cancellation
+            var cancelCustomer = await _context.Customers.Include(c => c.User).FirstOrDefaultAsync(c => c.Id == shipment.CustomerId);
+            if (cancelCustomer?.User != null)
+            {
+                _context.Notifications.Add(new Notification
+                {
+                    UserId = cancelCustomer.User.Id,
+                    Title = "Shipment Cancelled",
+                    Message = $"Your shipment {shipment.TrackingNumber} has been cancelled.",
+                    Type = NotificationType.ShipmentCancelled,
+                    ReferenceId = shipment.TrackingNumber,
+                    CreatedAt = DateTime.UtcNow
+                });
+                await _context.SaveChangesAsync();
+            }
 
             return Ok(await GetShipmentResponse(shipment.Id));
         }

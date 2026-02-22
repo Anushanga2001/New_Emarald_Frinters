@@ -12,6 +12,11 @@ export const queryKeys = {
     customer: (customerId: string | number) => ['invoices', 'customer', customerId] as const,
     detail: (id: string | number) => [...queryKeys.invoices.all, id] as const,
   },
+  notifications: {
+    all: ['notifications'] as const,
+    list: (page?: number) => [...queryKeys.notifications.all, 'list', page] as const,
+    unreadCount: ['notifications', 'unread-count'] as const,
+  },
   quotes: ['quotes'] as const,
   auth: {
     user: ['auth', 'user'] as const,
