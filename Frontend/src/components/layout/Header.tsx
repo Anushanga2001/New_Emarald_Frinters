@@ -4,6 +4,7 @@ import { Ship, Menu, X, User, LogOut, UserCircle } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { COMPANY_INFO } from '@/lib/constants'
 import { useAuth } from '@/hooks/useAuth'
+import { NotificationBell } from './NotificationBell'
 
 export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
@@ -63,6 +64,7 @@ export function Header() {
             ))}
             {isAuthenticated ? (
               <>
+                <NotificationBell />
                 <Link
                   to={user?.role === 'Admin' ? '/admin/dashboard' : '/customer/dashboard'}
                   className={`transition-colors font-medium flex items-center gap-2 ${
@@ -134,6 +136,9 @@ export function Header() {
             ))}
             {isAuthenticated ? (
               <>
+                <div className="px-4 py-2">
+                  <NotificationBell />
+                </div>
                 <Link
                   to={user?.role === 'Admin' ? '/admin/dashboard' : '/customer/dashboard'}
                   onClick={() => setMobileMenuOpen(false)}
