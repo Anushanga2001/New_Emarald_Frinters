@@ -7,6 +7,7 @@ namespace Backend.Domain.Enums
         ShipmentDelivered = 3,
         ShipmentCancelled = 4,
         QuoteCreated = 5,
-        General = 6
+        General = 6,
+        ContactMessage = 7
     }
 }

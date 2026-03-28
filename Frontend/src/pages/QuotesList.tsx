@@ -123,14 +123,6 @@ export function QuotesListPage() {
   const columnDefs = useMemo<ColDef<Quote>[]>(() => {
     const baseCols: ColDef<Quote>[] = [
       {
-        headerCheckboxSelection: true,
-        checkboxSelection: true,
-        width: 50,
-        pinned: 'left',
-        suppressHeaderMenuButton: true,
-        headerName: ''
-      },
-      { 
         field: 'id', 
         headerName: 'Quote', 
         width: 160,
@@ -211,7 +203,7 @@ export function QuotesListPage() {
 
   const defaultColDef = useMemo<ColDef>(() => ({
     sortable: true,
-    filter: true,
+    filter: false,
     resizable: true,
   }), [])
 
@@ -256,8 +248,8 @@ export function QuotesListPage() {
               paginationPageSize={25}
               paginationPageSizeSelector={[10, 25, 50, 100]}
               animateRows={true}
-              rowSelection="multiple"
-              suppressCellFocus={true}
+              enableCellTextSelection={true}
+              ensureDomOrder={true}
               rowHeight={48}
               headerHeight={48}
             />

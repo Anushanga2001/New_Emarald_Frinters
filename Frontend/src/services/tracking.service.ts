@@ -98,7 +98,7 @@ export async function trackShipment(trackingNumber: string): Promise<Shipment> {
   // Mock implementation
   return new Promise((resolve, reject) => {
     setTimeout(() => {
-      const shipment = MOCK_SHIPMENTS[trackingNumber]
+      const shipment = MOCK_SHIPMENTS[trackingNumber.trim().toUpperCase()]
       if (shipment) {
         resolve(shipment)
       } else {

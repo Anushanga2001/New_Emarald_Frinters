@@ -1,7 +1,11 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using Backend.Domain.Entities;
+using Backend.Domain.Enums;
 using Backend.Infrastructure.Data;
+using Backend.API.Hubs;
+using Backend.Application.DTOs.Notifications;
 
 namespace Backend.API.Controllers
 {
@@ -10,10 +14,12 @@ namespace Backend.API.Controllers
     public class ContactController : ControllerBase
     {
         private readonly AppDbContext _context;
+        private readonly IHubContext<NotificationHub> _hubContext;
 
-        public ContactController(AppDbContext context)
+        public ContactController(AppDbContext context, IHubContext<NotificationHub> hubContext)
         {
             _context = context;
+            _hubContext = hubContext;
         }
 
         [HttpPost]
@@ -21,9 +27,9 @@ namespace Backend.API.Controllers
         {
             try
             {
-                if (string.IsNullOrWhiteSpace(contactForm.Name) || 
-                    string.IsNullOrWhiteSpace(contactForm.Email) || 
-                    string.IsNullOrWhiteSpace(contactForm.Subject) || 
+                if (string.IsNullOrWhiteSpace(contactForm.Name) ||
+                    string.IsNullOrWhiteSpace(contactForm.Email) ||
+                    string.IsNullOrWhiteSpace(contactForm.Subject) ||
                     string.IsNullOrWhiteSpace(contactForm.Message))
                 {
                     return BadRequest(new { message = "Name, Email, Subject, and Message are required fields." });
@@ -36,9 +42,46 @@ namespace Backend.API.Controllers
                 _context.ContactForms.Add(contactForm);
                 await _context.SaveChangesAsync();
 
-                return Ok(new { 
+                // Create notifications for all admin users
+                var adminUsers = await _context.Users
+                    .Where(u => u.Role == UserRole.Admin && u.IsActive)
+                    .Select(u => u.Id)
+                    .ToListAsync();
+
+                var notifications = adminUsers.Select(adminId => new Notification
+                {
+                    UserId = adminId,
+                    Title = $"New Contact Message from {contactForm.Name}",
+                    Message = $"Subject: {contactForm.Subject} - {contactForm.Message}",
+                    Type = NotificationType.ContactMessage,
+                    ReferenceId = contactForm.ContactFormId.ToString(),
+                    CreatedAt = DateTime.UtcNow
+                }).ToList();
+
+                _context.Notifications.AddRange(notifications);
+                await _context.SaveChangesAsync();
+
+                // Push real-time notification to all connected admin users via SignalR
+                foreach (var notification in notifications)
+                {
+                    var dto = new NotificationResponseDto
+                    {
+                        Id = notification.Id,
+                        Title = notification.Title,
+                        Message = notification.Message,
+                        Type = notification.Type,
+                        IsRead = false,
+                        ReferenceId = notification.ReferenceId,
+                        CreatedAt = notification.CreatedAt
+                    };
+
+                    await _hubContext.Clients.Group("admins")
+                        .SendAsync("ReceiveNotification", dto);
+                }
+
+                return Ok(new {
                     message = "Thank you for contacting us! We'll get back to you soon.",
-                    contactFormId = contactForm.ContactFormId 
+                    contactFormId = contactForm.ContactFormId
                 });
             }
             catch (Exception)
@@ -65,4 +108,3 @@ namespace Backend.API.Controllers
         }
     }
 }
-

@@ -28,12 +28,22 @@ function App() {
         <Route element={<MainLayout />}>
           <Route path="/" element={<HomePage />} />
           <Route path="/services" element={<ServicesPage />} />
-          <Route path="/tracking" element={<TrackingPage />} />
-          <Route path="/quote" element={<QuotePage />} />
-          <Route path="/quotes" element={<QuotesListPage />} />
           <Route path="/about" element={<AboutPage />} />
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/faq" element={<FAQPage />} />
+        </Route>
+
+        {/* Auth-required routes (any signed-in user) */}
+        <Route
+          element={
+            <ProtectedRoute>
+              <MainLayout />
+            </ProtectedRoute>
+          }
+        >
+          <Route path="/tracking" element={<TrackingPage />} />
+          <Route path="/quote" element={<QuotePage />} />
+          <Route path="/quotes" element={<QuotesListPage />} />
         </Route>
 
         {/* Auth routes */}

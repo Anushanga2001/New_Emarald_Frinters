@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
-import { Bell, Check, CheckCheck, Package, Truck, XCircle, Info } from 'lucide-react'
+import { Bell, Check, CheckCheck, Package, Truck, XCircle, Info, MessageSquare } from 'lucide-react'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { queryKeys } from '@/services/queryKeys'
 import {
@@ -10,6 +10,7 @@ import {
   NotificationType,
 } from '@/services/notifications.service'
 import type { NotificationResponse } from '@/services/notifications.service'
+import { useNotificationHub } from '@/hooks/useNotificationHub'
 
 function getNotificationIcon(type: number) {
   switch (type) {
@@ -21,6 +22,8 @@ function getNotificationIcon(type: number) {
       return <Check className="h-4 w-4 text-green-500" />
     case NotificationType.ShipmentCancelled:
       return <XCircle className="h-4 w-4 text-red-500" />
+    case NotificationType.ContactMessage:
+      return <MessageSquare className="h-4 w-4 text-purple-500" />
     default:
       return <Info className="h-4 w-4 text-slate-500" />
   }
@@ -45,6 +48,9 @@ export function NotificationBell() {
   const [isOpen, setIsOpen] = useState(false)
   const dropdownRef = useRef<HTMLDivElement>(null)
   const queryClient = useQueryClient()
+
+  // Connect to SignalR hub for real-time notifications
+  useNotificationHub()
 
   const { data: unreadData } = useQuery({
     queryKey: queryKeys.notifications.unreadCount,
