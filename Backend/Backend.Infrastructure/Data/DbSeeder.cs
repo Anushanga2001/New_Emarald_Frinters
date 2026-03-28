@@ -8,6 +8,47 @@ namespace Backend.Infrastructure.Data
     {
         public static async Task SeedAsync(AppDbContext context)
         {
+            // Ensure migration history is consistent before applying migrations.
+            // If tables already exist but __EFMigrationsHistory is missing/empty,
+            // mark the initial migration as applied to avoid "relation already exists" errors.
+            var conn = context.Database.GetDbConnection();
+            await conn.OpenAsync();
+            using (var cmd = conn.CreateCommand())
+            {
+                // Create the history table if it doesn't exist
+                cmd.CommandText = @"
+                    CREATE TABLE IF NOT EXISTS ""__EFMigrationsHistory"" (
+                        ""MigrationId"" VARCHAR(150) NOT NULL PRIMARY KEY,
+                        ""ProductVersion"" VARCHAR(32) NOT NULL
+                    );";
+                await cmd.ExecuteNonQueryAsync();
+
+                // Check if initial migration is already recorded
+                cmd.CommandText = @"
+                    SELECT COUNT(*) FROM ""__EFMigrationsHistory""
+                    WHERE ""MigrationId"" = '20260201064125_InitialPostgreSQLMigration';";
+                var migrationExists = Convert.ToInt64(await cmd.ExecuteScalarAsync()) > 0;
+
+                if (!migrationExists)
+                {
+                    // Check if tables were already created outside of EF migrations
+                    cmd.CommandText = @"
+                        SELECT COUNT(*) FROM information_schema.tables
+                        WHERE table_schema = 'public' AND table_name = 'Users';";
+                    var tablesExist = Convert.ToInt64(await cmd.ExecuteScalarAsync()) > 0;
+
+                    if (tablesExist)
+                    {
+                        // Tables exist but migration not recorded — mark it as applied
+                        cmd.CommandText = @"
+                            INSERT INTO ""__EFMigrationsHistory"" (""MigrationId"", ""ProductVersion"")
+                            VALUES ('20260201064125_InitialPostgreSQLMigration', '10.0.0');";
+                        await cmd.ExecuteNonQueryAsync();
+                    }
+                }
+            }
+            await conn.CloseAsync();
+
             // Apply pending migrations automatically
             await context.Database.MigrateAsync();
 
