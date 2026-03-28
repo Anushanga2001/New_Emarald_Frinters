@@ -11,15 +11,17 @@ export function Header() {
   const { isAuthenticated, user, logout } = useAuth()
   const location = useLocation()
 
-  const navLinks = [
-    { name: 'Home', href: '/' },
-    { name: 'Services', href: '/services' },
-    { name: 'Track Shipment', href: '/tracking' },
-    { name: 'Get Quote', href: '/quote' },
-    { name: 'All Quotes', href: '/quotes' },
-    { name: 'About', href: '/about' },
-    { name: 'Contact', href: '/contact' },
+  const allNavLinks = [
+    { name: 'Home', href: '/', auth: false },
+    { name: 'Services', href: '/services', auth: false },
+    { name: 'Track Shipment', href: '/tracking', auth: true },
+    { name: 'Get Quote', href: '/quote', auth: true },
+    { name: 'All Quotes', href: '/quotes', auth: true },
+    { name: 'About', href: '/about', auth: false },
+    { name: 'Contact', href: '/contact', auth: false },
   ]
+
+  const navLinks = allNavLinks.filter((link) => !link.auth || isAuthenticated)
 
   // Helper function to check if a link is active
   const isActive = (href: string) => {

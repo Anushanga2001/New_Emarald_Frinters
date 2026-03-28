@@ -3,8 +3,10 @@ import { Ship, Plane, Truck, Warehouse, FileText, Package, ArrowRight } from 'lu
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { SERVICES } from '@/lib/constants'
+import { useAuth } from '@/hooks/useAuth'
 
 export function ServicesPage() {
+  const { isAuthenticated } = useAuth()
   const iconMap: Record<string, any> = {
     Ship, Plane, Truck, Warehouse, FileText, Package
   }
@@ -60,12 +62,20 @@ export function ServicesPage() {
                       ))}
                     </ul>
                     <div className="flex gap-2">
-                      <Link to="/quote" className="flex-1">
-                        <Button className="w-full">
-                          Get Quote
-                          <ArrowRight className="ml-2 h-4 w-4" />
-                        </Button>
-                      </Link>
+                      {isAuthenticated ? (
+                        <Link to="/quote" className="flex-1">
+                          <Button className="w-full">
+                            Get Quote
+                            <ArrowRight className="ml-2 h-4 w-4" />
+                          </Button>
+                        </Link>
+                      ) : (
+                        <Link to="/auth/login" className="flex-1">
+                          <Button variant="secondary" className="w-full">
+                            Login to Get Quote
+                          </Button>
+                        </Link>
+                      )}
                       <Link to="/contact" className="flex-1">
                         <Button variant="outline" className="w-full">
                           Contact Us

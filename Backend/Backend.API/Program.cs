@@ -9,6 +9,7 @@ using Backend.Infrastructure.Services;
 using Serilog;
 using FluentValidation;
 using SharpGrip.FluentValidation.AutoValidation.Mvc.Extensions;
+using Backend.API.Hubs;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -30,7 +31,11 @@ builder.Host.UseSerilog((context, configuration) =>
 });
 
 // Add services to the container.
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.PropertyNamingPolicy = System.Text.Json.JsonNamingPolicy.CamelCase;
+    });
 
 // FluentValidation with auto-validation (Story 1.1, updated Story 1.2)
 builder.Services.AddValidatorsFromAssemblyContaining<Backend.Application.Validators.RegisterDtoValidator>();
@@ -129,6 +134,9 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
 builder.Services.AddAuthorization();
 
+// SignalR for real-time notifications
+builder.Services.AddSignalR();
+
 // Application Services
 builder.Services.AddScoped<IAuthService, JwtTokenService>();
 builder.Services.AddScoped<IPricingService, PricingService>();
@@ -179,5 +187,6 @@ if (!app.Environment.IsDevelopment())
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
+app.MapHub<NotificationHub>("/hubs/notifications");
 
 app.Run();

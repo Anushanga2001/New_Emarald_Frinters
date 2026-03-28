@@ -45,97 +45,100 @@ namespace Backend.Infrastructure.Services
 
         public async Task<ProfileResponseDto> UpdateProfileAsync(int userId, UpdateProfileDto dto)
         {
-            // Use transaction to ensure both User and Customer are updated atomically
-            using var transaction = await _context.Database.BeginTransactionAsync();
-
-            try
+            var strategy = _context.Database.CreateExecutionStrategy();
+            return await strategy.ExecuteAsync(async () =>
             {
-                var user = await _context.Users
-                    .Include(u => u.Customer)
-                    .FirstOrDefaultAsync(u => u.Id == userId);
+                using var transaction = await _context.Database.BeginTransactionAsync();
 
-                if (user == null)
+                try
                 {
-                    _logger.LogWarning("Profile update attempted for non-existent user ID: {UserId}", userId);
-                    return new ProfileResponseDto
-                    {
-                        Success = false,
-                        Message = "User not found"
-                    };
-                }
+                    var user = await _context.Users
+                        .Include(u => u.Customer)
+                        .FirstOrDefaultAsync(u => u.Id == userId);
 
-                // Check email uniqueness if email is being changed (case-insensitive)
-                if (dto.Email.ToLowerInvariant() != user.Email.ToLowerInvariant())
-                {
-                    var existingUser = await _context.Users
-                        .FirstOrDefaultAsync(u => u.Email.ToLower() == dto.Email.ToLower() && u.Id != userId);
-
-                    if (existingUser != null)
+                    if (user == null)
                     {
-                        _logger.LogWarning("Profile update failed - email already exists: {Email}", dto.Email);
+                        _logger.LogWarning("Profile update attempted for non-existent user ID: {UserId}", userId);
                         return new ProfileResponseDto
                         {
                             Success = false,
-                            Message = "Email already exists"
+                            Message = "User not found"
                         };
                     }
-                }
 
-                // Parse name into first and last name for User entity
-                // Handle edge cases: trim, multiple spaces, single name
-                var trimmedName = dto.Name.Trim();
-                var nameParts = trimmedName.Split(' ', 2, StringSplitOptions.RemoveEmptyEntries);
-                var firstName = nameParts.Length > 0 ? nameParts[0] : trimmedName;
-                var lastName = nameParts.Length > 1 ? nameParts[1] : string.Empty;
-
-                // Update User fields
-                user.Email = dto.Email;
-                user.FirstName = firstName;
-                user.LastName = lastName;
-                user.PhoneNumber = dto.Phone;
-                user.UpdatedAt = DateTime.UtcNow;
-
-                // Update Customer fields if customer record exists
-                // Note: Admin/Staff users may not have a Customer record
-                if (user.Customer != null)
-                {
-                    user.Customer.Name = dto.Name;
-                    user.Customer.Email = dto.Email;
-                    user.Customer.Phone = dto.Phone; // Keep consistent with User.PhoneNumber (nullable)
-                    user.Customer.CompanyName = dto.CompanyName;
-                    user.Customer.UpdatedAt = DateTime.UtcNow;
-                }
-                else
-                {
-                    _logger.LogInformation("User {UserId} has no Customer record (Admin/Staff) - only User entity updated", userId);
-                }
-
-                await _context.SaveChangesAsync();
-                await transaction.CommitAsync();
-
-                _logger.LogInformation("Profile updated successfully for user {UserId} ({Email})", userId, dto.Email);
-
-                return new ProfileResponseDto
-                {
-                    Success = true,
-                    Message = "Profile updated successfully",
-                    Profile = new ProfileDto
+                    // Check email uniqueness if email is being changed (case-insensitive)
+                    if (dto.Email.ToLowerInvariant() != user.Email.ToLowerInvariant())
                     {
-                        Id = user.Id,
-                        Name = dto.Name,
-                        Email = dto.Email,
-                        Phone = dto.Phone,
-                        CompanyName = dto.CompanyName,
-                        CreatedAt = user.CreatedAt
+                        var existingUser = await _context.Users
+                            .FirstOrDefaultAsync(u => u.Email.ToLower() == dto.Email.ToLower() && u.Id != userId);
+
+                        if (existingUser != null)
+                        {
+                            _logger.LogWarning("Profile update failed - email already exists: {Email}", dto.Email);
+                            return new ProfileResponseDto
+                            {
+                                Success = false,
+                                Message = "Email already exists"
+                            };
+                        }
                     }
-                };
-            }
-            catch (Exception ex)
-            {
-                await transaction.RollbackAsync();
-                _logger.LogError(ex, "Failed to update profile for user {UserId}", userId);
-                throw;
-            }
+
+                    // Parse name into first and last name for User entity
+                    // Handle edge cases: trim, multiple spaces, single name
+                    var trimmedName = dto.Name.Trim();
+                    var nameParts = trimmedName.Split(' ', 2, StringSplitOptions.RemoveEmptyEntries);
+                    var firstName = nameParts.Length > 0 ? nameParts[0] : trimmedName;
+                    var lastName = nameParts.Length > 1 ? nameParts[1] : string.Empty;
+
+                    // Update User fields
+                    user.Email = dto.Email;
+                    user.FirstName = firstName;
+                    user.LastName = lastName;
+                    user.PhoneNumber = dto.Phone;
+                    user.UpdatedAt = DateTime.UtcNow;
+
+                    // Update Customer fields if customer record exists
+                    // Note: Admin/Staff users may not have a Customer record
+                    if (user.Customer != null)
+                    {
+                        user.Customer.Name = dto.Name;
+                        user.Customer.Email = dto.Email;
+                        user.Customer.Phone = dto.Phone;
+                        user.Customer.CompanyName = dto.CompanyName;
+                        user.Customer.UpdatedAt = DateTime.UtcNow;
+                    }
+                    else
+                    {
+                        _logger.LogInformation("User {UserId} has no Customer record (Admin/Staff) - only User entity updated", userId);
+                    }
+
+                    await _context.SaveChangesAsync();
+                    await transaction.CommitAsync();
+
+                    _logger.LogInformation("Profile updated successfully for user {UserId} ({Email})", userId, dto.Email);
+
+                    return new ProfileResponseDto
+                    {
+                        Success = true,
+                        Message = "Profile updated successfully",
+                        Profile = new ProfileDto
+                        {
+                            Id = user.Id,
+                            Name = dto.Name,
+                            Email = dto.Email,
+                            Phone = dto.Phone,
+                            CompanyName = dto.CompanyName,
+                            CreatedAt = user.CreatedAt
+                        }
+                    };
+                }
+                catch (Exception ex)
+                {
+                    await transaction.RollbackAsync();
+                    _logger.LogError(ex, "Failed to update profile for user {UserId}", userId);
+                    throw;
+                }
+            });
         }
     }
 }

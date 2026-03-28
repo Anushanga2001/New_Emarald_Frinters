@@ -148,55 +148,58 @@ namespace Backend.Infrastructure.Services
                 throw new InvalidOperationException("Email already exists");
             }
 
-            // Use transaction to ensure User and Customer are created atomically
-            using var transaction = await _context.Database.BeginTransactionAsync();
-            try
+            // Use execution strategy to support retrying with user-initiated transactions
+            var strategy = _context.Database.CreateExecutionStrategy();
+            return await strategy.ExecuteAsync(async () =>
             {
-                var user = new User
+                using var transaction = await _context.Database.BeginTransactionAsync();
+                try
                 {
-                    Email = registerDto.Email,
-                    PasswordHash = BCrypt.Net.BCrypt.HashPassword(registerDto.Password),
-                    FirstName = registerDto.FirstName,
-                    LastName = registerDto.LastName,
-                    PhoneNumber = registerDto.PhoneNumber,
-                    Role = UserRole.Customer,
-                    IsActive = true,
-                    CreatedAt = DateTime.UtcNow
-                };
+                    var user = new User
+                    {
+                        Email = registerDto.Email,
+                        PasswordHash = BCrypt.Net.BCrypt.HashPassword(registerDto.Password),
+                        FirstName = registerDto.FirstName,
+                        LastName = registerDto.LastName,
+                        PhoneNumber = registerDto.PhoneNumber,
+                        Role = UserRole.Customer,
+                        IsActive = true,
+                        CreatedAt = DateTime.UtcNow
+                    };
 
-                _context.Users.Add(user);
-                await _context.SaveChangesAsync();
+                    _context.Users.Add(user);
+                    await _context.SaveChangesAsync();
 
-                var customer = new Customer
+                    var customer = new Customer
+                    {
+                        UserId = user.Id,
+                        Name = $"{registerDto.FirstName} {registerDto.LastName}".Trim(),
+                        Email = registerDto.Email,
+                        Phone = registerDto.PhoneNumber ?? string.Empty,
+                        CompanyName = registerDto.CompanyName,
+                        TaxId = registerDto.TaxId,
+                        BillingAddress = registerDto.BillingAddress,
+                        ShippingAddress = registerDto.ShippingAddress
+                    };
+
+                    _context.Customers.Add(customer);
+                    await _context.SaveChangesAsync();
+
+                    await transaction.CommitAsync();
+
+                    return new RegistrationSuccessDto
+                    {
+                        Success = true,
+                        Message = "Registration successful. Please log in with your credentials.",
+                        Email = user.Email
+                    };
+                }
+                catch
                 {
-                    UserId = user.Id,
-                    Name = $"{registerDto.FirstName} {registerDto.LastName}".Trim(),
-                    Email = registerDto.Email,
-                    Phone = registerDto.PhoneNumber ?? string.Empty,
-                    CompanyName = registerDto.CompanyName,
-                    TaxId = registerDto.TaxId,
-                    BillingAddress = registerDto.BillingAddress,
-                    ShippingAddress = registerDto.ShippingAddress
-                };
-
-                _context.Customers.Add(customer);
-                await _context.SaveChangesAsync();
-
-                await transaction.CommitAsync();
-
-                // Return success message - user must log in separately
-                return new RegistrationSuccessDto
-                {
-                    Success = true,
-                    Message = "Registration successful. Please log in with your credentials.",
-                    Email = user.Email
-                };
-            }
-            catch
-            {
-                await transaction.RollbackAsync();
-                throw;
-            }
+                    await transaction.RollbackAsync();
+                    throw;
+                }
+            });
         }
 
         public async Task<ForgotPasswordResponseDto> ForgotPasswordAsync(ForgotPasswordDto dto)

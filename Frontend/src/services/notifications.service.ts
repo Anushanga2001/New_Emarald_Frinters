@@ -21,6 +21,7 @@ export const NotificationType = {
   ShipmentCancelled: 4,
   QuoteCreated: 5,
   General: 6,
+  ContactMessage: 7,
 } as const
 
 export async function getNotifications(page = 1, pageSize = 20): Promise<NotificationResponse[]> {
