@@ -30,9 +30,11 @@ export function useAuth() {
   const registerMutation = useMutation({
     mutationFn: (data: RegisterRequest) => authApi.register(data),
     onSuccess: () => {
-      // Registration successful - redirect to login page with success message
-      // User must log in with their new credentials
+      toast.success('Registration successful! Please log in with your credentials.')
       navigate('/auth/login?registered=true')
+    },
+    onError: (error: Error) => {
+      toast.error(error.message || 'Registration failed. Please try again.')
     },
   })
 
@@ -47,14 +49,12 @@ export function useAuth() {
 
   // Role helper utilities
   const isAdmin = user?.role === 'Admin'
-  const isStaff = user?.role === 'Staff'
   const isCustomer = user?.role === 'Customer'
 
   return {
     user,
     isAuthenticated,
     isAdmin,
-    isStaff,
     isCustomer,
     login: loginMutation.mutate,
     register: registerMutation.mutate,

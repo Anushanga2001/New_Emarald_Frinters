@@ -33,7 +33,9 @@ export function useNotificationHub() {
       queryClient.invalidateQueries({ queryKey: queryKeys.notifications.all })
       queryClient.invalidateQueries({ queryKey: queryKeys.notifications.unreadCount })
 
-      toast.info(`${notification.title} — ${notification.message}`)
+      toast.info(`${notification.title} — ${notification.message}`, {
+        toastId: `notification-${notification.id}`,
+      })
     })
 
     connectionRef.current = connection
