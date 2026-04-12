@@ -68,7 +68,7 @@ export function ContactPage() {
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             {/* Contact Information */}
-            <div className="space-y-6">
+            <div className="h-full flex flex-col items-center justify-center space-y-6">
               <Card>
                 <CardHeader>
                   <CardTitle>Get in Touch</CardTitle>

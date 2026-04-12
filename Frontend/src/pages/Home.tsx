@@ -89,7 +89,7 @@ export function HomePage() {
             {SERVICES.map((service) => {
               const Icon = iconMap[service.icon]
               return (
-                <Card key={service.id} className="hover:shadow-lg transition-shadow">
+                <Card key={service.id} className="bg-orange-50 hover:shadow-lg transition-shadow">
                   <CardHeader>
                     <div className="bg-primary/10 w-12 h-12 rounded-lg flex items-center justify-center mb-4">
                       <Icon className="h-6 w-6 text-primary" />
@@ -98,7 +98,7 @@ export function HomePage() {
                     <CardDescription>{service.description}</CardDescription>
                   </CardHeader>
                   <CardContent>
-                    <Link to={`/services/${service.id}`}>
+                    <Link to={`/services`}>
                       <Button variant="link" className="p-0">
                         Learn More <ArrowRight className="ml-1 h-4 w-4" />
                       </Button>

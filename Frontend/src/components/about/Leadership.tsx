@@ -35,7 +35,7 @@ export function Leadership({ leaders = defaultLeaders }: LeadershipProps) {
         <h2 className="text-3xl font-bold mb-12 text-center">Our Leadership</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
           {leaders.map((leader) => (
-            <Card key={leader.name} className="text-center overflow-hidden hover:shadow-lg transition-shadow">
+            <Card key={leader.name} className="bg-orange-50 text-center overflow-hidden hover:shadow-lg transition-shadow">
               <CardContent className="pt-6 pb-6">
                 <div className="mb-4">
                   <img
