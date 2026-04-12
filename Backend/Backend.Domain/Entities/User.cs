@@ -19,11 +19,20 @@ namespace Backend.Domain.Entities
         public string? PasswordResetToken { get; set; }
         public DateTime? PasswordResetTokenExpiry { get; set; }
 
+        // Business fields (consolidated from Customer)
+        public string? Address { get; set; }
+        public string? City { get; set; }
+        public string? CompanyName { get; set; }
+        public string? TaxId { get; set; }
+        public string? BillingAddress { get; set; }
+        public string? ShippingAddress { get; set; }
+        public decimal CreditLimit { get; set; } = 0;
+        public decimal CurrentBalance { get; set; } = 0;
+
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public DateTime? UpdatedAt { get; set; }
 
         // Navigation properties
-        public Customer? Customer { get; set; }
     }
 }
 

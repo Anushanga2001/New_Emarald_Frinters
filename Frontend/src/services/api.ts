@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { toast } from 'sonner'
+import { toast } from 'react-toastify'
 
 // API base URL - points to .NET backend
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5253/api'

@@ -2,7 +2,7 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
-import { toast } from 'sonner'
+import { toast } from 'react-toastify'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -122,7 +122,7 @@ export function ProfilePage() {
 
         <Card>
           <CardHeader>
-            <div className="flex items-center gap-3">
+            <div className="bg-gray-100 flex items-center gap-3">
               <div className="bg-primary rounded-full p-3">
                 <User className="h-6 w-6 text-white" />
               </div>

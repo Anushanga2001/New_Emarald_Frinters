@@ -35,7 +35,6 @@ export function Header() {
     {
       name: 'Services',
       items: [
-        { name: 'Track Shipment', href: '/tracking' },
         { name: 'Get a Quote', href: '/quote' },
         { name: 'All Quotes', href: '/quotes' },
       ],

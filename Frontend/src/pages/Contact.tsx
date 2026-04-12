@@ -68,7 +68,7 @@ export function ContactPage() {
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             {/* Contact Information */}
-            <div className="h-full flex flex-col items-center justify-center space-y-6">
+            <div className="bg-gray-100 h-full flex flex-col items-center justify-center space-y-6">
               <Card>
                 <CardHeader>
                   <CardTitle>Get in Touch</CardTitle>
@@ -113,7 +113,7 @@ export function ContactPage() {
             </div>
 
             {/* Contact Form */}
-            <div className="lg:col-span-2">
+            <div className="bg-gray-100 lg:col-span-2">
               <Card>
                 <CardHeader>
                   <CardTitle>Send us a Message</CardTitle>

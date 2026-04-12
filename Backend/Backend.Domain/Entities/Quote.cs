@@ -17,8 +17,8 @@ namespace Backend.Domain.Entities
         public int EstimatedDays { get; set; }
         public decimal Distance { get; set; }
         public bool IsBooked { get; set; } = false;
-        public int? CustomerId { get; set; }
-        public Customer? Customer { get; set; }
+        public int? UserId { get; set; }
+        public User? User { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public DateTime? BookedAt { get; set; }
     }

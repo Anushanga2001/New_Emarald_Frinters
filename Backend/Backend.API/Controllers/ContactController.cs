@@ -61,18 +61,19 @@ namespace Backend.API.Controllers
                 _context.Notifications.AddRange(notifications);
                 await _context.SaveChangesAsync();
 
-                // Push real-time notification to all connected admin users via SignalR
-                foreach (var notification in notifications)
+                // Push a single real-time notification to all connected admins via SignalR
+                var firstNotification = notifications.FirstOrDefault();
+                if (firstNotification != null)
                 {
                     var dto = new NotificationResponseDto
                     {
-                        Id = notification.Id,
-                        Title = notification.Title,
-                        Message = notification.Message,
-                        Type = notification.Type,
+                        Id = firstNotification.Id,
+                        Title = firstNotification.Title,
+                        Message = firstNotification.Message,
+                        Type = firstNotification.Type,
                         IsRead = false,
-                        ReferenceId = notification.ReferenceId,
-                        CreatedAt = notification.CreatedAt
+                        ReferenceId = firstNotification.ReferenceId,
+                        CreatedAt = firstNotification.CreatedAt
                     };
 
                     await _hubContext.Clients.Group("admins")
@@ -104,6 +105,26 @@ namespace Backend.API.Controllers
             catch (Exception)
             {
                 return StatusCode(500, new { message = "An error occurred while retrieving contact forms." });
+            }
+        }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetContactForm(int id)
+        {
+            try
+            {
+                var contactForm = await _context.ContactForms.FindAsync(id);
+
+                if (contactForm == null)
+                {
+                    return NotFound(new { message = "Contact message not found." });
+                }
+
+                return Ok(contactForm);
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, new { message = "An error occurred while retrieving the contact message." });
             }
         }
     }

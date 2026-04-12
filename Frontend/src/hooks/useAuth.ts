@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useNavigate } from 'react-router-dom'
-import { toast } from 'sonner'
+import { toast } from 'react-toastify'
 import { authApi, type LoginRequest, type RegisterRequest } from '@/services/authApi'
 import { queryKeys } from '@/services/queryKeys'
 
@@ -14,12 +14,16 @@ export function useAuth() {
     mutationFn: (data: LoginRequest) => authApi.login(data),
     onSuccess: (data) => {
       queryClient.setQueryData(queryKeys.auth.user, data.user)
+      toast.success(`Welcome back, ${data.user.name}!`)
       // Redirect based on user role
       if (data.user.role === 'Admin') {
         navigate('/admin/dashboard')
       } else {
         navigate('/customer/dashboard')
       }
+    },
+    onError: (error: Error) => {
+      toast.error(error.message || 'Login failed. Please check your credentials.')
     },
   })
 

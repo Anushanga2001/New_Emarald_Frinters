@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { toast } from 'sonner'
+import { toast } from 'react-toastify'
 import { Calculator, ArrowRight } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -54,9 +54,8 @@ export function QuotePage() {
     setBookingLoading(true)
     try {
       const savedQuote = await saveQuote(quote)
-      toast.success('Booking Confirmed!', {
-        description: `Your shipment has been booked successfully. Reference: ${savedQuote.id}`,
-        duration: 5000,
+      toast.success(`Booking Confirmed! Your shipment has been booked successfully. Reference: ${savedQuote.id}`, {
+        autoClose: 5000,
       })
       // Reset to start new quote after successful booking
       setTimeout(() => {

@@ -1,23 +1,3 @@
-export interface Shipment {
-  id: string
-  trackingNumber: string
-  status: string
-  origin: string
-  destination: string
-  currentLocation: string
-  estimatedDelivery: string
-  service: string
-  weight: number
-  timeline: ShipmentEvent[]
-}
-
-export interface ShipmentEvent {
-  date: string
-  status: string
-  location: string
-  description: string
-}
-
 export interface Quote {
   id?: string
   origin: string
@@ -69,7 +49,6 @@ export interface User {
   firstName: string
   lastName: string
   role: string
-  customerId?: number
 }
 
 export interface AuthResponse {

@@ -1,10 +1,10 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import { Toaster } from 'sonner'
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 import { MainLayout } from './components/layout/MainLayout'
 import { ProtectedRoute } from './components/auth/ProtectedRoute'
 import { HomePage } from './pages/Home'
 import { ServicesPage } from './pages/Services'
-import { TrackingPage } from './pages/Tracking'
 import { QuotePage } from './pages/Quote'
 import { QuotesListPage } from './pages/QuotesList'
 import { AboutPage } from './pages/About'
@@ -17,11 +17,21 @@ import { ResetPasswordPage } from './pages/auth/ResetPassword'
 import { CustomerDashboard } from './pages/customer/Dashboard'
 import { ProfilePage } from './pages/customer/Profile'
 import { AdminDashboard } from './pages/admin/Dashboard'
+import { ContactMessagePage } from './pages/admin/ContactMessage'
 
 function App() {
   return (
     <>
-    <Toaster position="top-center" richColors />
+    <ToastContainer
+      position="top-right"
+      autoClose={4000}
+      hideProgressBar={false}
+      newestOnTop
+      closeOnClick
+      pauseOnHover
+      draggable
+      theme="light"
+    />
     <BrowserRouter>
       <Routes>
         {/* Public routes */}
@@ -41,7 +51,6 @@ function App() {
             </ProtectedRoute>
           }
         >
-          <Route path="/tracking" element={<TrackingPage />} />
           <Route path="/quote" element={<QuotePage />} />
           <Route path="/quotes" element={<QuotesListPage />} />
         </Route>
@@ -75,6 +84,7 @@ function App() {
           }
         >
           <Route path="dashboard" element={<AdminDashboard />} />
+          <Route path="contact-messages/:id" element={<ContactMessagePage />} />
         </Route>
       </Routes>
     </BrowserRouter>
