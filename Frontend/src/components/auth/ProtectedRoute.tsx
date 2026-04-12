@@ -3,7 +3,7 @@ import { authApi } from '@/services/authApi'
 
 interface ProtectedRouteProps {
   children: React.ReactNode
-  requiredRole?: 'Customer' | 'Admin' | 'Staff'
+  requiredRole?: 'Customer' | 'Admin'
 }
 
 export function ProtectedRoute({ children, requiredRole }: ProtectedRouteProps) {

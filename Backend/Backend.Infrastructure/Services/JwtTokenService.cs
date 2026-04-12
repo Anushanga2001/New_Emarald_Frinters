@@ -122,7 +122,6 @@ namespace Backend.Infrastructure.Services
             _logger.LogInformation("User {Email} logged in successfully", user.Email);
 
             var token = GenerateJwtToken(user);
-            var customer = await _context.Customers.FirstOrDefaultAsync(c => c.UserId == user.Id);
 
             return new AuthResponseDto
             {
@@ -133,8 +132,7 @@ namespace Backend.Infrastructure.Services
                     Email = user.Email,
                     FirstName = user.FirstName,
                     LastName = user.LastName,
-                    Role = user.Role.ToString(),
-                    CustomerId = customer?.Id
+                    Role = user.Role.ToString()
                 }
             };
         }
@@ -148,58 +146,31 @@ namespace Backend.Infrastructure.Services
                 throw new InvalidOperationException("Email already exists");
             }
 
-            // Use execution strategy to support retrying with user-initiated transactions
-            var strategy = _context.Database.CreateExecutionStrategy();
-            return await strategy.ExecuteAsync(async () =>
+            var user = new User
             {
-                using var transaction = await _context.Database.BeginTransactionAsync();
-                try
-                {
-                    var user = new User
-                    {
-                        Email = registerDto.Email,
-                        PasswordHash = BCrypt.Net.BCrypt.HashPassword(registerDto.Password),
-                        FirstName = registerDto.FirstName,
-                        LastName = registerDto.LastName,
-                        PhoneNumber = registerDto.PhoneNumber,
-                        Role = UserRole.Customer,
-                        IsActive = true,
-                        CreatedAt = DateTime.UtcNow
-                    };
+                Email = registerDto.Email,
+                PasswordHash = BCrypt.Net.BCrypt.HashPassword(registerDto.Password),
+                FirstName = registerDto.FirstName,
+                LastName = registerDto.LastName,
+                PhoneNumber = registerDto.PhoneNumber,
+                Role = UserRole.Customer,
+                IsActive = true,
+                CompanyName = registerDto.CompanyName,
+                TaxId = registerDto.TaxId,
+                BillingAddress = registerDto.BillingAddress,
+                ShippingAddress = registerDto.ShippingAddress,
+                CreatedAt = DateTime.UtcNow
+            };
 
-                    _context.Users.Add(user);
-                    await _context.SaveChangesAsync();
+            _context.Users.Add(user);
+            await _context.SaveChangesAsync();
 
-                    var customer = new Customer
-                    {
-                        UserId = user.Id,
-                        Name = $"{registerDto.FirstName} {registerDto.LastName}".Trim(),
-                        Email = registerDto.Email,
-                        Phone = registerDto.PhoneNumber ?? string.Empty,
-                        CompanyName = registerDto.CompanyName,
-                        TaxId = registerDto.TaxId,
-                        BillingAddress = registerDto.BillingAddress,
-                        ShippingAddress = registerDto.ShippingAddress
-                    };
-
-                    _context.Customers.Add(customer);
-                    await _context.SaveChangesAsync();
-
-                    await transaction.CommitAsync();
-
-                    return new RegistrationSuccessDto
-                    {
-                        Success = true,
-                        Message = "Registration successful. Please log in with your credentials.",
-                        Email = user.Email
-                    };
-                }
-                catch
-                {
-                    await transaction.RollbackAsync();
-                    throw;
-                }
-            });
+            return new RegistrationSuccessDto
+            {
+                Success = true,
+                Message = "Registration successful. Please log in with your credentials.",
+                Email = user.Email
+            };
         }
 
         public async Task<ForgotPasswordResponseDto> ForgotPasswordAsync(ForgotPasswordDto dto)

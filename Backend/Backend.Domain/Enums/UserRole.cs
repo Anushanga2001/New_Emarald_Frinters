@@ -2,8 +2,7 @@ namespace Backend.Domain.Enums
 {
     public enum UserRole
     {
-        Customer = 1,
-        Admin = 2,
-        Staff = 3
+        Admin = 1,
+        Customer = 2
     }
 }

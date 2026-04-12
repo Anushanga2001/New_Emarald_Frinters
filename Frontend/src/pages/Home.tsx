@@ -1,13 +1,10 @@
-import { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { Ship, Plane, Truck, Warehouse, FileText, Package, ArrowRight, CheckCircle2, Search } from 'lucide-react'
+import { Ship, Plane, Truck, Warehouse, FileText, Package, ArrowRight, CheckCircle2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { SERVICES } from '@/lib/constants'
 
 export function HomePage() {
-  const [trackingNumber, setTrackingNumber] = useState('')
 
   const features = [
     { icon: CheckCircle2, title: '24/7 Support', description: 'Round-the-clock customer service' },
@@ -46,32 +43,7 @@ export function HomePage() {
               </Link>
             </div>
 
-            {/* Quick Track Widget */}
-            <Card className="max-w-2xl mx-auto bg-white/95 backdrop-blur">
-              <CardHeader>
-                <CardTitle className="text-left">Track Your Shipment</CardTitle>
-                <CardDescription className="text-left">Enter your tracking number to get real-time updates</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="flex gap-2">
-                  <Input
-                    placeholder="Enter tracking number (e.g., LS2024001)"
-                    value={trackingNumber}
-                    onChange={(e) => setTrackingNumber(e.target.value)}
-                    className="flex-1"
-                  />
-                  <Link to={`/tracking?q=${trackingNumber}`}>
-                    <Button>
-                      <Search className="h-4 w-4 mr-2" />
-                      Track
-                    </Button>
-                  </Link>
-                </div>
-                <p className="text-xs text-muted-foreground mt-2 text-left">
-                  Try: LS2024001 or LS2024002
-                </p>
-              </CardContent>
-            </Card>
+
           </div>
         </div>
       </section>
@@ -89,7 +61,7 @@ export function HomePage() {
             {SERVICES.map((service) => {
               const Icon = iconMap[service.icon]
               return (
-                <Card key={service.id} className="hover:shadow-lg transition-shadow">
+                <Card key={service.id} className="bg-gray-100 hover:shadow-lg transition-shadow">
                   <CardHeader>
                     <div className="bg-primary/10 w-12 h-12 rounded-lg flex items-center justify-center mb-4">
                       <Icon className="h-6 w-6 text-primary" />
@@ -98,7 +70,7 @@ export function HomePage() {
                     <CardDescription>{service.description}</CardDescription>
                   </CardHeader>
                   <CardContent>
-                    <Link to={`/services/${service.id}`}>
+                    <Link to={`/services`}>
                       <Button variant="link" className="p-0">
                         Learn More <ArrowRight className="ml-1 h-4 w-4" />
                       </Button>
@@ -138,7 +110,7 @@ export function HomePage() {
           <h2 className="text-3xl md:text-4xl font-bold mb-4">Ready to Ship?</h2>
           <p className="text-xl mb-8 text-primary/80">Get started with your shipment today</p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link to="/booking">
+            <Link to="/quote">
               <Button size="lg" variant="secondary">
                 Book Now
               </Button>

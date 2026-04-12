@@ -20,9 +20,7 @@ namespace Backend.Infrastructure.Services
 
         public async Task<ProfileDto> GetProfileAsync(int userId)
         {
-            var user = await _context.Users
-                .Include(u => u.Customer)
-                .FirstOrDefaultAsync(u => u.Id == userId);
+            var user = await _context.Users.FindAsync(userId);
 
             if (user == null)
             {
@@ -30,15 +28,13 @@ namespace Backend.Infrastructure.Services
                 throw new NotFoundException("User not found");
             }
 
-            // Map user and customer data to ProfileDto
-            // Note: Admin/Staff users may not have a Customer record - fallback to User fields
             return new ProfileDto
             {
                 Id = user.Id,
-                Name = user.Customer?.Name ?? $"{user.FirstName} {user.LastName}".Trim(),
+                Name = $"{user.FirstName} {user.LastName}".Trim(),
                 Email = user.Email,
-                Phone = user.Customer?.Phone ?? user.PhoneNumber,
-                CompanyName = user.Customer?.CompanyName,
+                Phone = user.PhoneNumber,
+                CompanyName = user.CompanyName,
                 CreatedAt = user.CreatedAt
             };
         }
@@ -53,7 +49,6 @@ namespace Backend.Infrastructure.Services
                 try
                 {
                     var user = await _context.Users
-                        .Include(u => u.Customer)
                         .FirstOrDefaultAsync(u => u.Id == userId);
 
                     if (user == null)
@@ -97,20 +92,8 @@ namespace Backend.Infrastructure.Services
                     user.PhoneNumber = dto.Phone;
                     user.UpdatedAt = DateTime.UtcNow;
 
-                    // Update Customer fields if customer record exists
-                    // Note: Admin/Staff users may not have a Customer record
-                    if (user.Customer != null)
-                    {
-                        user.Customer.Name = dto.Name;
-                        user.Customer.Email = dto.Email;
-                        user.Customer.Phone = dto.Phone;
-                        user.Customer.CompanyName = dto.CompanyName;
-                        user.Customer.UpdatedAt = DateTime.UtcNow;
-                    }
-                    else
-                    {
-                        _logger.LogInformation("User {UserId} has no Customer record (Admin/Staff) - only User entity updated", userId);
-                    }
+                    // Update business fields on User
+                    user.CompanyName = dto.CompanyName;
 
                     await _context.SaveChangesAsync();
                     await transaction.CommitAsync();

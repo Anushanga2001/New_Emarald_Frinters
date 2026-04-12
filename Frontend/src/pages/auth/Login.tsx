@@ -1,12 +1,12 @@
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
-import { Link, useSearchParams } from 'react-router-dom'
+import { Link, useSearchParams, useNavigate } from 'react-router-dom'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { useAuth } from '@/hooks/useAuth'
-import { Ship, CheckCircle, AlertTriangle } from 'lucide-react'
+import { Ship, CheckCircle, AlertTriangle, Mail, Lock, ArrowLeft } from 'lucide-react'
 
 const loginSchema = z.object({
   email: z.string().email('Invalid email address'),
@@ -16,6 +16,7 @@ const loginSchema = z.object({
 type LoginForm = z.infer<typeof loginSchema>
 
 export function LoginPage() {
+  const navigate = useNavigate()
   const { login, isLoading, error } = useAuth()
   const [searchParams] = useSearchParams()
   const justRegistered = searchParams.get('registered') === 'true'
@@ -33,52 +34,74 @@ export function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-background px-4">
-      <Card className="w-full max-w-md">
-        <CardHeader className="text-center">
-          <div className="flex justify-center mb-4">
-            <div className="bg-primary rounded-lg p-3">
-              <Ship className="h-8 w-8 text-white" />
+    <div className="h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 to-slate-100 px-4">
+      <Card className="w-full max-w-md shadow-xl border-0">
+        <CardHeader className="py-4">
+          <div className="flex items-center gap-3">
+            <button
+              type="button"
+              onClick={() => navigate(-1)}
+              className="p-2 rounded-lg hover:bg-slate-100 transition-colors text-muted-foreground hover:text-foreground"
+            >
+              <ArrowLeft className="h-5 w-5" />
+            </button>
+            <div className="bg-primary rounded-xl p-2.5 shadow-lg">
+              <Ship className="h-7 w-7 text-white" />
+            </div>
+            <div className="text-left">
+              <CardTitle className="text-2xl font-bold">Welcome Back</CardTitle>
+              <CardDescription className="text-sm">Sign in to your account</CardDescription>
             </div>
           </div>
-          <CardTitle className="text-2xl">Welcome Back</CardTitle>
-          <CardDescription>Sign in to your account</CardDescription>
         </CardHeader>
-        <CardContent>
+
+        <CardContent className="px-6 pb-6">
           {justRegistered && (
-            <div className="bg-green-100 text-green-800 p-3 rounded-md text-sm mb-4 flex items-center gap-2">
-              <CheckCircle className="h-4 w-4" />
+            <div className="bg-green-50 text-green-800 p-3 rounded-lg text-sm mb-5 flex items-center gap-2 border border-green-200">
+              <CheckCircle className="h-4 w-4 flex-shrink-0" />
               Registration successful! Please log in with your credentials.
             </div>
           )}
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
             <div>
               <label htmlFor="email" className="block text-sm font-medium mb-1">
                 Email
               </label>
-              <Input
-                id="email"
-                type="email"
-                placeholder="you@example.com"
-                {...register('email')}
-                className={errors.email ? 'border-destructive' : ''}
-              />
+              <div className="relative">
+                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                <Input
+                  id="email"
+                  type="email"
+                  placeholder="you@example.com"
+                  className={`pl-10 ${errors.email ? 'border-destructive' : ''}`}
+                  {...register('email')}
+                />
+              </div>
               {errors.email && (
                 <p className="text-sm text-destructive mt-1">{errors.email.message}</p>
               )}
             </div>
 
             <div>
-              <label htmlFor="password" className="block text-sm font-medium mb-1">
-                Password
-              </label>
-              <Input
-                id="password"
-                type="password"
-                placeholder="••••••••"
-                {...register('password')}
-                className={errors.password ? 'border-destructive' : ''}
-              />
+              <div className="flex items-center justify-between mb-1">
+                <label htmlFor="password" className="block text-sm font-medium">
+                  Password
+                </label>
+                <Link to="/auth/forgot-password" className="text-xs text-primary hover:underline">
+                  Forgot password?
+                </Link>
+              </div>
+              <div className="relative">
+                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                <Input
+                  id="password"
+                  type="password"
+                  placeholder="Min. 8 characters"
+                  className={`pl-10 ${errors.password ? 'border-destructive' : ''}`}
+                  {...register('password')}
+                />
+              </div>
               {errors.password && (
                 <p className="text-sm text-destructive mt-1">{errors.password.message}</p>
               )}
@@ -90,7 +113,7 @@ export function LoginPage() {
                 const isLockout = errorMessage.toLowerCase().includes('locked')
 
                 return isLockout ? (
-                  <div className="bg-amber-100 text-amber-800 p-3 rounded-md text-sm flex items-start gap-2">
+                  <div className="bg-amber-50 text-amber-800 p-3 rounded-lg text-sm flex items-start gap-2 border border-amber-200">
                     <AlertTriangle className="h-4 w-4 mt-0.5 flex-shrink-0" />
                     <div>
                       <p className="font-medium">Account Temporarily Locked</p>
@@ -98,29 +121,22 @@ export function LoginPage() {
                     </div>
                   </div>
                 ) : (
-                  <div className="bg-destructive/10 text-destructive p-3 rounded-md text-sm">
+                  <div className="bg-destructive/10 text-destructive p-3 rounded-lg text-sm border border-destructive/20">
                     {errorMessage}
                   </div>
                 )
               })()
             )}
 
-            <Button type="submit" className="w-full" disabled={isLoading}>
+            <Button type="submit" className="w-full font-semibold" disabled={isLoading}>
               {isLoading ? 'Signing in...' : 'Sign In'}
             </Button>
 
-            <div className="text-center text-sm space-y-2">
-              <div>
-                <Link to="/auth/forgot-password" className="text-muted-foreground hover:text-primary">
-                  Forgot your password?
-                </Link>
-              </div>
-              <div>
-                <span className="text-muted-foreground">Don't have an account? </span>
-                <Link to="/auth/register" className="text-primary hover:underline">
-                  Sign up
-                </Link>
-              </div>
+            <div className="text-center text-sm">
+              <span className="text-muted-foreground">Don't have an account? </span>
+              <Link to="/auth/register" className="text-primary font-medium hover:underline">
+                Sign up
+              </Link>
             </div>
           </form>
         </CardContent>

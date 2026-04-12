@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
-import { Bell, Check, CheckCheck, Package, Truck, XCircle, Info, MessageSquare } from 'lucide-react'
+import { useNavigate } from 'react-router-dom'
+import { Bell, CheckCheck, Info, MessageSquare } from 'lucide-react'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { queryKeys } from '@/services/queryKeys'
 import {
@@ -14,14 +15,6 @@ import { useNotificationHub } from '@/hooks/useNotificationHub'
 
 function getNotificationIcon(type: number) {
   switch (type) {
-    case NotificationType.ShipmentCreated:
-      return <Package className="h-4 w-4 text-blue-500" />
-    case NotificationType.ShipmentStatusUpdate:
-      return <Truck className="h-4 w-4 text-amber-500" />
-    case NotificationType.ShipmentDelivered:
-      return <Check className="h-4 w-4 text-green-500" />
-    case NotificationType.ShipmentCancelled:
-      return <XCircle className="h-4 w-4 text-red-500" />
     case NotificationType.ContactMessage:
       return <MessageSquare className="h-4 w-4 text-purple-500" />
     default:
@@ -48,6 +41,7 @@ export function NotificationBell() {
   const [isOpen, setIsOpen] = useState(false)
   const dropdownRef = useRef<HTMLDivElement>(null)
   const queryClient = useQueryClient()
+  const navigate = useNavigate()
 
   // Connect to SignalR hub for real-time notifications
   useNotificationHub()
@@ -96,6 +90,12 @@ export function NotificationBell() {
   const handleNotificationClick = (notification: NotificationResponse) => {
     if (!notification.isRead) {
       markReadMutation.mutate(notification.id)
+    }
+
+    // Navigate to the relevant page based on notification type
+    if (notification.type === NotificationType.ContactMessage && notification.referenceId) {
+      setIsOpen(false)
+      navigate(`/admin/contact-messages/${notification.referenceId}`)
     }
   }
 

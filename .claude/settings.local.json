@@ -7,7 +7,13 @@
       "Bash(grep -r \"WebSocket\\\\|SignalR\\\\|socket\\\\|ws://\" /c/Users/AnushangaKaluarachch/source/repos/Others/New_Emarald_Frinters --include=*.cs --include=*.ts --include=*.tsx)",
       "Bash(dotnet add:*)",
       "Bash(npm install:*)",
-      "Bash(dotnet build:*)"
+      "Bash(dotnet build:*)",
+      "Bash(npx tsc:*)",
+      "Bash(npx vite:*)",
+      "Bash(grep -E \"\\\\.\\(cs|csproj\\)$\")",
+      "Bash(npm uninstall:*)",
+      "Bash(ls \"c:\\\\Users\\\\AnushangaKaluarachch\\\\source\\\\repos\\\\Others\\\\New_Emarald_Frinters\\\\Backend\"/*.sln \"c:\\\\Users\\\\AnushangaKaluarachch\\\\source\\\\repos\\\\Others\\\\New_Emarald_Frinters\\\\Backend\"/*.csproj)",
+      "Bash(ls \"c:\\\\Users\\\\AnushangaKaluarachch\\\\source\\\\repos\\\\Others\\\\New_Emarald_Frinters\"/*.sln)"
     ]
   }
 }
