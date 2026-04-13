@@ -193,7 +193,7 @@ For complete API documentation, visit the Swagger UI at http://localhost:5253 wh
 
 ## 📊 Database
 
-The application uses SQLite for development. The database file is created automatically on first run and seeded with:
+The application uses postgreSQL for development. The database file is created automatically on first run and seeded with:
 - Default admin user
 - Pricing rules for different service types
 
