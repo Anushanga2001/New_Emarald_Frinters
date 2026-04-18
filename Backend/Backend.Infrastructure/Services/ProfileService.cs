@@ -90,7 +90,6 @@ namespace Backend.Infrastructure.Services
                     user.FirstName = firstName;
                     user.LastName = lastName;
                     user.PhoneNumber = dto.Phone;
-                    user.UpdatedAt = DateTime.UtcNow;
 
                     // Update business fields on User
                     user.CompanyName = dto.CompanyName;

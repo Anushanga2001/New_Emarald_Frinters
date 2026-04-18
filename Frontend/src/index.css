@@ -6,6 +6,15 @@ html {
   overflow-y: scroll;
 }
 
+/* Radix popovers (Select, Dialog) lock body scroll via react-remove-scroll, which
+   injects an !important rule setting margin-right on body to "compensate" for a
+   disappearing scrollbar. The scrollbar above is always visible, so that margin
+   just shifts mx-auto centered content left. Use html> to beat injected specificity. */
+html > body[data-scroll-locked] {
+  margin-right: 0 !important;
+  padding-right: 0 !important;
+}
+
 @layer base {
   :root {
     --background: 0 0% 96%;

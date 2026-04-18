@@ -17,6 +17,7 @@ import { ResetPasswordPage } from './pages/auth/ResetPassword'
 import { CustomerDashboard } from './pages/customer/Dashboard'
 import { ProfilePage } from './pages/customer/Profile'
 import { AdminDashboard } from './pages/admin/Dashboard'
+import { UserManagementPage } from './pages/admin/UserManagement'
 import { ContactMessagePage } from './pages/admin/ContactMessage'
 
 function App() {
@@ -84,6 +85,7 @@ function App() {
           }
         >
           <Route path="dashboard" element={<AdminDashboard />} />
+          <Route path="users" element={<UserManagementPage />} />
           <Route path="contact-messages/:id" element={<ContactMessagePage />} />
         </Route>
       </Routes>

@@ -36,8 +36,7 @@ CREATE TABLE "Users" (
     "LockoutUntil"            TIMESTAMP WITH TIME ZONE,
     "PasswordResetToken"      TEXT,
     "PasswordResetTokenExpiry" TIMESTAMP WITH TIME ZONE,
-    "CreatedAt"               TIMESTAMP WITH TIME ZONE NOT NULL,
-    "UpdatedAt"               TIMESTAMP WITH TIME ZONE
+    "CreatedAt"               TIMESTAMP WITH TIME ZONE NOT NULL
 );
 
 -- 2. Customers
