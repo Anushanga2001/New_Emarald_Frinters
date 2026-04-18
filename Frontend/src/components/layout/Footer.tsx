@@ -13,11 +13,11 @@ export function Footer() {
   ]
 
   const services = [
-    { name: 'Sea Freight', href: '/services/sea-freight' },
-    { name: 'Air Freight', href: '/services/air-freight' },
-    { name: 'Land Transport', href: '/services/land-transport' },
-    { name: 'Warehousing', href: '/services/warehousing' },
-    { name: 'Customs Clearance', href: '/services/customs' },
+    { name: 'Sea Freight', href: '/services' },
+    { name: 'Air Freight', href: '/services' },
+    { name: 'Land Transport', href: '/services' },
+    { name: 'Warehousing', href: '/services' },
+    { name: 'Customs Clearance', href: '/services' },
   ]
 
   return (
@@ -125,8 +125,8 @@ export function Footer() {
         <div className="flex flex-col md:flex-row justify-between items-center text-sm">
           <p>© {new Date().getFullYear()} {COMPANY_INFO.name}. All rights reserved.</p>
           <div className="flex gap-4 mt-4 md:mt-0">
-            <Link to="/privacy" className="hover:text-primary">Privacy Policy</Link>
-            <Link to="/terms" className="hover:text-primary">Terms of Service</Link>
+            <span>Privacy Policy</span>
+            <span>Terms of Service</span>
           </div>
         </div>
       </div>
