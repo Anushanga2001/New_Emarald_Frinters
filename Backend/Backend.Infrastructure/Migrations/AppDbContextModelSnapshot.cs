@@ -219,13 +219,7 @@ namespace Backend.Infrastructure.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Address")
-                        .HasColumnType("text");
-
                     b.Property<string>("BillingAddress")
-                        .HasColumnType("text");
-
-                    b.Property<string>("City")
                         .HasColumnType("text");
 
                     b.Property<string>("CompanyName")
@@ -233,12 +227,6 @@ namespace Backend.Infrastructure.Migrations
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
-
-                    b.Property<decimal>("CreditLimit")
-                        .HasColumnType("numeric");
-
-                    b.Property<decimal>("CurrentBalance")
-                        .HasColumnType("numeric");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -285,9 +273,6 @@ namespace Backend.Infrastructure.Migrations
 
                     b.Property<string>("TaxId")
                         .HasColumnType("text");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id");
 

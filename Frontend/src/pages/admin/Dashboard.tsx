@@ -214,9 +214,11 @@ export function AdminDashboard() {
                 <CardTitle>Recent Users</CardTitle>
                 <CardDescription>Latest registrations</CardDescription>
               </div>
-              <Button variant="outline" size="sm">
-                <Settings className="h-4 w-4 mr-2" />
-                Manage
+              <Button asChild variant="outline" size="sm">
+                <Link to="/admin/users">
+                  <Settings className="h-4 w-4 mr-2" />
+                  Manage
+                </Link>
               </Button>
             </div>
           </CardHeader>

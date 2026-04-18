@@ -1,3 +1,5 @@
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Backend.Application.DTOs.Quotes;
@@ -9,6 +11,7 @@ namespace Backend.API.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize]
     public class QuotesController : ControllerBase
     {
         private readonly AppDbContext _context;
@@ -70,6 +73,7 @@ namespace Backend.API.Controllers
         }
 
         [HttpPost("calculate")]
+        [AllowAnonymous]
         public ActionResult<QuoteResponseDto> CalculateQuote([FromBody] CalculateQuoteDto dto)
         {
             try
@@ -153,7 +157,8 @@ namespace Backend.API.Controllers
                     Distance = distance,
                     IsBooked = true,
                     BookedAt = DateTime.UtcNow,
-                    CreatedAt = DateTime.UtcNow
+                    CreatedAt = DateTime.UtcNow,
+                    UserId = GetCurrentUserId()
                 };
 
                 _context.Quotes.Add(quote);
@@ -194,18 +199,41 @@ namespace Backend.API.Controllers
                 return NotFound();
             }
 
+            if (!User.IsInRole(UserRole.Admin.ToString()) && quote.UserId != GetCurrentUserId())
+            {
+                return NotFound();
+            }
+
             return Ok(MapToResponse(quote));
         }
 
         [HttpGet]
         public async Task<ActionResult<IEnumerable<QuoteResponseDto>>> GetQuotes()
         {
-            var quotes = await _context.Quotes
+            var query = _context.Quotes.AsQueryable();
+
+            if (!User.IsInRole(UserRole.Admin.ToString()))
+            {
+                var userId = GetCurrentUserId();
+                if (userId == null)
+                {
+                    return Unauthorized(new { message = "Invalid token" });
+                }
+                query = query.Where(q => q.UserId == userId);
+            }
+
+            var quotes = await query
                 .OrderByDescending(q => q.CreatedAt)
                 .Take(100)
                 .ToListAsync();
 
             return Ok(quotes.Select(MapToResponse));
+        }
+
+        private int? GetCurrentUserId()
+        {
+            var claim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            return int.TryParse(claim, out var id) ? id : null;
         }
 
         private static ServiceType ParseServiceType(string service)

@@ -67,16 +67,11 @@ namespace Backend.Infrastructure.Migrations
                     LockoutUntil = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
                     PasswordResetToken = table.Column<string>(type: "text", nullable: true),
                     PasswordResetTokenExpiry = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
-                    Address = table.Column<string>(type: "text", nullable: true),
-                    City = table.Column<string>(type: "text", nullable: true),
                     CompanyName = table.Column<string>(type: "text", nullable: true),
                     TaxId = table.Column<string>(type: "text", nullable: true),
                     BillingAddress = table.Column<string>(type: "text", nullable: true),
                     ShippingAddress = table.Column<string>(type: "text", nullable: true),
-                    CreditLimit = table.Column<decimal>(type: "numeric", nullable: false),
-                    CurrentBalance = table.Column<decimal>(type: "numeric", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
