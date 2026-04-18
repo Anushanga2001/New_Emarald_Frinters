@@ -17,6 +17,7 @@ namespace Backend.Domain.Entities
         public int EstimatedDays { get; set; }
         public decimal Distance { get; set; }
         public bool IsBooked { get; set; } = false;
+        public QuoteStatus Status { get; set; } = QuoteStatus.Pending;
         public int? UserId { get; set; }
         public User? User { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;

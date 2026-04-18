@@ -1,5 +1,5 @@
 import api from './api'
-import type { Quote } from '@/types'
+import type { Quote, QuoteStatus } from '@/types'
 
 interface CalculateQuoteRequest {
   origin: string
@@ -25,6 +25,8 @@ interface QuoteApiResponse {
   estimatedDays: number
   distance: number
   isBooked: boolean
+  status?: string
+  customerName?: string | null
   createdAt: string
 }
 
@@ -41,6 +43,8 @@ function mapApiResponseToQuote(response: QuoteApiResponse): Quote {
     price: response.price,
     currency: response.currency as 'USD' | 'LKR',
     estimatedDays: response.estimatedDays,
+    status: (response.status as QuoteStatus) ?? 'Pending',
+    customerName: response.customerName ?? null,
     createdAt: response.createdAt,
   }
 }
@@ -80,4 +84,14 @@ export async function saveQuote(quote: Quote): Promise<Quote> {
 export async function getUserQuotes(): Promise<Quote[]> {
   const response = await api.get<QuoteApiResponse[]>('/quotes')
   return response.data.map(mapApiResponseToQuote)
+}
+
+export async function approveQuote(quoteNumber: string): Promise<Quote> {
+  const response = await api.patch<QuoteApiResponse>(`/quotes/${quoteNumber}/approve`)
+  return mapApiResponseToQuote(response.data)
+}
+
+export async function rejectQuote(quoteNumber: string): Promise<Quote> {
+  const response = await api.patch<QuoteApiResponse>(`/quotes/${quoteNumber}/reject`)
+  return mapApiResponseToQuote(response.data)
 }

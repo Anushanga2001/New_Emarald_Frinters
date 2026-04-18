@@ -121,6 +121,7 @@ namespace Backend.Infrastructure.Migrations
                     EstimatedDays = table.Column<int>(type: "integer", nullable: false),
                     Distance = table.Column<decimal>(type: "numeric", nullable: false),
                     IsBooked = table.Column<bool>(type: "boolean", nullable: false),
+                    Status = table.Column<int>(type: "integer", nullable: false, defaultValue: 0),
                     UserId = table.Column<int>(type: "integer", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     BookedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)

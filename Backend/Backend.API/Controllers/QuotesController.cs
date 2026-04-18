@@ -1,7 +1,10 @@
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
+using Backend.API.Hubs;
+using Backend.Application.DTOs.Notifications;
 using Backend.Application.DTOs.Quotes;
 using Backend.Domain.Entities;
 using Backend.Domain.Enums;
@@ -15,6 +18,7 @@ namespace Backend.API.Controllers
     public class QuotesController : ControllerBase
     {
         private readonly AppDbContext _context;
+        private readonly IHubContext<NotificationHub> _hubContext;
 
         // Base rates per service type (USD)
         private static readonly Dictionary<ServiceType, (decimal BaseRate, decimal WeightRate, decimal DistanceRate, int EstimatedDays)> ServiceRates = new()
@@ -67,9 +71,10 @@ namespace Backend.API.Controllers
         // USD to LKR exchange rate
         private const decimal UsdToLkrRate = 320m;
 
-        public QuotesController(AppDbContext context)
+        public QuotesController(AppDbContext context, IHubContext<NotificationHub> hubContext)
         {
             _context = context;
+            _hubContext = hubContext;
         }
 
         [HttpPost("calculate")]
@@ -164,6 +169,8 @@ namespace Backend.API.Controllers
                 _context.Quotes.Add(quote);
                 await _context.SaveChangesAsync();
 
+                await NotifyAdminsOfBookingAsync(quote);
+
                 var result = new QuoteResponseDto
                 {
                     Id = quote.Id,
@@ -193,7 +200,9 @@ namespace Backend.API.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<QuoteResponseDto>> GetQuote(int id)
         {
-            var quote = await _context.Quotes.FindAsync(id);
+            var quote = await _context.Quotes
+                .Include(q => q.User)
+                .FirstOrDefaultAsync(q => q.Id == id);
             if (quote == null)
             {
                 return NotFound();
@@ -210,7 +219,7 @@ namespace Backend.API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<QuoteResponseDto>>> GetQuotes()
         {
-            var query = _context.Quotes.AsQueryable();
+            var query = _context.Quotes.Include(q => q.User).AsQueryable();
 
             if (!User.IsInRole(UserRole.Admin.ToString()))
             {
@@ -234,6 +243,56 @@ namespace Backend.API.Controllers
         {
             var claim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             return int.TryParse(claim, out var id) ? id : null;
+        }
+
+        private async Task NotifyAdminsOfBookingAsync(Quote quote)
+        {
+            var adminIds = await _context.Users
+                .Where(u => u.Role == UserRole.Admin && u.IsActive)
+                .Select(u => u.Id)
+                .ToListAsync();
+
+            if (adminIds.Count == 0) return;
+
+            var customerName = quote.UserId is int uid
+                ? await _context.Users
+                    .Where(u => u.Id == uid)
+                    .Select(u => (u.FirstName + " " + u.LastName).Trim())
+                    .FirstOrDefaultAsync()
+                : null;
+
+            var who = string.IsNullOrWhiteSpace(customerName) ? "A customer" : customerName;
+            var title = $"New booking from {who}";
+            var message = $"{quote.QuoteNumber}: {quote.Origin} → {quote.Destination} · {quote.Currency} {quote.Price:N2}";
+            var referenceId = quote.Id.ToString();
+            var createdAt = DateTime.UtcNow;
+
+            var notifications = adminIds.Select(adminId => new Notification
+            {
+                UserId = adminId,
+                Title = title,
+                Message = message,
+                Type = NotificationType.QuoteCreated,
+                ReferenceId = referenceId,
+                CreatedAt = createdAt
+            }).ToList();
+
+            _context.Notifications.AddRange(notifications);
+            await _context.SaveChangesAsync();
+
+            var first = notifications[0];
+            var dto = new NotificationResponseDto
+            {
+                Id = first.Id,
+                Title = first.Title,
+                Message = first.Message,
+                Type = first.Type,
+                IsRead = false,
+                ReferenceId = first.ReferenceId,
+                CreatedAt = first.CreatedAt
+            };
+
+            await _hubContext.Clients.Group("admins").SendAsync("ReceiveNotification", dto);
         }
 
         private static ServiceType ParseServiceType(string service)
@@ -315,6 +374,10 @@ namespace Backend.API.Controllers
                 _ => "Standard"
             };
 
+            var customerName = quote.User is null
+                ? null
+                : ($"{quote.User.FirstName} {quote.User.LastName}").Trim();
+
             return new QuoteResponseDto
             {
                 Id = quote.Id,
@@ -330,8 +393,80 @@ namespace Backend.API.Controllers
                 EstimatedDays = quote.EstimatedDays,
                 Distance = quote.Distance,
                 IsBooked = quote.IsBooked,
+                Status = quote.Status.ToString(),
+                CustomerName = string.IsNullOrWhiteSpace(customerName) ? null : customerName,
                 CreatedAt = quote.CreatedAt
             };
+        }
+
+        [HttpPatch("{quoteNumber}/approve")]
+        [Authorize(Roles = nameof(UserRole.Admin))]
+        public Task<ActionResult<QuoteResponseDto>> ApproveQuote(string quoteNumber)
+            => DecideQuoteAsync(quoteNumber, QuoteStatus.Approved);
+
+        [HttpPatch("{quoteNumber}/reject")]
+        [Authorize(Roles = nameof(UserRole.Admin))]
+        public Task<ActionResult<QuoteResponseDto>> RejectQuote(string quoteNumber)
+            => DecideQuoteAsync(quoteNumber, QuoteStatus.Rejected);
+
+        private async Task<ActionResult<QuoteResponseDto>> DecideQuoteAsync(string quoteNumber, QuoteStatus decision)
+        {
+            var quote = await _context.Quotes.FirstOrDefaultAsync(q => q.QuoteNumber == quoteNumber);
+            if (quote == null)
+            {
+                return NotFound();
+            }
+
+            if (quote.Status != QuoteStatus.Pending)
+            {
+                return Conflict(new { message = $"Quote is already {quote.Status}" });
+            }
+
+            quote.Status = decision;
+            await _context.SaveChangesAsync();
+
+            await NotifyCustomerOfDecisionAsync(quote, decision);
+
+            return Ok(MapToResponse(quote));
+        }
+
+        private async Task NotifyCustomerOfDecisionAsync(Quote quote, QuoteStatus decision)
+        {
+            if (quote.UserId is not int customerId) return;
+
+            var type = decision == QuoteStatus.Approved
+                ? NotificationType.QuoteApproved
+                : NotificationType.QuoteRejected;
+
+            var verb = decision == QuoteStatus.Approved ? "approved" : "rejected";
+            var title = $"Your quote was {verb}";
+            var message = $"{quote.QuoteNumber}: {quote.Origin} → {quote.Destination} · {quote.Currency} {quote.Price:N2}";
+
+            var notification = new Notification
+            {
+                UserId = customerId,
+                Title = title,
+                Message = message,
+                Type = type,
+                ReferenceId = quote.Id.ToString(),
+                CreatedAt = DateTime.UtcNow
+            };
+
+            _context.Notifications.Add(notification);
+            await _context.SaveChangesAsync();
+
+            var dto = new NotificationResponseDto
+            {
+                Id = notification.Id,
+                Title = notification.Title,
+                Message = notification.Message,
+                Type = notification.Type,
+                IsRead = false,
+                ReferenceId = notification.ReferenceId,
+                CreatedAt = notification.CreatedAt
+            };
+
+            await _hubContext.Clients.Group($"user-{customerId}").SendAsync("ReceiveNotification", dto);
         }
     }
 }

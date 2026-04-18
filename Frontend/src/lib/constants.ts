@@ -82,13 +82,13 @@ export const CONTAINER_SIZES = [
 export const COMPANY_INFO = {
   name: 'New Emarald Frinters',
   tagline: 'Your Trusted Shipping Partner in Sri Lanka',
-  email: 'info@lankashipping.lk',
-  phone: '+94 11 234 5678',
-  mobile: '+94 77 123 4567',
+  email: 'newemerald@sltnet.lk',
+  mobile: '+94 71 277 9898',
+  phone: '+94 77 234 2951',
   whatsapp: '+94771234567',
   address: {
-    street: '123 Galle Road',
-    city: 'Colombo 03',
+    street: 'Narahenpita Road',
+    city: 'Colombo 05',
     country: 'Sri Lanka',
   },
   hours: 'Monday - Friday: 8:30 AM - 5:00 PM',

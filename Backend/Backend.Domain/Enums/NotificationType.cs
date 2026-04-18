@@ -4,6 +4,8 @@ namespace Backend.Domain.Enums
     {
         QuoteCreated = 5,
         General = 6,
-        ContactMessage = 7
+        ContactMessage = 7,
+        QuoteApproved = 8,
+        QuoteRejected = 9
     }
 }

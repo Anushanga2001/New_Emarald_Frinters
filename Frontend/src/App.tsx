@@ -19,6 +19,7 @@ import { ProfilePage } from './pages/customer/Profile'
 import { AdminDashboard } from './pages/admin/Dashboard'
 import { UserManagementPage } from './pages/admin/UserManagement'
 import { ContactMessagePage } from './pages/admin/ContactMessage'
+import { QuoteDetailPage } from './pages/admin/QuoteDetail'
 
 function App() {
   return (
@@ -86,6 +87,7 @@ function App() {
         >
           <Route path="dashboard" element={<AdminDashboard />} />
           <Route path="users" element={<UserManagementPage />} />
+          <Route path="quotes/:id" element={<QuoteDetailPage />} />
           <Route path="contact-messages/:id" element={<ContactMessagePage />} />
         </Route>
       </Routes>
