@@ -1,3 +1,5 @@
+export type QuoteStatus = 'Pending' | 'Approved' | 'Rejected'
+
 export interface Quote {
   id?: string
   origin: string
@@ -14,6 +16,8 @@ export interface Quote {
   price: number
   currency: 'LKR' | 'USD'
   estimatedDays: number
+  status?: QuoteStatus
+  customerName?: string | null
   createdAt?: string
 }
 

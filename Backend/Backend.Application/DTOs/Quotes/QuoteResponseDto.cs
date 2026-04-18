@@ -15,6 +15,8 @@ namespace Backend.Application.DTOs.Quotes
         public int EstimatedDays { get; set; }
         public decimal Distance { get; set; }
         public bool IsBooked { get; set; }
+        public string Status { get; set; } = "Pending";
+        public string? CustomerName { get; set; }
         public DateTime CreatedAt { get; set; }
     }
 }

@@ -1,15 +1,16 @@
 import { useState, useEffect, useMemo } from 'react'
+import { Link } from 'react-router-dom'
 import { AgGridReact } from 'ag-grid-react'
 import type { ColDef, ICellRendererParams } from 'ag-grid-community'
 import { AllCommunityModule, ModuleRegistry, themeQuartz } from 'ag-grid-community'
 import { toast } from 'react-toastify'
-import { FileSpreadsheet, RefreshCw, CheckCircle, XCircle, Trash2 } from 'lucide-react'
+import { FileSpreadsheet, RefreshCw, CheckCircle, XCircle, Eye, Loader2 } from 'lucide-react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
-import { getUserQuotes } from '@/services/quote.service'
+import { approveQuote, getUserQuotes, rejectQuote } from '@/services/quote.service'
 import { formatCurrency } from '@/lib/utils'
 import { useAuth } from '@/hooks/useAuth'
-import type { Quote } from '@/types'
+import type { Quote, QuoteStatus } from '@/types'
 
 // Register AG Grid modules
 ModuleRegistry.registerModules([AllCommunityModule])
@@ -41,94 +42,132 @@ export function QuotesListPage() {
     fetchQuotes()
   }, [])
 
-  // Admin actions for quotes
-  const handleApproveQuote = async (quoteId: string) => {
-    try {
-      // API call would go here: await approveQuote(quoteId)
-      toast.success(`Quote ${quoteId} approved`)
-      fetchQuotes()
-    } catch {
-      toast.error('Failed to approve quote')
-    }
-  }
+  // Track rows currently being updated to show loading state in action cell
+  const [pendingIds, setPendingIds] = useState<Set<string>>(new Set())
 
-  const handleRejectQuote = async (quoteId: string) => {
+  const decideQuote = async (
+    quoteNumber: string,
+    decision: 'approve' | 'reject'
+  ) => {
+    setPendingIds((prev) => {
+      const next = new Set(prev)
+      next.add(quoteNumber)
+      return next
+    })
     try {
-      // API call would go here: await rejectQuote(quoteId)
-      toast.success(`Quote ${quoteId} rejected`)
-      fetchQuotes()
-    } catch {
-      toast.error('Failed to reject quote')
-    }
-  }
+      const updated =
+        decision === 'approve'
+          ? await approveQuote(quoteNumber)
+          : await rejectQuote(quoteNumber)
 
-  const handleDeleteQuote = async (quoteId: string) => {
-    try {
-      // API call would go here: await deleteQuote(quoteId)
-      toast.success(`Quote ${quoteId} deleted`)
-      fetchQuotes()
-    } catch {
-      toast.error('Failed to delete quote')
+      setQuotes((prev) =>
+        prev.map((q) => (q.id === quoteNumber ? { ...q, status: updated.status } : q))
+      )
+      toast.success(
+        decision === 'approve'
+          ? `Quote ${quoteNumber} approved`
+          : `Quote ${quoteNumber} rejected`
+      )
+    } catch (err: unknown) {
+      const axiosError = err as { response?: { data?: { message?: string } } }
+      toast.error(
+        axiosError?.response?.data?.message ||
+          `Failed to ${decision} quote ${quoteNumber}`
+      )
+    } finally {
+      setPendingIds((prev) => {
+        const next = new Set(prev)
+        next.delete(quoteNumber)
+        return next
+      })
     }
   }
 
   // Admin actions cell renderer
   const AdminActionsCellRenderer = (params: ICellRendererParams<Quote>) => {
     if (!isAdmin || !params.data?.id) return null
-    
+    const quoteNumber = params.data.id
+    const status: QuoteStatus = params.data.status ?? 'Pending'
+    const isPending = pendingIds.has(quoteNumber)
+
+    if (isPending) {
+      return (
+        <div className="flex items-center h-full">
+          <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />
+        </div>
+      )
+    }
+
+    if (status === 'Pending') {
+      return (
+        <div className="flex items-center gap-1 h-full">
+          <button
+            onClick={() => decideQuote(quoteNumber, 'approve')}
+            className="p-1 text-green-600 hover:bg-green-50 rounded"
+            title="Approve"
+          >
+            <CheckCircle className="h-4 w-4" />
+          </button>
+          <button
+            onClick={() => decideQuote(quoteNumber, 'reject')}
+            className="p-1 text-amber-600 hover:bg-amber-50 rounded"
+            title="Reject"
+          >
+            <XCircle className="h-4 w-4" />
+          </button>
+        </div>
+      )
+    }
+
     return (
-      <div className="flex items-center gap-1 h-full">
-        <button
-          onClick={() => handleApproveQuote(params.data!.id!)}
-          className="p-1 text-green-600 hover:bg-green-50 rounded"
-          title="Approve"
+      <div className="flex items-center h-full">
+        <Link
+          to={`/admin/quotes/${quoteNumber}`}
+          className="inline-flex items-center gap-1 text-xs text-primary hover:underline"
+          title="View details"
         >
-          <CheckCircle className="h-4 w-4" />
-        </button>
-        <button
-          onClick={() => handleRejectQuote(params.data!.id!)}
-          className="p-1 text-amber-600 hover:bg-amber-50 rounded"
-          title="Reject"
-        >
-          <XCircle className="h-4 w-4" />
-        </button>
-        <button
-          onClick={() => handleDeleteQuote(params.data!.id!)}
-          className="p-1 text-red-600 hover:bg-red-50 rounded"
-          title="Delete"
-        >
-          <Trash2 className="h-4 w-4" />
-        </button>
+          <Eye className="h-3.5 w-3.5" />
+          View
+        </Link>
       </div>
     )
   }
 
-  const GridExample = () => {
-    // Row Data: The data to be displayed.
-    const [rowData, setRowData] = useState([
-        { make: "Tesla", model: "Model Y", price: 64950, electric: true },
-        { make: "Ford", model: "F-Series", price: 33850, electric: false },
-        { make: "Toyota", model: "Corolla", price: 29600, electric: false },
-    ]);
-
-    // Column Definitions: Defines the columns to be displayed.
-    const [colDefs, setColDefs] = useState([
-        { field: "make" },
-        { field: "model" },
-        { field: "price" },
-        { field: "electric" }
-    ]);
-}
+  const StatusCellRenderer = (params: ICellRendererParams<Quote>) => {
+    const status: QuoteStatus = params.data?.status ?? 'Pending'
+    const classes =
+      status === 'Approved'
+        ? 'bg-emerald-100 text-emerald-700 border-emerald-200'
+        : status === 'Rejected'
+        ? 'bg-red-100 text-red-700 border-red-200'
+        : 'bg-amber-100 text-amber-700 border-amber-200'
+    return (
+      <span
+        className={`inline-flex items-center px-2 py-0.5 rounded-full border text-xs font-medium ${classes}`}
+      >
+        {status}
+      </span>
+    )
+  }
 
   const columnDefs = useMemo<ColDef<Quote>[]>(() => {
     const baseCols: ColDef<Quote>[] = [
       {
-        field: 'id', 
-        headerName: 'Quote', 
+        field: 'id',
+        headerName: 'Quote',
         width: 160,
       },
-      { 
-        field: 'origin', 
+      ...(isAdmin
+        ? [{
+            field: 'customerName' as const,
+            headerName: 'Customer',
+            width: 180,
+            valueFormatter: (params: { value?: string | null }) =>
+              params.value ?? '—',
+          }]
+        : []),
+      {
+        field: 'origin',
         headerName: 'Origin',
         flex: 1,
         minWidth: 130
@@ -174,14 +213,22 @@ export function QuotesListPage() {
         type: 'numericColumn',
         valueFormatter: (params) => params.value ? `${params.value} days` : ''
       },
-      { 
-        field: 'createdAt', 
+      {
+        field: 'createdAt',
         headerName: 'Created',
         width: 130,
         valueFormatter: (params) => {
           if (!params.value) return ''
           return new Date(params.value).toLocaleDateString()
         }
+      },
+      {
+        field: 'status',
+        headerName: 'Status',
+        width: 120,
+        cellRenderer: StatusCellRenderer,
+        sortable: true,
+        filter: false,
       }
     ]
 
@@ -199,7 +246,8 @@ export function QuotesListPage() {
     }
 
     return baseCols
-  }, [isAdmin])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isAdmin, pendingIds])
 
   const defaultColDef = useMemo<ColDef>(() => ({
     sortable: true,

@@ -202,6 +202,7 @@ CREATE TABLE "Quotes" (
     "EstimatedDays" INTEGER NOT NULL,
     "Distance"      NUMERIC NOT NULL,
     "IsBooked"      BOOLEAN NOT NULL,
+    "Status"        INTEGER NOT NULL DEFAULT 0,
     "CustomerId"    INTEGER,
     "CreatedAt"     TIMESTAMP WITH TIME ZONE NOT NULL,
     "BookedAt"      TIMESTAMP WITH TIME ZONE,

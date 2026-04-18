@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Bell, CheckCheck, Info, MessageSquare } from 'lucide-react'
+import { Bell, CheckCheck, Info, MessageSquare, Package, CheckCircle2, XCircle } from 'lucide-react'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { queryKeys } from '@/services/queryKeys'
 import {
@@ -17,6 +17,12 @@ function getNotificationIcon(type: number) {
   switch (type) {
     case NotificationType.ContactMessage:
       return <MessageSquare className="h-4 w-4 text-purple-500" />
+    case NotificationType.QuoteCreated:
+      return <Package className="h-4 w-4 text-emerald-500" />
+    case NotificationType.QuoteApproved:
+      return <CheckCircle2 className="h-4 w-4 text-emerald-500" />
+    case NotificationType.QuoteRejected:
+      return <XCircle className="h-4 w-4 text-red-500" />
     default:
       return <Info className="h-4 w-4 text-slate-500" />
   }
@@ -93,9 +99,20 @@ export function NotificationBell() {
     }
 
     // Navigate to the relevant page based on notification type
-    if (notification.type === NotificationType.ContactMessage && notification.referenceId) {
-      setIsOpen(false)
-      navigate(`/admin/contact-messages/${notification.referenceId}`)
+    if (notification.referenceId) {
+      if (notification.type === NotificationType.ContactMessage) {
+        setIsOpen(false)
+        navigate(`/admin/contact-messages/${notification.referenceId}`)
+      } else if (notification.type === NotificationType.QuoteCreated) {
+        setIsOpen(false)
+        navigate(`/admin/quotes/${notification.referenceId}`)
+      } else if (
+        notification.type === NotificationType.QuoteApproved ||
+        notification.type === NotificationType.QuoteRejected
+      ) {
+        setIsOpen(false)
+        navigate('/quotes')
+      }
     }
   }
 

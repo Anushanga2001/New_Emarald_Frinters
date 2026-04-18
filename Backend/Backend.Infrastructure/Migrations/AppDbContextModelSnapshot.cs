@@ -195,6 +195,9 @@ namespace Backend.Infrastructure.Migrations
                     b.Property<int>("ServiceType")
                         .HasColumnType("integer");
 
+                    b.Property<int>("Status")
+                        .HasColumnType("integer");
+
                     b.Property<int?>("UserId")
                         .HasColumnType("integer");
 
