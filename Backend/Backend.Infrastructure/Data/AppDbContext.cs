@@ -15,6 +15,7 @@ namespace Backend.Infrastructure.Data
         public DbSet<ContactForm> ContactForms { get; set; }
         public DbSet<Quote> Quotes { get; set; }
         public DbSet<Notification> Notifications { get; set; }
+        public DbSet<Rating> Ratings { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -79,6 +80,18 @@ namespace Backend.Infrastructure.Data
                     .HasForeignKey(n => n.UserId)
                     .OnDelete(DeleteBehavior.Cascade);
                 entity.HasIndex(e => new { e.UserId, e.IsRead });
+            });
+
+            // Rating configuration — one rating per user (updatable)
+            modelBuilder.Entity<Rating>(entity =>
+            {
+                entity.HasKey(e => e.Id);
+                entity.Property(e => e.Comment).HasMaxLength(500);
+                entity.HasOne(e => e.User)
+                    .WithMany()
+                    .HasForeignKey(r => r.UserId)
+                    .OnDelete(DeleteBehavior.Cascade);
+                entity.HasIndex(e => e.UserId).IsUnique();
             });
         }
     }

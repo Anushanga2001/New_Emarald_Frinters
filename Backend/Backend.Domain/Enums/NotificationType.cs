@@ -6,6 +6,7 @@ namespace Backend.Domain.Enums
         General = 6,
         ContactMessage = 7,
         QuoteApproved = 8,
-        QuoteRejected = 9
+        QuoteRejected = 9,
+        RatingSubmitted = 10
     }
 }

@@ -20,6 +20,7 @@ export const NotificationType = {
   ContactMessage: 7,
   QuoteApproved: 8,
   QuoteRejected: 9,
+  RatingSubmitted: 10,
 } as const
 
 export async function getNotifications(page = 1, pageSize = 20): Promise<NotificationResponse[]> {

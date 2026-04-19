@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Bell, CheckCheck, Info, MessageSquare, Package, CheckCircle2, XCircle } from 'lucide-react'
+import { Bell, CheckCheck, Info, MessageSquare, Package, CheckCircle2, XCircle, Star } from 'lucide-react'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { queryKeys } from '@/services/queryKeys'
 import {
@@ -23,6 +23,8 @@ function getNotificationIcon(type: number) {
       return <CheckCircle2 className="h-4 w-4 text-emerald-500" />
     case NotificationType.QuoteRejected:
       return <XCircle className="h-4 w-4 text-red-500" />
+    case NotificationType.RatingSubmitted:
+      return <Star className="h-4 w-4 text-amber-400 fill-amber-400" />
     default:
       return <Info className="h-4 w-4 text-slate-500" />
   }
@@ -112,6 +114,9 @@ export function NotificationBell() {
       ) {
         setIsOpen(false)
         navigate('/quotes')
+      } else if (notification.type === NotificationType.RatingSubmitted) {
+        setIsOpen(false)
+        navigate('/reviews')
       }
     }
   }
