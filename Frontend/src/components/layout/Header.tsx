@@ -49,6 +49,7 @@ export function Header() {
         href: user?.role === 'Admin' ? '/admin/dashboard' : '/customer/dashboard',
       },
       { name: 'My Profile', href: '/customer/profile' },
+      { name: 'Rate Us', href: '/rate-us' },
       { name: 'Logout', href: '#', destructive: true, action: logout },
     ],
   }
@@ -235,6 +236,13 @@ export function Header() {
                   ${isActive('/contact') ? 'text-primary' : 'text-slate-700 hover:bg-slate-50'}`}
               >
                 Contact
+              </Link>
+              <Link
+                to="/reviews"
+                className={`px-3 py-2 text-sm font-medium rounded transition-colors
+                  ${isActive('/reviews') ? 'text-primary' : 'text-slate-700 hover:bg-slate-50'}`}
+              >
+                Reviews
               </Link>
 
               {/* Dropdown groups */}
