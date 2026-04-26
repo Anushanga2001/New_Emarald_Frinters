@@ -14,7 +14,7 @@ export function useAuth() {
     mutationFn: (data: LoginRequest) => authApi.login(data),
     onSuccess: (data) => {
       queryClient.setQueryData(queryKeys.auth.user, data.user)
-      toast.success(`Welcome back, ${data.user.name}!`)
+      toast.success(`Welcome back, ${data.user.firstName}!`)
       // Redirect based on user role
       if (data.user.role === 'Admin') {
         navigate('/admin/dashboard')
