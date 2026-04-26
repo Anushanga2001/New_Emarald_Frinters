@@ -99,6 +99,8 @@ publish/
 # Misc
 *.log
 
+# Claude Code local settings (per-user, not shared)
+.claude/settings.local.json
 
 # Document storage (Story 1.1)
 documents/
