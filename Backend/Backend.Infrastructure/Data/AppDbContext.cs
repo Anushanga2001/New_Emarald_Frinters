@@ -38,6 +38,10 @@ namespace Backend.Infrastructure.Data
             {
                 entity.HasKey(e => e.Id);
                 entity.Property(e => e.ServiceType).HasConversion<int>();
+                entity.Property(e => e.BaseRate).HasPrecision(18, 2);
+                entity.Property(e => e.MinimumCharge).HasPrecision(18, 2);
+                entity.Property(e => e.WeightRatePerKg).HasPrecision(18, 4);
+                entity.Property(e => e.DistanceRatePerKm).HasPrecision(18, 4);
             });
 
             // ContactForm configuration
@@ -61,6 +65,9 @@ namespace Backend.Infrastructure.Data
                 entity.Property(e => e.CargoType).IsRequired().HasMaxLength(100);
                 entity.Property(e => e.ServiceType).HasConversion<int>();
                 entity.Property(e => e.Currency).HasMaxLength(10);
+                entity.Property(e => e.Price).HasPrecision(18, 2);
+                entity.Property(e => e.Weight).HasPrecision(18, 4);
+                entity.Property(e => e.Distance).HasPrecision(18, 4);
                 entity.HasOne(e => e.User)
                     .WithMany()
                     .HasForeignKey(q => q.UserId)

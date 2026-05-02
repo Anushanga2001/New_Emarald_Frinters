@@ -98,18 +98,18 @@ builder.Services.AddCors(options =>
     });
 });
 
-// Database - PostgreSQL with connection pooling and retry policy
+// Database - SQL Server with connection pooling and retry policy
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseNpgsql(connectionString, npgsqlOptions =>
+    options.UseSqlServer(connectionString, sqlOptions =>
     {
-        npgsqlOptions.EnableRetryOnFailure(
+        sqlOptions.EnableRetryOnFailure(
             maxRetryCount: 3,
             maxRetryDelay: TimeSpan.FromSeconds(5),
-            errorCodesToAdd: null);
-        npgsqlOptions.CommandTimeout(30);
-        npgsqlOptions.MinBatchSize(5);
-        npgsqlOptions.MaxBatchSize(100);
+            errorNumbersToAdd: null);
+        sqlOptions.CommandTimeout(30);
+        sqlOptions.MinBatchSize(5);
+        sqlOptions.MaxBatchSize(100);
     }));
 
 // JWT Authentication

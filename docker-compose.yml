@@ -1,22 +1,23 @@
 version: '3.8'
 
 services:
-  postgres:
-    image: postgres:17-alpine
-    container_name: logistics-postgres
+  mssql:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: logistics-mssql
     environment:
-      POSTGRES_DB: logistics_db
-      POSTGRES_USER: logistics_user
-      POSTGRES_PASSWORD: ${DB_PASSWORD:-dev_password}
+      ACCEPT_EULA: "Y"
+      MSSQL_SA_PASSWORD: ${DB_PASSWORD:-Dev_Password1!}
+      MSSQL_PID: Developer
     ports:
-      - "5432:5432"
+      - "1433:1433"
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - mssql_data:/var/opt/mssql
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U logistics_user"]
+      test: ["CMD-SHELL", "/opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P \"$$MSSQL_SA_PASSWORD\" -C -Q 'SELECT 1' || exit 1"]
       interval: 10s
       timeout: 5s
-      retries: 5
+      retries: 10
+      start_period: 30s
     restart: unless-stopped
     networks:
       - shipping-network
@@ -31,10 +32,10 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:8080
-      - ConnectionStrings__DefaultConnection=Host=postgres;Port=5432;Database=logistics_db;Username=logistics_user;Password=${DB_PASSWORD:-dev_password}
+      - ConnectionStrings__DefaultConnection=Server=mssql,1433;Database=logistics_db;User Id=sa;Password=${DB_PASSWORD:-Dev_Password1!};TrustServerCertificate=True
       - FRONTEND_URL=http://localhost:5173
     depends_on:
-      postgres:
+      mssql:
         condition: service_healthy
     volumes:
       - ./Backend/data:/app/data
@@ -71,5 +72,5 @@ networks:
 volumes:
   backend-data:
     driver: local
-  postgres_data:
+  mssql_data:
     driver: local
