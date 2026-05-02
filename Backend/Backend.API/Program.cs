@@ -147,11 +147,19 @@ var app = builder.Build();
 // Global Exception Middleware (Story 1.1) - Must be early in pipeline
 app.UseMiddleware<Backend.API.Middleware.GlobalExceptionMiddleware>();
 
-// Seed database
+// Seed database (do not crash startup if the DB is unreachable — log and continue)
 using (var scope = app.Services.CreateScope())
 {
     var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-    await DbSeeder.SeedAsync(context);
+    var startupLogger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
+    try
+    {
+        await DbSeeder.SeedAsync(context);
+    }
+    catch (Exception ex)
+    {
+        startupLogger.LogError(ex, "Database migration/seeding failed at startup. The app will continue, but DB-backed endpoints will fail until the database is reachable.");
+    }
 }
 
 // Configure the HTTP request pipeline.
