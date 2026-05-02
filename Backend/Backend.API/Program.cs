@@ -85,13 +85,43 @@ builder.Services.AddSwaggerGen(c =>
     });
 });
 
-// Add CORS - Support Docker frontend
+// Add CORS - reads allowed origins from configuration (Cors:AllowedOrigins)
+// plus FRONTEND_URL env var, plus localhost defaults for dev.
 builder.Services.AddCors(options =>
 {
-    var frontendUrl = Environment.GetEnvironmentVariable("FRONTEND_URL") ?? "http://localhost:5173";
+    var configuredOrigins = builder.Configuration
+        .GetSection("Cors:AllowedOrigins")
+        .Get<string[]>() ?? Array.Empty<string>();
+
+    var frontendUrl = Environment.GetEnvironmentVariable("FRONTEND_URL");
+
+    var allowedOrigins = new[]
+        {
+            "http://localhost:5173",
+            "http://localhost:3000",
+            "http://frontend:5173",
+            "http://frontend:5174"
+        }
+        .Concat(configuredOrigins)
+        .Concat(string.IsNullOrWhiteSpace(frontendUrl) ? Array.Empty<string>() : new[] { frontendUrl })
+        .Where(o => !string.IsNullOrWhiteSpace(o))
+        .Distinct()
+        .ToArray();
+
     options.AddPolicy("AllowFrontend", policy =>
     {
-        policy.WithOrigins(frontendUrl, "http://localhost:5173", "http://frontend:5174", "http://localhost:3000", "http://frontend:5173")
+        policy.WithOrigins(allowedOrigins)
+              .SetIsOriginAllowed(origin =>
+              {
+                  if (allowedOrigins.Contains(origin)) return true;
+                  // Allow any *.vercel.app preview deployment
+                  try
+                  {
+                      var host = new Uri(origin).Host;
+                      return host.EndsWith(".vercel.app", StringComparison.OrdinalIgnoreCase);
+                  }
+                  catch { return false; }
+              })
               .AllowAnyHeader()
               .AllowAnyMethod()
               .AllowCredentials();
