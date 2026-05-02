@@ -163,15 +163,13 @@ using (var scope = app.Services.CreateScope())
 }
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+// Swagger is enabled in all environments (including production) for easier API testing.
+app.UseSwagger();
+app.UseSwaggerUI(c =>
 {
-    app.UseSwagger();
-    app.UseSwaggerUI(c =>
-    {
-        c.SwaggerEndpoint("/swagger/v1/swagger.json", "Shipping Line API v1");
-        c.RoutePrefix = string.Empty; // Set Swagger UI at the app's root
-    });
-}
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Shipping Line API v1");
+    c.RoutePrefix = string.Empty; // Set Swagger UI at the app's root
+});
 
 app.UseCors("AllowFrontend");
 
