@@ -30,7 +30,7 @@ A comprehensive shipping management platform with customer portal and admin dash
 - **UI Framework**: Tailwind CSS + shadcn/ui (Radix UI)
 - **Form Handling**: React Hook Form + Zod validation
 - **HTTP Client**: Axios
-- **Maps**: Leaflet & React Leaflet
+- **Maps**: Leaflet & React Leaflet 
 - **Icons**: Lucide React
 
 ### Backend
