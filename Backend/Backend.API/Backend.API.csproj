@@ -28,5 +28,9 @@
     <ProjectReference Include="..\Backend.Infrastructure\Backend.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Include="logs\.gitkeep" CopyToPublishDirectory="PreserveNewest" />
+  </ItemGroup>
+
 </Project>
 
