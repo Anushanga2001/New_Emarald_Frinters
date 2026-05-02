@@ -93,6 +93,9 @@ nCrunchTemp_*
 [Pp]ublish/
 publish/
 
+# Publish profile credentials (contains password)
+*.pubxml.user
+
 # Docker
 .docker/
 
