@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react'
 import { HubConnectionBuilder, LogLevel, HubConnection } from '@microsoft/signalr'
 import { useQueryClient } from '@tanstack/react-query'
 import { queryKeys } from '@/services/queryKeys'
-import { toast } from 'react-toastify'
+import { notify } from '@/lib/toast'
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5253/api'
 const HUB_URL = API_BASE_URL.replace('/api', '') + '/hubs/notifications'
@@ -33,7 +33,7 @@ export function useNotificationHub() {
       queryClient.invalidateQueries({ queryKey: queryKeys.notifications.all })
       queryClient.invalidateQueries({ queryKey: queryKeys.notifications.unreadCount })
 
-      toast.info(`${notification.title} — ${notification.message}`, {
+      notify.info(`${notification.title} — ${notification.message}`, {
         toastId: `notification-${notification.id}`,
       })
     })

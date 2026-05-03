@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { toast } from 'react-toastify'
+import { notify } from '@/lib/toast'
 import { Loader2, Send, Star } from 'lucide-react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
@@ -38,17 +38,17 @@ export function RateUsPage() {
 
   const handleSubmit = async () => {
     if (stars < 1) {
-      toast.error('Please select at least 1 star')
+      notify.error('Please select at least 1 star')
       return
     }
     setSubmitting(true)
     try {
       await submitRating({ stars, comment: comment.trim() || null })
       setHasExisting(true)
-      toast.success(hasExisting ? 'Rating updated. Thanks!' : 'Thanks for your feedback!')
+      notify.success(hasExisting ? 'Rating updated. Thanks!' : 'Thanks for your feedback!')
     } catch (err: unknown) {
       const axiosError = err as { response?: { data?: { message?: string } } }
-      toast.error(axiosError?.response?.data?.message || 'Failed to submit rating')
+      notify.error(axiosError?.response?.data?.message || 'Failed to submit rating')
     } finally {
       setSubmitting(false)
     }

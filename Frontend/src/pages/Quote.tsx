@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { toast } from 'react-toastify'
+import { notify } from '@/lib/toast'
 import { Calculator, ArrowRight } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -42,7 +42,7 @@ export function QuotePage() {
       setQuote(result)
       setStep(3)
     } catch (error) {
-      toast.error('Error calculating quote. Please try again.')
+      notify.error('Error calculating quote. Please try again.')
     } finally {
       setLoading(false)
     }
@@ -54,7 +54,7 @@ export function QuotePage() {
     setBookingLoading(true)
     try {
       const savedQuote = await saveQuote(quote)
-      toast.success(`Booking Confirmed! Your shipment has been booked successfully. Reference: ${savedQuote.id}`, {
+      notify.success(`Booking Confirmed! Your shipment has been booked successfully. Reference: ${savedQuote.id}`, {
         autoClose: 5000,
       })
       // Reset to start new quote after successful booking
@@ -63,7 +63,7 @@ export function QuotePage() {
         setQuote(null)
       }, 2000)
     } catch (error) {
-      toast.error('Error processing booking. Please try again.')
+      notify.error('Error processing booking. Please try again.')
     } finally {
       setBookingLoading(false)
     }

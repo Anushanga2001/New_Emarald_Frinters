@@ -100,3 +100,45 @@ html > body[data-scroll-locked] {
 .Toastify__close-button:hover {
   opacity: 1 !important;
 }
+
+/* ---------- Scroll-triggered animations ----------
+   Elements start in their "hidden" state (translated/scaled/transparent) and
+   transition to identity once `.is-visible` is toggled by the IntersectionObserver
+   in `useScrollAnimation`. Animations fire only once per element. */
+.animate-on-scroll {
+  opacity: 0;
+  transition-property: opacity, transform;
+  transition-duration: var(--aos-duration, 700ms);
+  transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+  transition-delay: var(--aos-delay, 0ms);
+  will-change: opacity, transform;
+}
+
+.animate-on-scroll[data-animation="fade-in"] {
+  transform: none;
+}
+.animate-on-scroll[data-animation="slide-up"] {
+  transform: translate3d(0, 32px, 0);
+}
+.animate-on-scroll[data-animation="slide-left"] {
+  transform: translate3d(40px, 0, 0);
+}
+.animate-on-scroll[data-animation="slide-right"] {
+  transform: translate3d(-40px, 0, 0);
+}
+.animate-on-scroll[data-animation="zoom-in"] {
+  transform: scale(0.92);
+}
+
+.animate-on-scroll.is-visible {
+  opacity: 1;
+  transform: translate3d(0, 0, 0) scale(1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-on-scroll {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+}

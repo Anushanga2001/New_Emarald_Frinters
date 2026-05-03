@@ -2,7 +2,7 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
-import { toast } from 'react-toastify'
+import { notify } from '@/lib/toast'
 import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -40,15 +40,15 @@ export function ProfilePage() {
     mutationFn: (data: UpdateProfileRequest) => profileApi.updateProfile(data),
     onSuccess: (response) => {
       if (response.success) {
-        toast.success(response.message)
+        notify.success(response.message)
         queryClient.invalidateQueries({ queryKey: ['profile'] })
         queryClient.invalidateQueries({ queryKey: ['auth', 'user'] })
       } else {
-        toast.error(response.message)
+        notify.error(response.message)
       }
     },
     onError: (error: Error) => {
-      toast.error(error.message || 'Failed to update profile')
+      notify.error(error.message || 'Failed to update profile')
     },
   })
 

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { toast } from 'react-toastify'
+import { notify } from '@/lib/toast'
 import {
   Loader2,
   AlertCircle,
@@ -54,11 +54,11 @@ export function UserManagementPage() {
       setUsers((prev) =>
         prev.map((u) => (u.id === target.id ? { ...u, isActive: !u.isActive } : u))
       )
-      toast.success(
+      notify.success(
         `${target.firstName} ${target.lastName} is now ${target.isActive ? 'inactive' : 'active'}`
       )
     } catch {
-      toast.error('Failed to update user status')
+      notify.error('Failed to update user status')
     } finally {
       setTogglingId(null)
     }

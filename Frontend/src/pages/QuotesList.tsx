@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { AgGridReact } from 'ag-grid-react'
 import type { ColDef, ICellRendererParams } from 'ag-grid-community'
 import { AllCommunityModule, ModuleRegistry, themeQuartz } from 'ag-grid-community'
-import { toast } from 'react-toastify'
+import { notify } from '@/lib/toast'
 import { FileSpreadsheet, RefreshCw, CheckCircle, XCircle, Eye, Loader2 } from 'lucide-react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
@@ -32,7 +32,7 @@ export function QuotesListPage() {
       const data = await getUserQuotes()
       setQuotes(data)
     } catch (error) {
-      toast.error('Failed to load quotes')
+      notify.error('Failed to load quotes')
     } finally {
       setLoading(false)
     }
@@ -63,14 +63,14 @@ export function QuotesListPage() {
       setQuotes((prev) =>
         prev.map((q) => (q.id === quoteNumber ? { ...q, status: updated.status } : q))
       )
-      toast.success(
+      notify.success(
         decision === 'approve'
           ? `Quote ${quoteNumber} approved`
           : `Quote ${quoteNumber} rejected`
       )
     } catch (err: unknown) {
       const axiosError = err as { response?: { data?: { message?: string } } }
-      toast.error(
+      notify.error(
         axiosError?.response?.data?.message ||
           `Failed to ${decision} quote ${quoteNumber}`
       )
