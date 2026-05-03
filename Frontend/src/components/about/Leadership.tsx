@@ -1,4 +1,7 @@
 import { Card, CardContent } from '@/components/ui/card'
+import putinImg from '@/assets/putin_DP.jpg'
+import modiImg from '@/assets/Modi_DP.jpg'
+import finImg from '@/assets/Fin_DP.jpg'
 
 interface Leader {
   name: string
@@ -14,17 +17,17 @@ const defaultLeaders: Leader[] = [
   {
     name: 'Lalith Asoka',
     position: 'Chief Executive Officer',
-    image: '/src/assets/putin_DP.jpg', // Update with actual image path
+    image: putinImg,
   },
   {
     name: 'Susantha Wijesinghe',
     position: 'Chief Operating Officer',
-    image: '/src/assets/Modi_DP.jpg', // Update with actual image path
+    image: modiImg,
   },
   {
     name: 'Thilak Perera',
     position: 'Chief Financial Officer',
-    image: '/src/assets/Fin_DP.jpg', // Update with actual image path
+    image: finImg,
   },
 ]
 
