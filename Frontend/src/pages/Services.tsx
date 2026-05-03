@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { SERVICES } from '@/lib/constants'
 import { useAuth } from '@/hooks/useAuth'
+import { Seo } from '@/components/seo/Seo'
 
 export function ServicesPage() {
   const { isAuthenticated } = useAuth()
@@ -24,6 +25,11 @@ export function ServicesPage() {
 
   return (
     <div>
+      <Seo
+        title="Freight & Logistics Services"
+        description="Sea freight (FCL & LCL), air freight, land transportation, warehousing, and customs clearance services in Sri Lanka. Door-to-door delivery with real-time tracking."
+        path="/services"
+      />
       {/* Hero */}
       <section className="bg-black text-primary py-16">
         <div className="container mx-auto px-4">

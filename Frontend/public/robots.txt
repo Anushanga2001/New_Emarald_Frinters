@@ -1,0 +1,16 @@
+User-agent: *
+Allow: /
+Allow: /services
+Allow: /about
+Allow: /contact
+Allow: /faq
+Allow: /reviews
+
+Disallow: /admin/
+Disallow: /customer/
+Disallow: /auth/
+Disallow: /quote
+Disallow: /quotes
+Disallow: /rate-us
+
+Sitemap: https://www.newemeraldfreighters.com/sitemap.xml

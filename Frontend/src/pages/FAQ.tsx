@@ -1,4 +1,5 @@
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion'
+import { Seo } from '@/components/seo/Seo'
 
 export function FAQPage() {
   const faqs = [
@@ -52,8 +53,30 @@ export function FAQPage() {
     },
   ]
 
+  const faqJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqs.map((faq) => ({
+      '@type': 'Question',
+      name: faq.question,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: faq.answer,
+      },
+    })),
+  }
+
   return (
     <div>
+      <Seo
+        title="FAQ - Shipping & Logistics Questions"
+        description="Common questions about freight forwarding, shipment tracking, FCL vs LCL, customs clearance, transit times, and cargo insurance from New Emarald Freighters."
+        path="/faq"
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+      />
       {/* Hero */}
       <section className="bg-black text-primary py-16">
         <div className="container mx-auto px-4">

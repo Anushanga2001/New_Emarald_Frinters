@@ -8,6 +8,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { COMPANY_INFO } from '@/lib/constants'
 import { api } from '@/services/api'
 import type { ContactForm } from '@/types'
+import { Seo } from '@/components/seo/Seo'
 
 export function ContactPage() {
   const [formData, setFormData] = useState<ContactForm>({
@@ -51,6 +52,11 @@ export function ContactPage() {
 
   return (
     <div>
+      <Seo
+        title="Contact Us"
+        description="Get in touch with New Emarald Freighters. Office in Narahenpita Road, Colombo 05. Call +94 77 234 2951 or email newemerald@sltnet.lk for shipping inquiries and quotes."
+        path="/contact"
+      />
       {/* Hero */}
       <section className="bg-black text-primary py-16">
         <div className="container mx-auto px-4">

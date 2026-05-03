@@ -3,6 +3,7 @@ import { Ship, Plane, Truck, Warehouse, FileText, Package, ArrowRight, CheckCirc
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { SERVICES } from '@/lib/constants'
+import { Seo } from '@/components/seo/Seo'
 
 export function HomePage() {
 
@@ -19,6 +20,11 @@ export function HomePage() {
 
   return (
     <div>
+      <Seo
+        title="Trusted Freight & Logistics in Sri Lanka"
+        description="New Emarald Freighters offers reliable sea freight (FCL/LCL), air freight, land transportation, warehousing, and customs clearance services across Sri Lanka. Get a quote today."
+        path="/"
+      />
       {/* Hero Section */}
       <section className="bg-[#000000] text-primary py-20">
         <div className="container mx-auto px-4">

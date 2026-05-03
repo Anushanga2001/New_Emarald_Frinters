@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button'
 import { RatingStars } from '@/components/ui/rating-stars'
 import { useAuth } from '@/hooks/useAuth'
 import { getRatings, type RatingResponse } from '@/services/ratings.service'
+import { Seo } from '@/components/seo/Seo'
 
 export function ReviewsPage() {
   const [ratings, setRatings] = useState<RatingResponse[]>([])
@@ -59,6 +60,11 @@ export function ReviewsPage() {
 
   return (
     <div className="container mx-auto px-4 py-12">
+      <Seo
+        title="Customer Reviews & Ratings"
+        description="Read reviews from New Emarald Freighters customers about our sea freight, air freight, customs clearance, and logistics services in Sri Lanka."
+        path="/reviews"
+      />
       {/* Header */}
       <div className="max-w-3xl mx-auto text-center mb-10">
         <div className="inline-flex items-center justify-center h-14 w-14 rounded-full bg-amber-100 mb-4">

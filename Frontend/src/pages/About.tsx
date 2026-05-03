@@ -1,6 +1,7 @@
 import { Target, Users, Award, Globe } from 'lucide-react'
 import { Card, CardContent } from '@/components/ui/card'
 import { Leadership } from '@/components/about/Leadership'
+import { Seo } from '@/components/seo/Seo'
 
 export function AboutPage() {
   const stats = [
@@ -35,6 +36,11 @@ export function AboutPage() {
 
   return (
     <div>
+      <Seo
+        title="About Us"
+        description="Founded in 2009, New Emarald Freighters is one of Sri Lanka's most trusted logistics partners, with strong connections to Colombo and Hambantota Ports and 15+ years of freight forwarding experience."
+        path="/about"
+      />
       {/* Hero */}
       <section className="bg-black text-primary py-16">
         <div className="container mx-auto px-4">
