@@ -23,7 +23,7 @@ html > body[data-scroll-locked] {
     --card-foreground: 0 0% 16%;
     --popover: 0 0% 96%;
     --popover-foreground: 0 0% 16%;
-    --primary: 22 76% 55%;
+    --primary: 220 100% 38%;
     --primary-foreground: 0 0% 100%;
     --secondary: 0 0% 96%;
     --secondary-foreground: 0 0% 16%;
@@ -35,9 +35,9 @@ html > body[data-scroll-locked] {
     --destructive-foreground: 0 0% 98%;
     --border: 0 0% 91.4%;
     --input: 0 0% 91.4%;
-    --ring: 22 76% 55%;
+    --ring: 220 100% 38%;
     --radius: 0.5rem;
-    --orange: 22 76% 55%;
+    --orange: 220 100% 38%;
     --black: 0 0% 16%;
     --white: 0 0% 96%;
   }
@@ -49,8 +49,8 @@ html > body[data-scroll-locked] {
     --card-foreground: 0 0% 98%;
     --popover: 0 0% 10%;
     --popover-foreground: 0 0% 98%;
-    --primary: 22 76% 55%;
-    --primary-foreground: 0 0% 16%;
+    --primary: 220 100% 38%;
+    --primary-foreground: 0 0% 100%;
     --secondary: 0 0% 17.5%;
     --secondary-foreground: 0 0% 98%;
     --muted: 0 0% 17.5%;
@@ -61,8 +61,8 @@ html > body[data-scroll-locked] {
     --destructive-foreground: 0 0% 98%;
     --border: 0 0% 17.5%;
     --input: 0 0% 17.5%;
-    --ring: 22 76% 55%;
-    --orange: 22 76% 55%;
+    --ring: 220 100% 38%;
+    --orange: 220 100% 38%;
     --black: 0 0% 16%;
     --white: 0 0% 96%;
   }
