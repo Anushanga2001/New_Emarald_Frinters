@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { MainLayout } from './components/layout/MainLayout'
+import { ScrollToTop } from './components/layout/ScrollToTop'
 import { ProtectedRoute } from './components/auth/ProtectedRoute'
 import { HomePage } from './pages/Home'
 import { ServicesPage } from './pages/Services'
@@ -37,6 +38,7 @@ function App() {
       theme="light"
     />
     <BrowserRouter>
+      <ScrollToTop />
       <Routes>
         {/* Public routes */}
         <Route element={<MainLayout />}>
