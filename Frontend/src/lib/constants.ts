@@ -80,7 +80,7 @@ export const CONTAINER_SIZES = [
 ]
 
 export const COMPANY_INFO = {
-  name: 'New Emarald Freighters',
+  name: 'New Emarald Freighter',
   tagline: 'Your Trusted Shipping Partner in Sri Lanka',
   email: 'newemerald@sltnet.lk',
   mobile: '+94 77 234 2951',

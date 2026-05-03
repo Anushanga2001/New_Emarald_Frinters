@@ -70,7 +70,7 @@ export function FAQPage() {
     <div>
       <Seo
         title="FAQ - Shipping & Logistics Questions"
-        description="Common questions about freight forwarding, shipment tracking, FCL vs LCL, customs clearance, transit times, and cargo insurance from New Emarald Freighters."
+        description="Common questions about freight forwarding, shipment tracking, FCL vs LCL, customs clearance, transit times, and cargo insurance from New Emarald Freighter."
         path="/faq"
       />
       <script

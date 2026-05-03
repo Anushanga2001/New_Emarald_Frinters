@@ -13,4 +13,4 @@ Disallow: /quote
 Disallow: /quotes
 Disallow: /rate-us
 
-Sitemap: https://www.newemeraldfreighters.com/sitemap.xml
+Sitemap: https://www.newemarald.com/sitemap.xml

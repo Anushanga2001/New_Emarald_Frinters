@@ -54,7 +54,7 @@ export function ContactPage() {
     <div>
       <Seo
         title="Contact Us"
-        description="Get in touch with New Emarald Freighters. Office in Narahenpita Road, Colombo 05. Call +94 77 234 2951 or email newemerald@sltnet.lk for shipping inquiries and quotes."
+        description="Get in touch with New Emarald Freighter. Office in Narahenpita Road, Colombo 05. Call +94 77 234 2951 or email newemerald@sltnet.lk for shipping inquiries and quotes."
         path="/contact"
       />
       {/* Hero */}

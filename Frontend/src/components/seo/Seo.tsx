@@ -1,5 +1,5 @@
-const SITE_URL = 'https://www.newemeraldfreighters.com'
-const SITE_NAME = 'New Emarald Freighters'
+const SITE_URL = 'https://www.newemarald.com'
+const SITE_NAME = 'New Emarald Freighter'
 const DEFAULT_OG_IMAGE = `${SITE_URL}/og-image.jpg`
 
 interface SeoProps {

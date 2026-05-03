@@ -22,7 +22,7 @@ export function HomePage() {
     <div>
       <Seo
         title="Trusted Freight & Logistics in Sri Lanka"
-        description="New Emarald Freighters offers reliable sea freight (FCL/LCL), air freight, land transportation, warehousing, and customs clearance services across Sri Lanka. Get a quote today."
+        description="New Emarald Freighter offers reliable sea freight (FCL/LCL), air freight, land transportation, warehousing, and customs clearance services across Sri Lanka. Get a quote today."
         path="/"
       />
       {/* Hero Section */}
@@ -93,7 +93,7 @@ export function HomePage() {
       <section className="py-16">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">Why Choose New Emarald Freighters?</h2>
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">Why Choose New Emarald Freighter?</h2>
             <p className="text-lg text-muted-foreground">Excellence in every shipment</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">

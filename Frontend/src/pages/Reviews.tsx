@@ -62,7 +62,7 @@ export function ReviewsPage() {
     <div className="container mx-auto px-4 py-12">
       <Seo
         title="Customer Reviews & Ratings"
-        description="Read reviews from New Emarald Freighters customers about our sea freight, air freight, customs clearance, and logistics services in Sri Lanka."
+        description="Read reviews from New Emarald Freighter customers about our sea freight, air freight, customs clearance, and logistics services in Sri Lanka."
         path="/reviews"
       />
       {/* Header */}

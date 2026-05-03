@@ -61,7 +61,7 @@ export function RegisterPage() {
             <div className="text-left">
               <CardTitle className="text-2xl font-bold">Create Account</CardTitle>
               <CardDescription className="text-sm">
-                Join New Emarald Freighters and start shipping today
+                Join New Emarald Freighter and start shipping today
               </CardDescription>
             </div>
           </div>
