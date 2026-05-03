@@ -39,7 +39,7 @@ export function AboutPage() {
       <section className="bg-black text-primary py-16">
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto text-center">
-            <h1 className="text-4xl md:text-5xl font-bold mb-4">About New Emarald Frinters</h1>
+            <h1 className="text-4xl md:text-5xl font-bold mb-4">About New Emarald Freighters</h1>
             <p className="text-xl text-primary/80">
               Your trusted partner in freight forwarding and logistics since 2009
             </p>
@@ -71,7 +71,7 @@ export function AboutPage() {
             <h2 className="text-3xl font-bold mb-6 text-center">Our Story</h2>
             <div className="prose prose-lg max-w-none">
               <p className="text-muted-foreground mb-4">
-                Founded in 2009, New Emarald Frinters has grown from a small local freight forwarder to one of 
+                Founded in 2009, New Emarald Freighters has grown from a small local freight forwarder to one of 
                 Sri Lanka's most trusted logistics partners. With our headquarters in Colombo and strong 
                 connections to major ports including Colombo Port and Hambantota Port, we've built a 
                 reputation for reliability and excellence.
