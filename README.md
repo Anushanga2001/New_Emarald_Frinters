@@ -146,6 +146,12 @@ New_Repo/
 
    The frontend will be available at: http://localhost:5173
 
+## 🔐 Default Credentials
+
+### Admin Account
+- **Email**: `admin@shipping.com`
+- **Password**: `Admin@123`
+
 ### Customer Registration
 Customers can register through the frontend at `/auth/register`
 
