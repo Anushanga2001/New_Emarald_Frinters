@@ -10,6 +10,9 @@ using Serilog;
 using FluentValidation;
 using SharpGrip.FluentValidation.AutoValidation.Mvc.Extensions;
 using Backend.API.Hubs;
+using QuestPDF.Infrastructure;
+
+QuestPDF.Settings.License = LicenseType.Community;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -128,18 +131,18 @@ builder.Services.AddCors(options =>
     });
 });
 
-// Database - SQL Server with connection pooling and retry policy
+// Database - PostgreSQL with connection pooling and retry policy
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlServer(connectionString, sqlOptions =>
+    options.UseNpgsql(connectionString, npgsqlOptions =>
     {
-        sqlOptions.EnableRetryOnFailure(
+        npgsqlOptions.EnableRetryOnFailure(
             maxRetryCount: 3,
             maxRetryDelay: TimeSpan.FromSeconds(5),
-            errorNumbersToAdd: null);
-        sqlOptions.CommandTimeout(30);
-        sqlOptions.MinBatchSize(5);
-        sqlOptions.MaxBatchSize(100);
+            errorCodesToAdd: null);
+        npgsqlOptions.CommandTimeout(30);
+        npgsqlOptions.MinBatchSize(5);
+        npgsqlOptions.MaxBatchSize(100);
     }));
 
 // JWT Authentication

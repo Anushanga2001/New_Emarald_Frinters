@@ -4,11 +4,13 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using Backend.API.Hubs;
+using Backend.API.Services.Invoices;
 using Backend.Application.DTOs.Notifications;
 using Backend.Application.DTOs.Quotes;
 using Backend.Domain.Entities;
 using Backend.Domain.Enums;
 using Backend.Infrastructure.Data;
+using QuestPDF.Fluent;
 
 namespace Backend.API.Controllers
 {
@@ -214,6 +216,33 @@ namespace Backend.API.Controllers
             }
 
             return Ok(MapToResponse(quote));
+        }
+
+        [HttpGet("{quoteNumber}/invoice")]
+        public async Task<IActionResult> DownloadInvoice(string quoteNumber)
+        {
+            var quote = await _context.Quotes
+                .Include(q => q.User)
+                .FirstOrDefaultAsync(q => q.QuoteNumber == quoteNumber);
+
+            if (quote == null)
+            {
+                return NotFound();
+            }
+
+            if (!User.IsInRole(UserRole.Admin.ToString()) && quote.UserId != GetCurrentUserId())
+            {
+                return NotFound();
+            }
+
+            if (quote.Status != QuoteStatus.Approved)
+            {
+                return BadRequest(new { message = "Invoice is only available for approved quotes." });
+            }
+
+            var pdfBytes = new InvoiceDocument(quote).GeneratePdf();
+            var fileName = $"invoice-{quote.QuoteNumber}.pdf";
+            return File(pdfBytes, "application/pdf", fileName);
         }
 
         [HttpGet]
