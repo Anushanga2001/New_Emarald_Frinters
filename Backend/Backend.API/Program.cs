@@ -131,19 +131,35 @@ builder.Services.AddCors(options =>
     });
 });
 
-// Database - PostgreSQL with connection pooling and retry policy
+// Database - provider switch (MySQL for prod, PostgreSQL for local) with retry policy
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+var dbProvider = builder.Configuration.GetValue("Database:Provider", "PostgreSQL");
+
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseNpgsql(connectionString, npgsqlOptions =>
+{
+    if (string.Equals(dbProvider, "MySQL", StringComparison.OrdinalIgnoreCase))
     {
-        npgsqlOptions.EnableRetryOnFailure(
-            maxRetryCount: 3,
-            maxRetryDelay: TimeSpan.FromSeconds(5),
-            errorCodesToAdd: null);
-        npgsqlOptions.CommandTimeout(30);
-        npgsqlOptions.MinBatchSize(5);
-        npgsqlOptions.MaxBatchSize(100);
-    }));
+        options.UseMySQL(connectionString!, mysql =>
+        {
+            mysql.MigrationsAssembly("Backend.Infrastructure.Migrations.MySql");
+            mysql.CommandTimeout(30);
+        });
+    }
+    else
+    {
+        options.UseNpgsql(connectionString, npg =>
+        {
+            npg.MigrationsAssembly("Backend.Infrastructure.Migrations.PostgreSQL");
+            npg.EnableRetryOnFailure(
+                maxRetryCount: 3,
+                maxRetryDelay: TimeSpan.FromSeconds(5),
+                errorCodesToAdd: null);
+            npg.CommandTimeout(30);
+            npg.MinBatchSize(5);
+            npg.MaxBatchSize(100);
+        });
+    }
+});
 
 // JWT Authentication
 var jwtKey = builder.Configuration["Jwt:Key"] ?? "YourSuperSecretKeyThatShouldBeAtLeast32CharactersLong!";

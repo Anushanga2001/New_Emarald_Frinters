@@ -27,6 +27,8 @@
     <ProjectReference Include="..\Backend.Domain\Backend.Domain.csproj" />
     <ProjectReference Include="..\Backend.Application\Backend.Application.csproj" />
     <ProjectReference Include="..\Backend.Infrastructure\Backend.Infrastructure.csproj" />
+    <ProjectReference Include="..\Backend.Infrastructure.Migrations.PostgreSQL\Backend.Infrastructure.Migrations.PostgreSQL.csproj" />
+    <ProjectReference Include="..\Backend.Infrastructure.Migrations.MySql\Backend.Infrastructure.Migrations.MySql.csproj" />
   </ItemGroup>
 
   <ItemGroup>
