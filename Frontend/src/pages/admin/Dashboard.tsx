@@ -23,6 +23,7 @@ import {
 } from '@/services/admin.service'
 import { getUserQuotes } from '@/services/quote.service'
 import { formatCurrency } from '@/lib/utils'
+import { getErrorMessage } from '@/lib/errors'
 import type { Quote } from '@/types'
 
 export function AdminDashboard() {
@@ -46,7 +47,7 @@ export function AdminDashboard() {
       setUsers(usersData)
       setQuotes(quotesData)
     } catch (err) {
-      setError('Failed to load dashboard data')
+      setError(getErrorMessage(err, 'Failed to load dashboard data'))
       console.error(err)
     } finally {
       setLoading(false)

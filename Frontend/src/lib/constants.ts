@@ -84,7 +84,7 @@ export const COMPANY_INFO = {
   tagline: 'Your Trusted Shipping Partner in Sri Lanka',
   email: 'newemerald@sltnet.lk',
   mobile: '+94 77 234 2951',
-  phone: '++94 71 277 9898',
+  phone: '+94 71 277 9898',
   address: {
     street: 'Narahenpita Road',
     city: 'Colombo 05',

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { notify } from '@/lib/toast'
+import { getErrorMessage } from '@/lib/errors'
 import { Loader2, Send, Star } from 'lucide-react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
@@ -46,9 +47,8 @@ export function RateUsPage() {
       await submitRating({ stars, comment: comment.trim() || null })
       setHasExisting(true)
       notify.success(hasExisting ? 'Rating updated. Thanks!' : 'Thanks for your feedback!')
-    } catch (err: unknown) {
-      const axiosError = err as { response?: { data?: { message?: string } } }
-      notify.error(axiosError?.response?.data?.message || 'Failed to submit rating')
+    } catch (err) {
+      notify.error(getErrorMessage(err, 'Failed to submit rating'))
     } finally {
       setSubmitting(false)
     }
@@ -109,7 +109,7 @@ export function RateUsPage() {
 
             <div className="flex flex-col sm:flex-row gap-3 pt-2">
               <Button asChild variant="outline" className="sm:flex-1">
-                <Link to="/reviews">See what others said</Link>
+                <Link to="/about">See what others said</Link>
               </Button>
               <Button
                 className="sm:flex-1"

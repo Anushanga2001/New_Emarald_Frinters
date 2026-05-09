@@ -14,13 +14,17 @@ import {
   CheckCircle2,
   XCircle,
   Clock,
+  FileDown,
 } from 'lucide-react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Separator } from '@/components/ui/separator'
 import { formatCurrency } from '@/lib/utils'
+import { notify } from '@/lib/toast'
+import { getBlobErrorMessage, getErrorMessage } from '@/lib/errors'
 import api from '@/services/api'
+import { downloadInvoice } from '@/services/quote.service'
 
 type QuoteStatus = 'Pending' | 'Approved' | 'Rejected'
 
@@ -72,14 +76,27 @@ export function QuoteDetailPage() {
   const [quote, setQuote] = useState<QuoteDetail | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const [downloading, setDownloading] = useState(false)
+
+  const handleDownloadInvoice = async () => {
+    if (!quote) return
+    setDownloading(true)
+    try {
+      await downloadInvoice(quote.quoteNumber)
+    } catch (err) {
+      notify.error(await getBlobErrorMessage(err, 'Failed to download invoice'))
+    } finally {
+      setDownloading(false)
+    }
+  }
 
   useEffect(() => {
     async function fetchQuote() {
       try {
         const response = await api.get(`/quotes/${id}`)
         setQuote(response.data)
-      } catch {
-        setError('Failed to load quote details.')
+      } catch (err) {
+        setError(getErrorMessage(err, 'Failed to load quote details.'))
       } finally {
         setLoading(false)
       }
@@ -133,6 +150,20 @@ export function QuoteDetailPage() {
                 </div>
                 <p className="text-sm text-muted-foreground mt-1">Quote #{quote.id}</p>
               </div>
+              {quote.status === 'Approved' && (
+                <Button
+                  onClick={handleDownloadInvoice}
+                  disabled={downloading}
+                  size="sm"
+                >
+                  {downloading ? (
+                    <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                  ) : (
+                    <FileDown className="h-4 w-4 mr-2" />
+                  )}
+                  Download Invoice
+                </Button>
+              )}
             </div>
           </CardHeader>
 
