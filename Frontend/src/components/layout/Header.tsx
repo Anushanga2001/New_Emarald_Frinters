@@ -237,14 +237,6 @@ export function Header() {
               >
                 Contact
               </Link>
-              <Link
-                to="/reviews"
-                className={`px-3 py-2 text-sm font-medium rounded transition-colors
-                  ${isActive('/reviews') ? 'text-primary' : 'text-slate-700 hover:bg-slate-50'}`}
-              >
-                Reviews
-              </Link>
-
               {/* Dropdown groups */}
               {navItems.filter((n) => n.items).map((item) => (
                 <DesktopDropdown key={item.name} item={item} />
