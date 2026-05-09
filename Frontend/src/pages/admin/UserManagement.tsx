@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { notify } from '@/lib/toast'
-import { getErrorMessage } from '@/lib/errors'
 import {
   Loader2,
   AlertCircle,
@@ -37,7 +36,7 @@ export function UserManagementPage() {
       const data = await getAllUsers()
       setUsers(data)
     } catch (err) {
-      setError(getErrorMessage(err, 'Failed to load users'))
+      setError('Failed to load users')
       console.error(err)
     } finally {
       setLoading(false)
@@ -58,8 +57,8 @@ export function UserManagementPage() {
       notify.success(
         `${target.firstName} ${target.lastName} is now ${target.isActive ? 'inactive' : 'active'}`
       )
-    } catch (err) {
-      notify.error(getErrorMessage(err, 'Failed to update user status'))
+    } catch {
+      notify.error('Failed to update user status')
     } finally {
       setTogglingId(null)
     }

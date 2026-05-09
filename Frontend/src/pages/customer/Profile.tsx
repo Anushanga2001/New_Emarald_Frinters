@@ -3,7 +3,6 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { notify } from '@/lib/toast'
-import { getErrorMessage } from '@/lib/errors'
 import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -48,8 +47,8 @@ export function ProfilePage() {
         notify.error(response.message)
       }
     },
-    onError: (err) => {
-      notify.error(getErrorMessage(err, 'Failed to update profile'))
+    onError: (error: Error) => {
+      notify.error(error.message || 'Failed to update profile')
     },
   })
 

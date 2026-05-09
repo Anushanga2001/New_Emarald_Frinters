@@ -1,6 +1,5 @@
 import { useState } from 'react'
 import { notify } from '@/lib/toast'
-import { getErrorMessage } from '@/lib/errors'
 import { Calculator, ArrowRight } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -42,8 +41,8 @@ export function QuotePage() {
       })
       setQuote(result)
       setStep(3)
-    } catch (err) {
-      notify.error(getErrorMessage(err, 'Error calculating quote. Please try again.'))
+    } catch (error) {
+      notify.error('Error calculating quote. Please try again.')
     } finally {
       setLoading(false)
     }
@@ -63,8 +62,8 @@ export function QuotePage() {
         setStep(1)
         setQuote(null)
       }, 2000)
-    } catch (err) {
-      notify.error(getErrorMessage(err, 'Error processing booking. Please try again.'))
+    } catch (error) {
+      notify.error('Error processing booking. Please try again.')
     } finally {
       setBookingLoading(false)
     }

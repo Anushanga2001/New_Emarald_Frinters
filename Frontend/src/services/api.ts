@@ -1,6 +1,5 @@
 import axios from 'axios'
 import { notify } from '@/lib/toast'
-import { getErrorMessage } from '@/lib/errors'
 
 // API base URL - points to .NET backend
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5253/api'
@@ -33,7 +32,7 @@ api.interceptors.response.use(
       isRedirectingToLogin = true
       localStorage.removeItem('authToken')
       localStorage.removeItem('user')
-      notify.error(getErrorMessage(error, 'Session expired. Please log in again.'))
+      notify.error('Session expired. Please log in again.')
       // Small delay to allow toast to display before redirect
       setTimeout(() => {
         window.location.href = '/auth/login'
@@ -41,7 +40,7 @@ api.interceptors.response.use(
     }
     if (error.response?.status === 403) {
       // Forbidden - user authenticated but not authorized
-      notify.error(getErrorMessage(error, 'Access denied - insufficient permissions'))
+      notify.error('Access denied - insufficient permissions')
     }
     return Promise.reject(error)
   }

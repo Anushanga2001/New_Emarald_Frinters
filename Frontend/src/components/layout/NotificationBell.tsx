@@ -116,7 +116,7 @@ export function NotificationBell() {
         navigate('/quotes')
       } else if (notification.type === NotificationType.RatingSubmitted) {
         setIsOpen(false)
-        navigate('/about')
+        navigate('/reviews')
       }
     }
   }

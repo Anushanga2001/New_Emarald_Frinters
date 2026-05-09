@@ -1,7 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useNavigate } from 'react-router-dom'
 import { notify } from '@/lib/toast'
-import { getErrorMessage } from '@/lib/errors'
 import { authApi, type LoginRequest, type RegisterRequest } from '@/services/authApi'
 import { queryKeys } from '@/services/queryKeys'
 
@@ -23,8 +22,8 @@ export function useAuth() {
         navigate('/customer/dashboard')
       }
     },
-    onError: (err) => {
-      notify.error(getErrorMessage(err, 'Login failed. Please check your credentials.'))
+    onError: (error: Error) => {
+      notify.error(error.message || 'Login failed. Please check your credentials.')
     },
   })
 
@@ -34,8 +33,8 @@ export function useAuth() {
       notify.success('Registration successful! Please log in with your credentials.')
       navigate('/auth/login?registered=true')
     },
-    onError: (err) => {
-      notify.error(getErrorMessage(err, 'Registration failed. Please try again.'))
+    onError: (error: Error) => {
+      notify.error(error.message || 'Registration failed. Please try again.')
     },
   })
 

@@ -11,6 +11,7 @@ import { QuotesListPage } from './pages/QuotesList'
 import { AboutPage } from './pages/About'
 import { ContactPage } from './pages/Contact'
 import { FAQPage } from './pages/FAQ'
+import { ReviewsPage } from './pages/Reviews'
 import { RateUsPage } from './pages/RateUs'
 import { LoginPage } from './pages/auth/Login'
 import { RegisterPage } from './pages/auth/Register'
@@ -46,6 +47,7 @@ function App() {
           <Route path="/about" element={<AboutPage />} />
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/faq" element={<FAQPage />} />
+          <Route path="/reviews" element={<ReviewsPage />} />
         </Route>
 
         {/* Auth-required routes (any signed-in user) */}
