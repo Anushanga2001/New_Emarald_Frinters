@@ -3,11 +3,12 @@ import { Link } from 'react-router-dom'
 import { AgGridReact } from 'ag-grid-react'
 import type { ColDef, ICellRendererParams } from 'ag-grid-community'
 import { AllCommunityModule, ModuleRegistry, themeQuartz } from 'ag-grid-community'
+import * as XLSX from 'xlsx'
 import { notify } from '@/lib/toast'
-import { FileSpreadsheet, RefreshCw, CheckCircle, XCircle, Eye, Loader2 } from 'lucide-react'
+import { FileSpreadsheet, RefreshCw, CheckCircle, XCircle, Eye, Loader2, FileDown, Download } from 'lucide-react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
-import { approveQuote, getUserQuotes, rejectQuote } from '@/services/quote.service'
+import { approveQuote, downloadInvoice, getUserQuotes, rejectQuote } from '@/services/quote.service'
 import { formatCurrency } from '@/lib/utils'
 import { useAuth } from '@/hooks/useAuth'
 import type { Quote, QuoteStatus } from '@/types'
@@ -44,6 +45,74 @@ export function QuotesListPage() {
 
   // Track rows currently being updated to show loading state in action cell
   const [pendingIds, setPendingIds] = useState<Set<string>>(new Set())
+  const [downloadingIds, setDownloadingIds] = useState<Set<string>>(new Set())
+
+  const handleExportToExcel = () => {
+    if (quotes.length === 0) {
+      notify.info('No quotes to export')
+      return
+    }
+
+    const rows = quotes.map((q) => {
+      const base: Record<string, string | number> = {
+        'Quote #': q.id ?? '',
+        'Origin': q.origin,
+        'Destination': q.destination,
+        'Service': q.service,
+        'Cargo Type': q.cargoType,
+        'Weight (kg)': q.weight,
+        'Container': q.containerSize ?? '',
+        'Price': q.price,
+        'Currency': q.currency,
+        'Estimated Days': q.estimatedDays,
+        'Status': q.status ?? 'Pending',
+        'Created At': q.createdAt
+          ? new Date(q.createdAt).toLocaleString()
+          : '',
+      }
+      if (isAdmin) {
+        return { 'Quote #': base['Quote #'], 'Customer': q.customerName ?? '—', ...base }
+      }
+      return base
+    })
+
+    const worksheet = XLSX.utils.json_to_sheet(rows)
+    worksheet['!cols'] = Object.keys(rows[0]).map((key) => ({
+      wch: Math.max(
+        key.length,
+        ...rows.map((r) => String(r[key as keyof typeof r] ?? '').length),
+      ) + 2,
+    }))
+
+    const workbook = XLSX.utils.book_new()
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'Quotes')
+
+    const stamp = new Date().toISOString().slice(0, 10)
+    XLSX.writeFile(workbook, `quotes-${stamp}.xlsx`)
+  }
+
+  const handleDownloadInvoice = async (quoteNumber: string) => {
+    setDownloadingIds((prev) => {
+      const next = new Set(prev)
+      next.add(quoteNumber)
+      return next
+    })
+    try {
+      await downloadInvoice(quoteNumber)
+    } catch (err: unknown) {
+      const axiosError = err as { response?: { data?: { message?: string } } }
+      notify.error(
+        axiosError?.response?.data?.message ||
+          `Failed to download invoice ${quoteNumber}`
+      )
+    } finally {
+      setDownloadingIds((prev) => {
+        const next = new Set(prev)
+        next.delete(quoteNumber)
+        return next
+      })
+    }
+  }
 
   const decideQuote = async (
     quoteNumber: string,
@@ -83,12 +152,13 @@ export function QuotesListPage() {
     }
   }
 
-  // Admin actions cell renderer
-  const AdminActionsCellRenderer = (params: ICellRendererParams<Quote>) => {
-    if (!isAdmin || !params.data?.id) return null
+  // Row actions cell renderer (admin: approve/reject + view + download; customer: download only)
+  const ActionsCellRenderer = (params: ICellRendererParams<Quote>) => {
+    if (!params.data?.id) return null
     const quoteNumber = params.data.id
     const status: QuoteStatus = params.data.status ?? 'Pending'
     const isPending = pendingIds.has(quoteNumber)
+    const isDownloading = downloadingIds.has(quoteNumber)
 
     if (isPending) {
       return (
@@ -98,7 +168,22 @@ export function QuotesListPage() {
       )
     }
 
-    if (status === 'Pending') {
+    const downloadButton = status === 'Approved' ? (
+      <button
+        onClick={() => handleDownloadInvoice(quoteNumber)}
+        disabled={isDownloading}
+        className="p-1 text-primary hover:bg-primary/10 rounded disabled:opacity-50"
+        title="Download invoice"
+      >
+        {isDownloading ? (
+          <Loader2 className="h-4 w-4 animate-spin" />
+        ) : (
+          <FileDown className="h-4 w-4" />
+        )}
+      </button>
+    ) : null
+
+    if (isAdmin && status === 'Pending') {
       return (
         <div className="flex items-center gap-1 h-full">
           <button
@@ -120,15 +205,18 @@ export function QuotesListPage() {
     }
 
     return (
-      <div className="flex items-center h-full">
-        <Link
-          to={`/admin/quotes/${quoteNumber}`}
-          className="inline-flex items-center gap-1 text-xs text-primary hover:underline"
-          title="View details"
-        >
-          <Eye className="h-3.5 w-3.5" />
-          View
-        </Link>
+      <div className="flex items-center gap-2 h-full">
+        {isAdmin && (
+          <Link
+            to={`/admin/quotes/${quoteNumber}`}
+            className="inline-flex items-center gap-1 text-xs text-primary hover:underline"
+            title="View details"
+          >
+            <Eye className="h-3.5 w-3.5" />
+            View
+          </Link>
+        )}
+        {downloadButton}
       </div>
     )
   }
@@ -232,22 +320,19 @@ export function QuotesListPage() {
       }
     ]
 
-    // Add admin actions column if user is admin
-    if (isAdmin) {
-      baseCols.push({
-        headerName: 'Actions',
-        width: 120,
-        pinned: 'right',
-        cellRenderer: AdminActionsCellRenderer,
-        sortable: false,
-        filter: false,
-        suppressHeaderMenuButton: true
-      })
-    }
+    baseCols.push({
+      headerName: 'Actions',
+      width: 130,
+      pinned: 'right',
+      cellRenderer: ActionsCellRenderer,
+      sortable: false,
+      filter: false,
+      suppressHeaderMenuButton: true
+    })
 
     return baseCols
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isAdmin, pendingIds])
+  }, [isAdmin, pendingIds, downloadingIds])
 
   const defaultColDef = useMemo<ColDef>(() => ({
     sortable: true,
@@ -263,14 +348,24 @@ export function QuotesListPage() {
             <FileSpreadsheet className="h-8 w-8 text-primary" />
             <h1 className="text-4xl font-bold">All Quotes</h1>
           </div>
-          <Button 
-            variant="outline" 
-            onClick={fetchQuotes}
-            disabled={loading}
-          >
-            <RefreshCw className={`h-4 w-4 mr-2 ${loading ? 'animate-spin' : ''}`} />
-            Refresh
-          </Button>
+          <div className="flex items-center gap-2">
+            <Button
+              variant="outline"
+              onClick={handleExportToExcel}
+              disabled={loading || quotes.length === 0}
+            >
+              <Download className="h-4 w-4 mr-2" />
+              Export to Excel
+            </Button>
+            <Button
+              variant="outline"
+              onClick={fetchQuotes}
+              disabled={loading}
+            >
+              <RefreshCw className={`h-4 w-4 mr-2 ${loading ? 'animate-spin' : ''}`} />
+              Refresh
+            </Button>
+          </div>
         </div>
         <p className="text-lg text-muted-foreground">
           View and manage all shipping quotes

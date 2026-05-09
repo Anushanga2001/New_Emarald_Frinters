@@ -95,3 +95,19 @@ export async function rejectQuote(quoteNumber: string): Promise<Quote> {
   const response = await api.patch<QuoteApiResponse>(`/quotes/${quoteNumber}/reject`)
   return mapApiResponseToQuote(response.data)
 }
+
+export async function downloadInvoice(quoteNumber: string): Promise<void> {
+  const response = await api.get(`/quotes/${quoteNumber}/invoice`, {
+    responseType: 'blob',
+  })
+
+  const blob = new Blob([response.data], { type: 'application/pdf' })
+  const url = window.URL.createObjectURL(blob)
+  const link = document.createElement('a')
+  link.href = url
+  link.download = `invoice-${quoteNumber}.pdf`
+  document.body.appendChild(link)
+  link.click()
+  link.remove()
+  window.URL.revokeObjectURL(url)
+}

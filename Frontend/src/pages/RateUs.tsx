@@ -109,7 +109,7 @@ export function RateUsPage() {
 
             <div className="flex flex-col sm:flex-row gap-3 pt-2">
               <Button asChild variant="outline" className="sm:flex-1">
-                <Link to="/reviews">See what others said</Link>
+                <Link to="/about">See what others said</Link>
               </Button>
               <Button
                 className="sm:flex-1"
