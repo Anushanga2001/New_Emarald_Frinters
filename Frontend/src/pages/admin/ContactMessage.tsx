@@ -4,6 +4,7 @@ import { ArrowLeft, Mail, Phone, User, Calendar, MessageSquare, Loader2, AlertCi
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import api from '@/services/api'
+import { getErrorMessage } from '@/lib/errors'
 
 interface ContactFormDetail {
   contactFormId: number
@@ -26,8 +27,8 @@ export function ContactMessagePage() {
       try {
         const response = await api.get(`/contact/${id}`)
         setContactForm(response.data)
-      } catch {
-        setError('Failed to load contact message.')
+      } catch (err) {
+        setError(getErrorMessage(err, 'Failed to load contact message.'))
       } finally {
         setLoading(false)
       }

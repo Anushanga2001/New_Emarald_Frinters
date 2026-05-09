@@ -10,6 +10,9 @@ using Serilog;
 using FluentValidation;
 using SharpGrip.FluentValidation.AutoValidation.Mvc.Extensions;
 using Backend.API.Hubs;
+using QuestPDF.Infrastructure;
+
+QuestPDF.Settings.License = LicenseType.Community;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -128,19 +131,35 @@ builder.Services.AddCors(options =>
     });
 });
 
-// Database - SQL Server with connection pooling and retry policy
+// Database - provider switch (MySQL for prod, PostgreSQL for local) with retry policy
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+var dbProvider = builder.Configuration.GetValue("Database:Provider", "PostgreSQL");
+
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlServer(connectionString, sqlOptions =>
+{
+    if (string.Equals(dbProvider, "MySQL", StringComparison.OrdinalIgnoreCase))
     {
-        sqlOptions.EnableRetryOnFailure(
-            maxRetryCount: 3,
-            maxRetryDelay: TimeSpan.FromSeconds(5),
-            errorNumbersToAdd: null);
-        sqlOptions.CommandTimeout(30);
-        sqlOptions.MinBatchSize(5);
-        sqlOptions.MaxBatchSize(100);
-    }));
+        options.UseMySQL(connectionString!, mysql =>
+        {
+            mysql.MigrationsAssembly("Backend.Infrastructure.Migrations.MySql");
+            mysql.CommandTimeout(30);
+        });
+    }
+    else
+    {
+        options.UseNpgsql(connectionString, npg =>
+        {
+            npg.MigrationsAssembly("Backend.Infrastructure.Migrations.PostgreSQL");
+            npg.EnableRetryOnFailure(
+                maxRetryCount: 3,
+                maxRetryDelay: TimeSpan.FromSeconds(5),
+                errorCodesToAdd: null);
+            npg.CommandTimeout(30);
+            npg.MinBatchSize(5);
+            npg.MaxBatchSize(100);
+        });
+    }
+});
 
 // JWT Authentication
 var jwtKey = builder.Configuration["Jwt:Key"] ?? "YourSuperSecretKeyThatShouldBeAtLeast32CharactersLong!";
