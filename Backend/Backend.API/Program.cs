@@ -10,6 +10,7 @@ using Serilog;
 using FluentValidation;
 using SharpGrip.FluentValidation.AutoValidation.Mvc.Extensions;
 using Backend.API.Hubs;
+using Backend.API.Services;
 using QuestPDF.Infrastructure;
 
 QuestPDF.Settings.License = LicenseType.Community;
@@ -175,6 +176,11 @@ builder.Services.AddScoped<IAuthService, JwtTokenService>();
 builder.Services.AddScoped<IPricingService, PricingService>();
 builder.Services.AddScoped<IProfileService, ProfileService>();
 
+// Vessel tracking — in-memory cache + tracked MMSI store + AIS feed (real or mocked)
+builder.Services.AddSingleton<VesselCache>();
+builder.Services.AddSingleton<TrackedMmsiStore>();
+builder.Services.AddHostedService<AisStreamBackgroundService>();
+
 var app = builder.Build();
 
 // Global Exception Middleware (Story 1.1) - Must be early in pipeline
@@ -227,5 +233,6 @@ app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
 app.MapHub<NotificationHub>("/hubs/notifications");
+app.MapHub<VesselsHub>("/hubs/vessels");
 
 app.Run();

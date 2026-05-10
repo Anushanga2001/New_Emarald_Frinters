@@ -29,9 +29,10 @@ export function Header() {
 
   // ── Navigation structure ──────────────────────────────────────────
   const navItems: NavItem[] = [
-    { name: 'Home', href: '/' },   
+    { name: 'Home', href: '/' },
     { name: 'About Us', href: '/about' },
     { name: 'Contact', href: '/contact' },
+    { name: 'Live Tracking', href: '/tracking' },
     {
       name: 'Services',
       items: [
@@ -237,6 +238,13 @@ export function Header() {
               >
                 Contact
               </Link>
+              <Link
+                to="/tracking"
+                className={`px-3 py-2 text-sm font-medium rounded transition-colors
+                  ${isActive('/tracking') ? 'text-primary' : 'text-slate-700 hover:bg-slate-50'}`}
+              >
+                Live Tracking
+              </Link>
               {/* Dropdown groups */}
               {navItems.filter((n) => n.items).map((item) => (
                 <DesktopDropdown key={item.name} item={item} />
@@ -307,6 +315,14 @@ export function Header() {
               ${isActive('/') ? 'text-primary bg-primary/5' : 'text-slate-700 hover:bg-slate-50'}`}
           >
             Home
+          </Link>
+          <Link
+            to="/tracking"
+            onClick={() => setMobileOpen(false)}
+            className={`block px-4 py-3 text-sm font-medium transition-colors
+              ${isActive('/tracking') ? 'text-primary bg-primary/5' : 'text-slate-700 hover:bg-slate-50'}`}
+          >
+            Live Tracking
           </Link>
 
           {/* Dropdown groups */}
