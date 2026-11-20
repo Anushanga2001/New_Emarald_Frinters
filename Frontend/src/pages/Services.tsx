@@ -16,7 +16,7 @@ export function ServicesPage() {
     ...service,
     features: [
       'Competitive pricing',
-      'Real-time tracking',
+      'Dedicated support team',
       'Door-to-door delivery',
       'Insurance coverage available',
       'Expert handling and care',
@@ -27,11 +27,11 @@ export function ServicesPage() {
     <div>
       <Seo
         title="Freight & Logistics Services"
-        description="Sea freight (FCL & LCL), air freight, land transportation, warehousing, and customs clearance services in Sri Lanka. Door-to-door delivery with real-time tracking."
+        description="Sea freight (FCL & LCL), air freight, land transportation, warehousing, and customs clearance services in Sri Lanka. Door-to-door delivery."
         path="/services"
       />
       {/* Hero */}
-      <section className="bg-gradient-to-br from-slate-900 via-slate-900 to-blue-900 text-white py-16">
+      <section className="bg-gradient-to-br from-navy via-navy to-primary/70 text-white py-16">
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto text-center">
             <h1 className="text-4xl md:text-5xl font-bold mb-4">Our Services</h1>
@@ -97,7 +97,7 @@ export function ServicesPage() {
       </section>
 
       {/* CTA */}
-      <section className="py-16 bg-slate-50">
+      <section className="py-16 bg-secondary/50">
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-3xl font-bold mb-4">Need a Custom Solution?</h2>
           <p className="text-lg text-muted-foreground mb-6">

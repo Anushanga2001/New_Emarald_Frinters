@@ -43,7 +43,7 @@ export function RegisterPage() {
   }
 
   return (
-    <div className="h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 to-slate-100 px-4">
+    <div className="h-screen flex items-center justify-center bg-gradient-to-br from-background to-secondary px-4">
       <Card className="w-full max-w-3xl shadow-xl border-0">
         {/* Header */}
         <CardHeader className="py-3">
@@ -51,7 +51,7 @@ export function RegisterPage() {
             <button
               type="button"
               onClick={() => navigate(-1)}
-              className="p-2 rounded-lg hover:bg-slate-100 transition-colors text-muted-foreground hover:text-foreground"
+              className="p-2 rounded-lg hover:bg-secondary transition-colors text-muted-foreground hover:text-foreground"
             >
               <ArrowLeft className="h-5 w-5" />
             </button>

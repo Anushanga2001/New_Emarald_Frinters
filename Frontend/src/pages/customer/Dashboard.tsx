@@ -3,9 +3,13 @@ import { Link } from 'react-router-dom'
 import { useAuth } from '@/hooks/useAuth'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
-import { Loader2, AlertCircle, RefreshCw, FileText, DollarSign } from 'lucide-react'
+import { AlertCircle, RefreshCw, FileText, DollarSign, CheckCircle2 } from 'lucide-react'
 import { getUserQuotes } from '@/services/quote.service'
 import { formatCurrency } from '@/lib/utils'
+import { StatCard } from '@/components/ui/stat-card'
+import { StatusBadge } from '@/components/ui/status-badge'
+import { EmptyState } from '@/components/ui/empty-state'
+import { DashboardSkeleton } from '@/components/ui/dashboard-skeleton'
 import type { Quote } from '@/types'
 
 export function CustomerDashboard() {
@@ -50,11 +54,7 @@ export function CustomerDashboard() {
   }, 0)
 
   if (loading) {
-    return (
-      <div className="container mx-auto px-4 py-8 flex justify-center items-center min-h-[400px]">
-        <Loader2 className="h-8 w-8 animate-spin text-primary" />
-      </div>
-    )
+    return <DashboardSkeleton statCount={3} />
   }
 
   if (error) {
@@ -74,7 +74,7 @@ export function CustomerDashboard() {
     <div className="container mx-auto px-4 py-8">
       <div className="flex items-center justify-between mb-8">
         <div>
-          <h1 className="text-3xl font-bold mb-2">
+          <h1 className="text-3xl mb-2">
             Welcome back, {user?.firstName}!
           </h1>
           <p className="text-muted-foreground">
@@ -89,38 +89,21 @@ export function CustomerDashboard() {
 
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-        <Card className="bg-gradient-to-br from-purple-50 to-purple-100 border-purple-200">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium text-purple-900">Total Quotes</CardTitle>
-            <FileText className="h-4 w-4 text-purple-600" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold text-purple-900">{quotes.length}</div>
-            <p className="text-xs text-purple-700">Saved quotes</p>
-          </CardContent>
-        </Card>
-
-        <Card className="bg-gradient-to-br from-emerald-50 to-emerald-100 border-emerald-200">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium text-emerald-900">Quotes Value</CardTitle>
-            <DollarSign className="h-4 w-4 text-emerald-600" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold text-emerald-900">${totalQuotesValue.toLocaleString(undefined, { maximumFractionDigits: 0 })}</div>
-            <p className="text-xs text-emerald-700">Total (USD)</p>
-          </CardContent>
-        </Card>
-
-        <Card className="bg-gradient-to-br from-blue-50 to-blue-100 border-blue-200">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium text-blue-900">Booked</CardTitle>
-            <FileText className="h-4 w-4 text-blue-600" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold text-blue-900">{quotes.filter(q => q.id).length}</div>
-            <p className="text-xs text-blue-700">Confirmed bookings</p>
-          </CardContent>
-        </Card>
+        <StatCard title="Total Quotes" value={quotes.length} hint="Saved quotes" icon={FileText} tone="primary" />
+        <StatCard
+          title="Quotes Value"
+          value={`$${totalQuotesValue.toLocaleString(undefined, { maximumFractionDigits: 0 })}`}
+          hint="Total (USD)"
+          icon={DollarSign}
+          tone="neutral"
+        />
+        <StatCard
+          title="Approved"
+          value={quotes.filter((q) => q.status === 'Approved').length}
+          hint="Confirmed by our team"
+          icon={CheckCircle2}
+          tone="success"
+        />
       </div>
 
       {/* Recent Quotes */}
@@ -143,19 +126,20 @@ export function CustomerDashboard() {
         </CardHeader>
         <CardContent>
           {quotes.length === 0 ? (
-            <div className="text-center py-8">
-              <FileText className="h-12 w-12 text-muted-foreground mx-auto mb-3" />
-              <p className="text-muted-foreground mb-3">
-                No quotes yet. Get your first shipping quote!
-              </p>
-              <Button asChild size="sm">
-                <Link to="/quote">Get Quote</Link>
-              </Button>
-            </div>
+            <EmptyState
+              icon={FileText}
+              title="No quotes yet"
+              description="Get your first shipping quote in under a minute."
+              action={
+                <Button asChild variant="cta">
+                  <Link to="/quote">Get a Quote</Link>
+                </Button>
+              }
+            />
           ) : (
             <div className="space-y-3">
               {quotes.slice(0, 5).map((quote) => (
-                <div key={quote.id} className="flex items-center justify-between p-3 border rounded-lg hover:bg-slate-50 transition-colors">
+                <div key={quote.id} className="flex items-center justify-between p-3 border rounded-lg hover:bg-secondary/60 hover:shadow-sm transition-all">
                   <div className="flex-1 min-w-0">
                     <p className="font-mono text-sm font-medium truncate">{quote.id}</p>
                     <p className="text-sm text-muted-foreground truncate">
@@ -169,9 +153,10 @@ export function CustomerDashboard() {
                     <p className="font-semibold text-primary">
                       {formatCurrency(quote.price, quote.currency)}
                     </p>
-                    <p className="text-xs text-muted-foreground">
+                    <p className="text-xs text-muted-foreground mb-1">
                       {quote.estimatedDays} days
                     </p>
+                    <StatusBadge status={quote.status ?? 'Pending'} />
                   </div>
                 </div>
               ))}

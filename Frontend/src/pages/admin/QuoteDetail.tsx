@@ -11,13 +11,10 @@ import {
   DollarSign,
   Calendar,
   Hash,
-  CheckCircle2,
-  XCircle,
-  Clock,
 } from 'lucide-react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
-import { Badge } from '@/components/ui/badge'
+import { StatusBadge } from '@/components/ui/status-badge'
 import { Separator } from '@/components/ui/separator'
 import { formatCurrency } from '@/lib/utils'
 import api from '@/services/api'
@@ -40,31 +37,6 @@ interface QuoteDetail {
   isBooked: boolean
   status: QuoteStatus
   createdAt: string
-}
-
-function StatusBadge({ status }: { status: QuoteStatus }) {
-  if (status === 'Approved') {
-    return (
-      <Badge className="bg-emerald-100 text-emerald-700 border-emerald-200">
-        <CheckCircle2 className="h-3 w-3 mr-1" />
-        Approved
-      </Badge>
-    )
-  }
-  if (status === 'Rejected') {
-    return (
-      <Badge className="bg-red-100 text-red-700 border-red-200">
-        <XCircle className="h-3 w-3 mr-1" />
-        Rejected
-      </Badge>
-    )
-  }
-  return (
-    <Badge className="bg-amber-100 text-amber-700 border-amber-200">
-      <Clock className="h-3 w-3 mr-1" />
-      Pending
-    </Badge>
-  )
 }
 
 export function QuoteDetailPage() {
@@ -98,7 +70,7 @@ export function QuoteDetailPage() {
   if (error || !quote) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[60vh] gap-4">
-        <AlertCircle className="h-12 w-12 text-red-500" />
+        <AlertCircle className="h-12 w-12 text-destructive" />
         <p className="text-lg text-muted-foreground">{error || 'Quote not found.'}</p>
         <Link to="/admin/dashboard">
           <Button variant="outline">

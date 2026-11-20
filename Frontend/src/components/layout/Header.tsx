@@ -32,7 +32,6 @@ export function Header() {
     { name: 'Home', href: '/' },
     { name: 'About Us', href: '/about' },
     { name: 'Contact', href: '/contact' },
-    { name: 'Live Tracking', href: '/tracking' },
     {
       name: 'Services',
       items: [
@@ -50,7 +49,6 @@ export function Header() {
         href: user?.role === 'Admin' ? '/admin/dashboard' : '/customer/dashboard',
       },
       { name: 'My Profile', href: '/customer/profile' },
-      { name: 'Rate Us', href: '/rate-us' },
       { name: 'Logout', href: '#', destructive: true, action: logout },
     ],
   }
@@ -102,7 +100,7 @@ export function Header() {
         <button
           onClick={() => setActiveDropdown(open ? null : item.name)}
           className={`flex items-center gap-1 px-3 py-2 text-sm font-medium rounded transition-colors
-            ${active || open ? 'text-primary' : 'text-slate-700 hover:bg-slate-50'}`}
+            ${active || open ? 'text-primary' : 'text-foreground/80 hover:bg-secondary/50'}`}
         >
           {item.name}
           <ChevronDown
@@ -112,7 +110,7 @@ export function Header() {
 
         {/* Panel */}
         <div
-          className={`absolute left-0 top-full mt-1 min-w-[190px] bg-white border border-slate-200 rounded-lg overflow-hidden
+          className={`absolute left-0 top-full mt-1 min-w-[190px] bg-white border border-border rounded-lg overflow-hidden
             transition-all duration-200 origin-top
             ${open ? 'opacity-100 scale-y-100' : 'opacity-0 scale-y-95 pointer-events-none'}`}
         >
@@ -123,8 +121,8 @@ export function Header() {
                 onClick={() => { sub.action?.(); setActiveDropdown(null) }}
                 className={`w-full text-left px-4 py-2.5 text-sm transition-colors
                   ${sub.destructive
-                    ? 'text-red-600 hover:bg-red-50 font-medium'
-                    : 'text-slate-700 hover:bg-slate-50'}`}
+                    ? 'text-destructive hover:bg-destructive/10 font-medium'
+                    : 'text-foreground/80 hover:bg-secondary/50'}`}
               >
                 {sub.name}
               </button>
@@ -135,7 +133,7 @@ export function Header() {
                 className={`block px-4 py-2.5 text-sm transition-colors
                   ${isActive(sub.href)
                     ? 'text-primary bg-primary/5 font-medium'
-                    : 'text-slate-700 hover:bg-slate-50'}`}
+                    : 'text-foreground/80 hover:bg-secondary/50'}`}
               >
                 {sub.name}
               </Link>
@@ -155,7 +153,7 @@ export function Header() {
         <button
           onClick={() => setMobileDropdown(open ? null : item.name)}
           className={`w-full flex items-center justify-between px-4 py-3 text-sm font-medium transition-colors
-            ${item.items && hasActiveChild(item.items) ? 'text-primary' : 'text-slate-700 hover:bg-slate-50'}`}
+            ${item.items && hasActiveChild(item.items) ? 'text-primary' : 'text-foreground/80 hover:bg-secondary/50'}`}
         >
           {item.name}
           <ChevronDown
@@ -174,8 +172,8 @@ export function Header() {
                 onClick={() => { sub.action?.(); setMobileOpen(false) }}
                 className={`w-full text-left pl-8 pr-4 py-2.5 text-sm transition-colors
                   ${sub.destructive
-                    ? 'text-red-600 hover:bg-red-50 font-medium'
-                    : 'text-slate-600 hover:bg-slate-50'}`}
+                    ? 'text-destructive hover:bg-destructive/10 font-medium'
+                    : 'text-muted-foreground hover:bg-secondary/50'}`}
               >
                 {sub.name}
               </button>
@@ -187,7 +185,7 @@ export function Header() {
                 className={`block pl-8 pr-4 py-2.5 text-sm transition-colors
                   ${isActive(sub.href)
                     ? 'text-primary font-medium bg-primary/5'
-                    : 'text-slate-600 hover:bg-slate-50'}`}
+                    : 'text-muted-foreground hover:bg-secondary/50'}`}
               >
                 {sub.name}
               </Link>
@@ -201,7 +199,7 @@ export function Header() {
   // ── Render ────────────────────────────────────────────────────────
   return (
     <>
-      <header ref={headerRef} className="sticky top-0 z-50 bg-white border-b border-slate-200">
+      <header ref={headerRef} className="sticky top-0 z-50 bg-white border-b border-border">
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between h-16">
             {/* Logo */}
@@ -209,7 +207,7 @@ export function Header() {
               <div className="bg-primary rounded-lg p-2">
                 <Ship className="h-5 w-5 text-white" />
               </div>
-              <span className="font-bold text-lg text-slate-900 hidden sm:inline">
+              <span className="font-bold text-lg text-foreground hidden sm:inline">
                 {COMPANY_INFO.name}
               </span>
             </Link>
@@ -220,30 +218,23 @@ export function Header() {
               <Link
                 to="/"
                 className={`px-3 py-2 text-sm font-medium rounded transition-colors
-                  ${isActive('/') ? 'text-primary' : 'text-slate-700 hover:bg-slate-50'}`}
+                  ${isActive('/') ? 'text-primary' : 'text-foreground/80 hover:bg-secondary/50'}`}
               >
                 Home
               </Link>
               <Link
                 to="/about"
                 className={`px-3 py-2 text-sm font-medium rounded transition-colors
-                  ${isActive('/about') ? 'text-primary' : 'text-slate-700 hover:bg-slate-50'}`}
+                  ${isActive('/about') ? 'text-primary' : 'text-foreground/80 hover:bg-secondary/50'}`}
               >
                 About Us
               </Link>
               <Link
                 to="/contact"
                 className={`px-3 py-2 text-sm font-medium rounded transition-colors
-                  ${isActive('/contact') ? 'text-primary' : 'text-slate-700 hover:bg-slate-50'}`}
+                  ${isActive('/contact') ? 'text-primary' : 'text-foreground/80 hover:bg-secondary/50'}`}
               >
                 Contact
-              </Link>
-              <Link
-                to="/tracking"
-                className={`px-3 py-2 text-sm font-medium rounded transition-colors
-                  ${isActive('/tracking') ? 'text-primary' : 'text-slate-700 hover:bg-slate-50'}`}
-              >
-                Live Tracking
               </Link>
               {/* Dropdown groups */}
               {navItems.filter((n) => n.items).map((item) => (
@@ -271,7 +262,7 @@ export function Header() {
             {/* ── Hamburger button ── */}
             <button
               onClick={() => setMobileOpen(!mobileOpen)}
-              className="md:hidden p-2 text-slate-700 transition-colors"
+              className="md:hidden p-2 text-foreground/80 transition-colors"
               aria-label="Toggle menu"
             >
               {mobileOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
@@ -289,16 +280,16 @@ export function Header() {
 
       {/* ── Mobile slide-out drawer ── */}
       <aside
-        className={`fixed top-0 right-0 h-full w-72 bg-white border-l border-slate-200 z-50 md:hidden
+        className={`fixed top-0 right-0 h-full w-72 bg-white border-l border-border z-50 md:hidden
           transition-transform duration-300 ease-in-out
           ${mobileOpen ? 'translate-x-0' : 'translate-x-full'}`}
       >
         {/* Drawer header */}
-        <div className="flex items-center justify-between h-16 px-4 border-b border-slate-200">
-          <span className="font-bold text-lg text-slate-900">{COMPANY_INFO.name}</span>
+        <div className="flex items-center justify-between h-16 px-4 border-b border-border">
+          <span className="font-bold text-lg text-foreground">{COMPANY_INFO.name}</span>
           <button
             onClick={() => setMobileOpen(false)}
-            className="p-2 text-slate-500 hover:text-slate-700 transition-colors"
+            className="p-2 text-muted-foreground hover:text-foreground/80 transition-colors"
             aria-label="Close menu"
           >
             <X className="h-5 w-5" />
@@ -312,17 +303,9 @@ export function Header() {
             to="/"
             onClick={() => setMobileOpen(false)}
             className={`block px-4 py-3 text-sm font-medium transition-colors
-              ${isActive('/') ? 'text-primary bg-primary/5' : 'text-slate-700 hover:bg-slate-50'}`}
+              ${isActive('/') ? 'text-primary bg-primary/5' : 'text-foreground/80 hover:bg-secondary/50'}`}
           >
             Home
-          </Link>
-          <Link
-            to="/tracking"
-            onClick={() => setMobileOpen(false)}
-            className={`block px-4 py-3 text-sm font-medium transition-colors
-              ${isActive('/tracking') ? 'text-primary bg-primary/5' : 'text-slate-700 hover:bg-slate-50'}`}
-          >
-            Live Tracking
           </Link>
 
           {/* Dropdown groups */}
@@ -331,7 +314,7 @@ export function Header() {
           ))}
 
           {/* Divider */}
-          <div className="border-t border-slate-200 my-2" />
+          <div className="border-t border-border my-2" />
 
           {/* Auth section */}
           {isAuthenticated ? (

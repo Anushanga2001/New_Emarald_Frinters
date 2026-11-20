@@ -11,6 +11,5 @@ Disallow: /customer/
 Disallow: /auth/
 Disallow: /quote
 Disallow: /quotes
-Disallow: /rate-us
 
 Sitemap: https://www.newemarald.com/sitemap.xml

@@ -21,8 +21,8 @@ export function Footer() {
   ]
 
   return (
-    <footer className="bg-white text-black">
-      <div className="bg-grey-50 container mx-auto px-4 py-12">
+    <footer className="bg-navy text-navy-foreground/80">
+      <div className="container mx-auto px-4 py-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* Company Info */}
           <div>
@@ -30,7 +30,7 @@ export function Footer() {
               <div className="bg-primary rounded-lg p-2">
                 <Ship className="h-5 w-5 text-white" />
               </div>
-              <h3 className="font-bold text-black text-lg">{COMPANY_INFO.name}</h3>
+              <h3 className="font-bold text-white text-lg">{COMPANY_INFO.name}</h3>
             </div>
             <p className="text-sm mb-4">{COMPANY_INFO.tagline}</p>
             <div className="space-y-2 text-sm">
@@ -44,13 +44,13 @@ export function Footer() {
               </div>
               <div className="flex items-center gap-2">
                 <Phone className="h-4 w-4" />
-                <a href={`tel:${COMPANY_INFO.phone}`} className="hover:text-primary">
+                <a href={`tel:${COMPANY_INFO.phone}`} className="hover:text-white">
                   {COMPANY_INFO.phone}
                 </a>
               </div>
               <div className="flex items-center gap-2">
                 <Mail className="h-4 w-4" />
-                <a href={`mailto:${COMPANY_INFO.email}`} className="hover:text-primary">
+                <a href={`mailto:${COMPANY_INFO.email}`} className="hover:text-white">
                   {COMPANY_INFO.email}
                 </a>
               </div>
@@ -59,11 +59,11 @@ export function Footer() {
 
           {/* Quick Links */}
           <div>
-            <h4 className="font-semibold text-black mb-4">Quick Links</h4>
+            <h4 className="font-semibold text-white mb-4">Quick Links</h4>
             <ul className="space-y-2 text-sm">
               {quickLinks.map((link) => (
                 <li key={link.name}>
-                  <Link to={link.href} className="hover:text-primary transition-colors">
+                  <Link to={link.href} className="hover:text-white transition-colors">
                     {link.name}
                   </Link>
                 </li>
@@ -73,11 +73,11 @@ export function Footer() {
 
           {/* Services */}
           <div>
-            <h4 className="font-semibold text-black mb-4">Our Services</h4>
+            <h4 className="font-semibold text-white mb-4">Our Services</h4>
             <ul className="space-y-2 text-sm">
               {services.map((service) => (
                 <li key={service.name}>
-                  <Link to={service.href} className="hover:text-primary transition-colors">
+                  <Link to={service.href} className="hover:text-white transition-colors">
                     {service.name}
                   </Link>
                 </li>
@@ -87,16 +87,16 @@ export function Footer() {
 
           {/* Business Hours & Social */}
           <div>
-            <h4 className="font-semibold text-black mb-4">Business Hours</h4>
+            <h4 className="font-semibold text-white mb-4">Business Hours</h4>
             <p className="text-sm mb-6">{COMPANY_INFO.hours}</p>
             
-            <h4 className="font-semibold text-black mb-4">Follow Us</h4>
+            <h4 className="font-semibold text-white mb-4">Follow Us</h4>
             <div className="flex gap-3">
               <a
                 href={COMPANY_INFO.social.facebook}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="bg-slate-200 p-2 rounded-lg hover:bg-primary hover:text-white transition-colors"
+                className="bg-white/10 p-2 rounded-lg hover:bg-cta hover:text-white transition-colors"
               >
                 <Facebook className="h-5 w-5" />
               </a>
@@ -104,7 +104,7 @@ export function Footer() {
                 href={COMPANY_INFO.social.linkedin}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="bg-slate-200 p-2 rounded-lg hover:bg-primary hover:text-white transition-colors"
+                className="bg-white/10 p-2 rounded-lg hover:bg-cta hover:text-white transition-colors"
               >
                 <Linkedin className="h-5 w-5" />
               </a>
@@ -112,7 +112,7 @@ export function Footer() {
                 href={COMPANY_INFO.social.twitter}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="bg-slate-200 p-2 rounded-lg hover:bg-primary hover:text-white transition-colors"
+                className="bg-white/10 p-2 rounded-lg hover:bg-cta hover:text-white transition-colors"
               >
                 <Twitter className="h-5 w-5" />
               </a>
@@ -120,7 +120,7 @@ export function Footer() {
           </div>
         </div>
 
-        <Separator className="my-8 bg-slate-300" />
+        <Separator className="my-8 bg-white/15" />
 
         <div className="flex flex-col md:flex-row justify-between items-center text-sm">
           <p>© {new Date().getFullYear()} {COMPANY_INFO.name}. All rights reserved.</p>

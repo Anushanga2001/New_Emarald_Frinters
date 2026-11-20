@@ -11,8 +11,6 @@ import { QuotesListPage } from './pages/QuotesList'
 import { AboutPage } from './pages/About'
 import { ContactPage } from './pages/Contact'
 import { FAQPage } from './pages/FAQ'
-import { RateUsPage } from './pages/RateUs'
-import { TrackingPage } from './pages/Tracking'
 import { LoginPage } from './pages/auth/Login'
 import { RegisterPage } from './pages/auth/Register'
 import { ForgotPasswordPage } from './pages/auth/ForgotPassword'
@@ -47,7 +45,6 @@ function App() {
           <Route path="/about" element={<AboutPage />} />
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/faq" element={<FAQPage />} />
-          <Route path="/tracking" element={<TrackingPage />} />
         </Route>
 
         {/* Auth-required routes (any signed-in user) */}
@@ -60,7 +57,6 @@ function App() {
         >
           <Route path="/quote" element={<QuotePage />} />
           <Route path="/quotes" element={<QuotesListPage />} />
-          <Route path="/rate-us" element={<RateUsPage />} />
         </Route>
 
         {/* Auth routes */}

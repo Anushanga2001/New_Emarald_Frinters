@@ -58,7 +58,7 @@ export function ContactPage() {
         path="/contact"
       />
       {/* Hero */}
-      <section className="bg-gradient-to-br from-slate-900 via-slate-900 to-blue-900 text-white py-16">
+      <section className="bg-gradient-to-br from-navy via-navy to-primary/70 text-white py-16">
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto text-center">
             <h1 className="text-4xl md:text-5xl font-bold mb-4">Contact Us</h1>
@@ -74,7 +74,7 @@ export function ContactPage() {
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             {/* Contact Information */}
-            <div className="bg-gray-100 h-full flex flex-col items-center justify-center space-y-6">
+            <div className="bg-secondary h-full flex flex-col items-center justify-center space-y-6">
               <Card>
                 <CardHeader>
                   <CardTitle>Get in Touch</CardTitle>
@@ -119,7 +119,7 @@ export function ContactPage() {
             </div>
 
             {/* Contact Form */}
-            <div className="bg-gray-100 lg:col-span-2">
+            <div className="bg-secondary lg:col-span-2">
               <Card>
                 <CardHeader>
                   <CardTitle>Send us a Message</CardTitle>
@@ -178,7 +178,7 @@ export function ContactPage() {
                       />
                     </div>
                     {error && (
-                      <div className="p-3 text-sm text-red-600 bg-red-50 border border-red-200 rounded-md">
+                      <div className="p-3 text-sm text-destructive bg-destructive/10 border border-destructive/30 rounded-md">
                         {error}
                       </div>
                     )}
