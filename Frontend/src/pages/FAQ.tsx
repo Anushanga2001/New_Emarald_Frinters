@@ -4,8 +4,8 @@ import { Seo } from '@/components/seo/Seo'
 export function FAQPage() {
   const faqs = [
     {
-      question: 'How do I track my shipment?',
-      answer: 'You can track your shipment by entering your tracking number on our Track Shipment page. You\'ll receive real-time updates on your shipment\'s location and status. You can also sign up for email or SMS notifications.',
+      question: 'How do I get an update on my shipment?',
+      answer: "Contact our team with your quote or booking reference and we'll tell you where your shipment is and what its current status is. You can also check the status of your quotes from your account dashboard.",
     },
     {
       question: 'What documents do I need for international shipping?',
@@ -70,7 +70,7 @@ export function FAQPage() {
     <div>
       <Seo
         title="FAQ - Shipping & Logistics Questions"
-        description="Common questions about freight forwarding, shipment tracking, FCL vs LCL, customs clearance, transit times, and cargo insurance from New Emarald Freighter."
+        description="Common questions about freight forwarding, shipment updates, FCL vs LCL, customs clearance, transit times, and cargo insurance from New Emarald Freighter."
         path="/faq"
       />
       <script
@@ -78,7 +78,7 @@ export function FAQPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
       />
       {/* Hero */}
-      <section className="bg-gradient-to-br from-slate-900 via-slate-900 to-blue-900 text-white py-16">
+      <section className="bg-gradient-to-br from-navy via-navy to-primary/70 text-white py-16">
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto text-center">
             <h1 className="text-4xl md:text-5xl font-bold mb-4">Frequently Asked Questions</h1>

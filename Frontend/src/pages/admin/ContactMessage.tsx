@@ -46,7 +46,7 @@ export function ContactMessagePage() {
   if (error || !contactForm) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[60vh] gap-4">
-        <AlertCircle className="h-12 w-12 text-red-500" />
+        <AlertCircle className="h-12 w-12 text-destructive" />
         <p className="text-lg text-muted-foreground">{error || 'Contact message not found.'}</p>
         <Link to="/admin/dashboard">
           <Button variant="outline">
@@ -132,7 +132,7 @@ export function ContactMessagePage() {
             {/* Message */}
             <div className="border-t pt-6">
               <h3 className="text-sm font-semibold text-muted-foreground mb-3">Message</h3>
-              <div className="bg-slate-50 rounded-lg p-4">
+              <div className="bg-secondary/50 rounded-lg p-4">
                 <p className="text-sm leading-relaxed whitespace-pre-wrap">{contactForm.message}</p>
               </div>
             </div>

@@ -13,6 +13,7 @@ import {
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
+import { StatusBadge } from '@/components/ui/status-badge'
 import { Input } from '@/components/ui/input'
 import { useAuth } from '@/hooks/useAuth'
 import {
@@ -161,7 +162,7 @@ export function UserManagementPage() {
                     const isSelf = currentUser?.id === u.id
                     const isBusy = togglingId === u.id
                     return (
-                      <tr key={u.id} className="border-b last:border-0 hover:bg-slate-50">
+                      <tr key={u.id} className="border-b last:border-0 hover:bg-secondary/50">
                         <td className="py-3 pr-4">
                           <div className="flex items-center gap-3">
                             <div className="h-9 w-9 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
@@ -192,16 +193,7 @@ export function UserManagementPage() {
                           </Badge>
                         </td>
                         <td className="py-3 pr-4">
-                          <Badge
-                            variant="outline"
-                            className={
-                              u.isActive
-                                ? 'border-emerald-300 bg-emerald-50 text-emerald-700'
-                                : 'border-slate-300 bg-slate-50 text-slate-600'
-                            }
-                          >
-                            {u.isActive ? 'Active' : 'Inactive'}
-                          </Badge>
+                          <StatusBadge status={u.isActive ? 'Active' : 'Inactive'} />
                         </td>
                         <td className="py-3 pr-4 text-muted-foreground">
                           {new Date(u.createdAt).toLocaleDateString()}

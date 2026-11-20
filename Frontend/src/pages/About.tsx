@@ -1,7 +1,6 @@
 import { Target, Users, Award, Globe } from 'lucide-react'
 import { Card, CardContent } from '@/components/ui/card'
 import { Leadership } from '@/components/about/Leadership'
-import { ReviewsCarousel } from '@/components/about/ReviewsCarousel'
 import { Seo } from '@/components/seo/Seo'
 
 export function AboutPage() {
@@ -43,7 +42,7 @@ export function AboutPage() {
         path="/about"
       />
       {/* Hero */}
-      <section className="bg-gradient-to-br from-slate-900 via-slate-900 to-blue-900 text-white py-16">
+      <section className="bg-gradient-to-br from-navy via-navy to-primary/70 text-white py-16">
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto text-center">
             <h1 className="text-4xl md:text-5xl font-bold mb-4">About New Emarald Freighter</h1>
@@ -55,7 +54,7 @@ export function AboutPage() {
       </section>
 
       {/* Stats */}
-      <section className="py-16 bg-slate-50">
+      <section className="py-16 bg-secondary/50">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             {stats.map((stat) => (
@@ -100,12 +99,12 @@ export function AboutPage() {
       </section>
 
       {/* Values */}
-      <section className="py-16 bg-slate-50">
+      <section className="py-16 bg-secondary/50">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl font-bold mb-12 text-center">Our Values</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
             {values.map((value) => (
-              <Card key={value.title} className="bg-gray-100 text-center">
+              <Card key={value.title} className="bg-secondary text-center">
                 <CardContent className="pt-6">
                   <div className="bg-primary/10 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
                     <value.icon className="h-8 w-8 text-primary" />
@@ -116,8 +115,6 @@ export function AboutPage() {
               </Card>
             ))}
           </div>
-
-          <ReviewsCarousel />
         </div>
       </section>
     </div>

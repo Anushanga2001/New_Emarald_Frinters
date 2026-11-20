@@ -10,6 +10,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button'
 import { approveQuote, downloadInvoice, getUserQuotes, rejectQuote } from '@/services/quote.service'
 import { formatCurrency } from '@/lib/utils'
+import { StatusBadge } from '@/components/ui/status-badge'
 import { useAuth } from '@/hooks/useAuth'
 import type { Quote, QuoteStatus } from '@/types'
 
@@ -223,19 +224,7 @@ export function QuotesListPage() {
 
   const StatusCellRenderer = (params: ICellRendererParams<Quote>) => {
     const status: QuoteStatus = params.data?.status ?? 'Pending'
-    const classes =
-      status === 'Approved'
-        ? 'bg-emerald-100 text-emerald-700 border-emerald-200'
-        : status === 'Rejected'
-        ? 'bg-red-100 text-red-700 border-red-200'
-        : 'bg-amber-100 text-amber-700 border-amber-200'
-    return (
-      <span
-        className={`inline-flex items-center px-2 py-0.5 rounded-full border text-xs font-medium ${classes}`}
-      >
-        {status}
-      </span>
-    )
+    return <StatusBadge status={status} hideIcon />
   }
 
   const columnDefs = useMemo<ColDef<Quote>[]>(() => {

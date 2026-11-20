@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="New Emarald Freighter">
+  <rect width="512" height="512" rx="112" fill="#0c1b33"/>
+  <!-- containers: top tier -->
+  <rect x="178" y="128" width="84" height="64" rx="8" fill="#e2e8f0"/>
+  <rect x="270" y="128" width="84" height="64" rx="8" fill="#3b82f6"/>
+  <!-- containers: bottom tier -->
+  <rect x="124" y="200" width="84" height="64" rx="8" fill="#10b981"/>
+  <rect x="216" y="200" width="84" height="64" rx="8" fill="#3b82f6"/>
+  <rect x="308" y="200" width="84" height="64" rx="8" fill="#10b981"/>
+  <!-- hull -->
+  <path d="M84 280h344l-46 88H130z" fill="#ffffff"/>
+  <!-- waves -->
+  <path d="M68 420q47-34 94 0t94 0 94 0 94 0" fill="none" stroke="#10b981" stroke-width="24" stroke-linecap="round"/>
+</svg>

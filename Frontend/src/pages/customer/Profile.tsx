@@ -121,7 +121,7 @@ export function ProfilePage() {
 
         {/* Account Info Banner */}
         {profile?.createdAt && (
-          <div className="flex items-center gap-2 text-sm text-muted-foreground bg-slate-50 rounded-lg px-4 py-3 mb-6 border">
+          <div className="flex items-center gap-2 text-sm text-muted-foreground bg-secondary/50 rounded-lg px-4 py-3 mb-6 border">
             <Calendar className="h-4 w-4" />
             Member since {new Date(profile.createdAt).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
           </div>

@@ -22,54 +22,76 @@ html > body[data-scroll-locked] {
 
 @layer base {
   :root {
-    --background: 0 0% 96%;
-    --foreground: 0 0% 16%;
-    --card: 0 0% 96%;
-    --card-foreground: 0 0% 16%;
-    --popover: 0 0% 96%;
-    --popover-foreground: 0 0% 16%;
-    --primary: 220 100% 38%;
+    --background: 210 40% 98%;
+    --foreground: 222 47% 11%;
+    --card: 0 0% 100%;
+    --card-foreground: 222 47% 11%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222 47% 11%;
+    --primary: 217 91% 40%;
     --primary-foreground: 0 0% 100%;
-    --secondary: 0 0% 96%;
-    --secondary-foreground: 0 0% 16%;
-    --muted: 0 0% 96%;
-    --muted-foreground: 0 0% 45%;
-    --accent: 0 0% 96%;
-    --accent-foreground: 0 0% 16%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 0 0% 91.4%;
-    --input: 0 0% 91.4%;
-    --ring: 220 100% 38%;
-    --radius: 0.5rem;
-    --orange: 220 100% 38%;
-    --black: 0 0% 16%;
-    --white: 0 0% 96%;
+    --secondary: 214 32% 94%;
+    --secondary-foreground: 222 47% 11%;
+    --muted: 214 32% 94%;
+    --muted-foreground: 215 16% 38%;
+    --accent: 214 32% 94%;
+    --accent-foreground: 222 47% 11%;
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 214 32% 89%;
+    --input: 214 32% 86%;
+    --ring: 217 91% 40%;
+    --radius: 0.625rem;
+
+    /* Brand */
+    --navy: 220 60% 12%;
+    --navy-foreground: 210 40% 98%;
+    --cta: 160 84% 27%;
+    --cta-foreground: 0 0% 100%;
+
+    /* Status */
+    --success: 160 84% 27%;
+    --success-foreground: 0 0% 100%;
+    --warning: 38 92% 50%;
+    --warning-foreground: 222 47% 11%;
+
+    --black: 222 47% 11%;
+    --white: 0 0% 100%;
   }
 
   .dark {
-    --background: 0 0% 10%;
-    --foreground: 0 0% 98%;
-    --card: 0 0% 10%;
-    --card-foreground: 0 0% 98%;
-    --popover: 0 0% 10%;
-    --popover-foreground: 0 0% 98%;
-    --primary: 220 100% 38%;
+    --background: 222 47% 7%;
+    --foreground: 210 40% 98%;
+    --card: 222 40% 10%;
+    --card-foreground: 210 40% 98%;
+    --popover: 222 40% 10%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 217 91% 52%;
     --primary-foreground: 0 0% 100%;
-    --secondary: 0 0% 17.5%;
-    --secondary-foreground: 0 0% 98%;
-    --muted: 0 0% 17.5%;
-    --muted-foreground: 0 0% 65%;
-    --accent: 0 0% 17.5%;
-    --accent-foreground: 0 0% 98%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 0 0% 17.5%;
-    --input: 0 0% 17.5%;
-    --ring: 220 100% 38%;
-    --orange: 220 100% 38%;
-    --black: 0 0% 16%;
-    --white: 0 0% 96%;
+    --secondary: 217 33% 17%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 217 33% 17%;
+    --muted-foreground: 215 20% 65%;
+    --accent: 217 33% 17%;
+    --accent-foreground: 210 40% 98%;
+    --destructive: 0 63% 45%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 217 33% 20%;
+    --input: 217 33% 20%;
+    --ring: 217 91% 52%;
+
+    --navy: 220 60% 8%;
+    --navy-foreground: 210 40% 98%;
+    --cta: 160 84% 30%;
+    --cta-foreground: 0 0% 100%;
+
+    --success: 160 84% 30%;
+    --success-foreground: 0 0% 100%;
+    --warning: 38 92% 50%;
+    --warning-foreground: 222 47% 11%;
+
+    --black: 222 47% 11%;
+    --white: 0 0% 100%;
   }
 }
 
@@ -78,18 +100,18 @@ html > body[data-scroll-locked] {
     @apply border-border;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-sans antialiased;
   }
-}
-
-.leaflet-container {
-  height: 100%;
-  width: 100%;
-  /* Confine Leaflet's internal pane z-indexes (200–1000) to a local stacking
-     context so map controls/markers don't paint over the sticky header,
-     notification dropdown, modals, toasts, etc. */
-  position: relative;
-  z-index: 0;
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-heading tracking-tight;
+  }
+  h1, h2 {
+    @apply font-extrabold;
+  }
+  :focus-visible {
+    outline: 2px solid hsl(var(--ring));
+    outline-offset: 2px;
+  }
 }
 
 /* React-Toastify overrides to prevent Tailwind preflight conflicts */

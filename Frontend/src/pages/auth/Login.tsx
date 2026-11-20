@@ -34,14 +34,14 @@ export function LoginPage() {
   }
 
   return (
-    <div className="h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 to-slate-100 px-4">
+    <div className="h-screen flex items-center justify-center bg-gradient-to-br from-background to-secondary px-4">
       <Card className="w-full max-w-md shadow-xl border-0">
         <CardHeader className="py-4">
           <div className="flex items-center gap-3">
             <button
               type="button"
               onClick={() => navigate(-1)}
-              className="p-2 rounded-lg hover:bg-slate-100 transition-colors text-muted-foreground hover:text-foreground"
+              className="p-2 rounded-lg hover:bg-secondary transition-colors text-muted-foreground hover:text-foreground"
             >
               <ArrowLeft className="h-5 w-5" />
             </button>
@@ -57,7 +57,7 @@ export function LoginPage() {
 
         <CardContent className="px-6 pb-6">
           {justRegistered && (
-            <div className="bg-green-50 text-green-800 p-3 rounded-lg text-sm mb-5 flex items-center gap-2 border border-green-200">
+            <div className="bg-success/10 text-success p-3 rounded-lg text-sm mb-5 flex items-center gap-2 border border-success/30">
               <CheckCircle className="h-4 w-4 flex-shrink-0" />
               Registration successful! Please log in with your credentials.
             </div>

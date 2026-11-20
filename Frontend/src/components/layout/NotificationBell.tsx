@@ -22,11 +22,11 @@ function getNotificationIcon(type: number) {
     case NotificationType.QuoteApproved:
       return <CheckCircle2 className="h-4 w-4 text-emerald-500" />
     case NotificationType.QuoteRejected:
-      return <XCircle className="h-4 w-4 text-red-500" />
+      return <XCircle className="h-4 w-4 text-destructive" />
     case NotificationType.RatingSubmitted:
       return <Star className="h-4 w-4 text-amber-400 fill-amber-400" />
     default:
-      return <Info className="h-4 w-4 text-slate-500" />
+      return <Info className="h-4 w-4 text-muted-foreground" />
   }
 }
 
@@ -125,7 +125,7 @@ export function NotificationBell() {
     <div className="relative" ref={dropdownRef}>
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="relative p-2 text-slate-700 hover:text-primary transition-colors rounded-lg hover:bg-slate-100"
+        className="relative p-2 text-foreground/80 hover:text-primary transition-colors rounded-lg hover:bg-secondary"
         aria-label="Notifications"
       >
         <Bell className="h-5 w-5" />
@@ -137,10 +137,10 @@ export function NotificationBell() {
       </button>
 
       {isOpen && (
-        <div className="absolute right-0 mt-2 w-80 max-h-96 bg-white rounded-xl shadow-lg border border-slate-200 z-50 overflow-hidden">
+        <div className="absolute right-0 mt-2 w-80 max-h-96 bg-white rounded-xl shadow-lg border border-border z-50 overflow-hidden">
           {/* Header */}
-          <div className="flex items-center justify-between px-4 py-3 border-b border-slate-100">
-            <h3 className="font-semibold text-slate-900">Notifications</h3>
+          <div className="flex items-center justify-between px-4 py-3 border-b border-border">
+            <h3 className="font-semibold text-foreground">Notifications</h3>
             {unreadCount > 0 && (
               <button
                 onClick={() => markAllReadMutation.mutate()}
@@ -157,15 +157,15 @@ export function NotificationBell() {
             {notifications.length === 0 ? (
               <div className="flex flex-col items-center justify-center py-8 px-4">
                 <Bell className="h-8 w-8 text-slate-300 mb-2" />
-                <p className="text-sm text-slate-500">No notifications yet</p>
+                <p className="text-sm text-muted-foreground">No notifications yet</p>
               </div>
             ) : (
               notifications.map((notification) => (
                 <button
                   key={notification.id}
                   onClick={() => handleNotificationClick(notification)}
-                  className={`w-full text-left px-4 py-3 border-b border-slate-50 hover:bg-slate-50 transition-colors flex gap-3 ${
-                    !notification.isRead ? 'bg-blue-50/50' : ''
+                  className={`w-full text-left px-4 py-3 border-b border-border hover:bg-secondary/50 transition-colors flex gap-3 ${
+                    !notification.isRead ? 'bg-primary/5' : ''
                   }`}
                 >
                   <div className="flex-shrink-0 mt-0.5">
@@ -173,17 +173,17 @@ export function NotificationBell() {
                   </div>
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2">
-                      <p className={`text-sm truncate ${!notification.isRead ? 'font-semibold text-slate-900' : 'text-slate-700'}`}>
+                      <p className={`text-sm truncate ${!notification.isRead ? 'font-semibold text-foreground' : 'text-foreground/80'}`}>
                         {notification.title}
                       </p>
                       {!notification.isRead && (
                         <span className="flex-shrink-0 h-2 w-2 rounded-full bg-primary" />
                       )}
                     </div>
-                    <p className="text-xs text-slate-500 line-clamp-2 mt-0.5">
+                    <p className="text-xs text-muted-foreground line-clamp-2 mt-0.5">
                       {notification.message}
                     </p>
-                    <p className="text-xs text-slate-400 mt-1">
+                    <p className="text-xs text-muted-foreground mt-1">
                       {timeAgo(notification.createdAt)}
                     </p>
                   </div>
